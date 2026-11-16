@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="264" viewBox="0 0 640 264">
+<!-- Заглушка карты (Figma 1:6132). TODO: заменить на Яндекс.Карты — см. pages/contacts/contacts-address -->
+<rect width="640" height="264" fill="#f4f4f4"/>
+<g transform="translate(1 0)" fill="none">
+<path d="M-42.6152 32.0576L681.834 237.204M101.209 -57.3652L324.936 321.367M436.8 -36.3246L362.224 310.846M-21.3079 226.684L660.527 32.0576" stroke="#E6E6E6" stroke-width="30.509"/>
+<path d="M-42.6152 32.0576L681.834 237.204M101.209 -57.3652L324.936 321.367M436.8 -36.3246L362.224 310.846M-21.3079 226.684L660.527 32.0576" stroke="#ffffff" stroke-width="22.0927"/>
+</g>
+<rect x="231.56" y="98.17" width="176.88" height="67.64" fill="#ffffff"/>
+<text x="252.5" y="140.5" font-family="Arial, sans-serif" font-size="23" fill="#171717">⌖</text>
+<text x="277.5" y="137" font-family="Arial, sans-serif" font-size="13" fill="#171717">Здесь будет карта</text>
+</svg>
