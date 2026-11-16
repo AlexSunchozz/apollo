@@ -1,0 +1,77 @@
+// =============================================================================
+// UI: плитка-ссылка — фото, подпись и необязательный текст; вся плитка — одна ссылка
+// Figma: подборки на главной 5:18400 / 5:18416 («Хиты», «Акции»…), «Для вашей кухни» на карточке товара 1:2408
+//
+//   include / loop 'ui/tile/tile.html': href, img (путь от img/), imgMobile (< 992, необязательно), title,
+//   text (необязательно), mod, stub: true — ссылка-заглушка.
+//   Ширину задаёт сетка снаружи (row-cols-*: плитка — колонка).
+//
+//   .ap-tile          фото 167.5 × 200 (< 992) / 308 × 400 (≥ 992), подпись «Заголовок/H3»   — главная, по 2 / по 4
+//   .ap-tile--wide    фото 416 × 400, подпись «Цена/22» (мобилка 18), текст «Текст/14 вторичный», зазоры 8 — карточка товара, по 3
+//   ховер — фото плавно приближается
+// =============================================================================
+
+.ap-tile {
+  color: $c-main;
+  text-decoration: none;
+
+  &:hover {
+    color: $c-main;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 4px;
+  }
+
+  &__media {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 167.5 / 200;
+    background: $c-surface;
+
+    @include media-breakpoint-up(lg) {
+      aspect-ratio: 308 / 400;
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .6s ease;
+  }
+
+  &:hover &__img {
+    transform: scale(1.05);
+  }
+
+  &__title {
+    @include text('h3');
+  }
+
+  &__text {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  // Широкая: «Для вашей кухни» (Figma 1:2411): фото 416 × 400, фото → заголовок → текст через 8 на всех ширинах
+  &--wide {
+    gap: 8px !important; // перебивает gap-1 gap-lg-2 подборок главной
+  }
+
+  &--wide &__media {
+    aspect-ratio: 416 / 400;
+  }
+
+  &--wide &__title {
+    @include text('title-22');
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__img {
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,109 @@
+// =============================================================================
+// «Узнавайте о новинках первыми» (sections/subscribe) — Figma: десктоп 17:18186, мобилка 1:1359
+// Общая секция: стили — в общем template_styles.css (подключена в scss/template_styles.scss один раз).
+// Поле, согласие и кнопка — общие компоненты (ui/form, ui/button: --primary-on-dark, .ap-check--on-dark).
+// Раскладка и отступы из шкалы — классами в разметке; здесь — фон, размеры вне шкалы и десктоп (≥ 1200).
+// =============================================================================
+
+.ap-subscribe {
+  position: relative;
+  min-height: 600px; // макет: 600 и на 1440, и на 375
+  overflow: hidden;
+  background: $c-main; // пока фото не загрузилось — белый текст остаётся читаемым
+
+  // Фото и затемнение снизу — под содержимым
+  &__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: $shade-bottom;
+    pointer-events: none;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__text {
+    min-width: 0;
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 1 524px; // ширина текста в макете; на 992–1199 сжимается
+    }
+  }
+
+  &__title {
+    max-width: 440px; // заголовок в 2 строки, как в макете
+    margin: 0;
+    color: $c-white;
+    @include text('h2');
+  }
+
+  &__lead {
+    margin: 0;
+    color: $c-on-dark-muted;
+    @include text('text-14-secondary');
+  }
+
+  // Форма: на мобилке во всю ширину; ≥ 768 — поле 416 (сжимается) + кнопка 200
+  &__form {
+    width: 100%;
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 1 632px;
+    }
+  }
+
+  &__fields {
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+      flex: 1 1 416px;
+      min-width: 0;
+    }
+  }
+
+  // Поле на фото: без рамки, плейсхолдер фирменным (мобилка 14, ≥ 576 — «Текст/16»)
+  &__input {
+    border-color: $c-white;
+
+    &::placeholder {
+      color: $c-main;
+
+      @include media-breakpoint-up(sm) {
+        @include text('text-16');
+      }
+    }
+  }
+
+  // Подпись согласия — в 2 строки, как в макете (337)
+  &__fields .ap-check span {
+    max-width: 337px;
+  }
+
+  &__btn {
+    flex-shrink: 0;
+
+    @include media-breakpoint-up(md) {
+      min-width: 200px;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в subscribe.html -----------
+.ap-subscribe {
+  &__inner { @include desktop(padding-bottom, 40px); }
+}

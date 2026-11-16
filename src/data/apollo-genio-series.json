@@ -1,0 +1,24 @@
+[
+  {
+    "mod": "compact",
+    "link": true,
+    "badge": "Посуда",
+    "title": "Yala",
+    "text": "Салатники, пиалы и&nbsp;миски с&nbsp;фактурной матовой поверхностью и&nbsp;плавными формами&nbsp;— для&nbsp;сервировки стола и&nbsp;хранения продуктов, которые не&nbsp;стыдно поставить на&nbsp;видное место.",
+    "btnText": "Смотреть серию Yala&nbsp;→",
+    "href": "#",
+    "img": "apollo-genio/series-1.webp",
+    "imgMobile": "apollo-genio/series-1-mobile.webp"
+  },
+  {
+    "mod": "compact",
+    "link": true,
+    "badge": "Ножи",
+    "title": "Loft",
+    "text": "Ножи из&nbsp;нержавеющей стали с&nbsp;узнаваемым силуэтом и&nbsp;фирменной посадкой рукояти&nbsp;— разработаны студией дизайна APOLLO genio для&nbsp;баланса и&nbsp;точного реза.",
+    "btnText": "Смотреть серию Loft&nbsp;→",
+    "href": "#",
+    "img": "apollo-genio/series-2.webp",
+    "imgMobile": "apollo-genio/series-2-mobile.webp"
+  }
+]

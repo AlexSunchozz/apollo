@@ -1,0 +1,5 @@
+<a class="ap-tile@@if (context.mod) { ap-tile--@@mod} d-flex flex-column gap-1 gap-lg-2" href="@@href"@@if (context.stub) { data-stub}>
+  <picture class="ap-tile__media">@@if (context.imgMobile) {<source media="(max-width: 991.98px)" srcset="@@root/img/@@imgMobile" width="600" height="716">}<img class="ap-tile__img" src="@@root/img/@@img" width="832" height="800" alt="" loading="lazy"></picture>
+  <span class="ap-tile__title">@@title</span>
+  @@if (context.text) {<span class="ap-tile__text">@@text</span>}
+</a>

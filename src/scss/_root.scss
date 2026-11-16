@@ -1,0 +1,6 @@
+// CSS-переменные: дублируют токены для JS и для интегратора (правки без пересборки SCSS)
+:root {
+  @each $name, $value in $colors {
+    --#{$ap-prefix}-#{$name}: #{$value};
+  }
+}

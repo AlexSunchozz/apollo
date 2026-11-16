@@ -1,0 +1,51 @@
+@@include('layout/head.html', {
+  "title": "О&nbsp;компании — Apollo",
+  "description": "Посуда и кухонные принадлежности APOLLO для готовки и сервировки. Ножи, столовые приборы, кастрюли, сковороды и чайники. На российском рынке с 2001 года."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "О&nbsp;компании" })
+  @@include('sections/page-hero/page-hero.html', {
+    "id": "about-title",
+    "img": "about",
+    "title": "Apollo&nbsp;— российский бренд посуды и&nbsp;товаров для&nbsp;дома",
+    "text": "<p>Создаем посуду и&nbsp;кухонные принадлежности, с&nbsp;которыми приятно готовить и&nbsp;собираться за&nbsp;столом.</p><p>Уже 25&nbsp;лет разрабатываем товары для&nbsp;дома, уделяя внимание дизайну, функциональности и&nbsp;удобству использования.</p>",
+    "btnText": "Посмотреть каталог&nbsp;→",
+    "btnHref": "/catalog"
+  })
+  @@include('sections/statement/statement.html', {
+    "id": "mission",
+    "mod": "media",
+    "title": "Apollo&nbsp;— любимые вещи",
+    "text": "<p>Создаем товары, с&nbsp;которыми покупатель выстраивает эмоциональную связь. Так в&nbsp;домах наших потребителей появляются по&#8209;настоящему любимые вещи&nbsp;— те, что&nbsp;становятся частью уюта и&nbsp;ежедневной радости.</p>",
+    "img": "about/favorite.webp",
+    "imgMobile": "about/favorite-mobile.webp"
+  })
+  @@include('pages/about/about-design/about-design.html')
+  @@include('sections/statement/statement.html', {
+    "id": "academy",
+    "mod": "end",
+    "eyebrow": "Apollo Genio × STIEGLITZ Academy",
+    "title": "Apollo&nbsp;— 10&nbsp;лет в&nbsp;статусе ведущего промышленного партнера Академии Штиглица",
+    "text": "<p>Ежегодно через нашу компанию проходят два курсовых проекта&nbsp;— как&nbsp;будущих промышленных, так и&nbsp;графических дизайнеров. Совместный бренд позволяет интегрировать в&nbsp;ассортимент художественные работы учащихся, а&nbsp;также предлагать талантливым ребятам долгосрочные контракты&nbsp;— так мы&nbsp;поддерживаем молодые таланты и&nbsp;обогащаем линейку товаров свежими идеями.</p>"
+  })
+  @@include('sections/markets/markets.html', {
+    "id": "market",
+    "eyebrow": "Представленность на&nbsp;рынке",
+    "title": "APOLLO рядом с&nbsp;вами",
+    "text": "Продукция Apollo доступна в&nbsp;сегментах DIY и&nbsp;FOOD RETAIL, а&nbsp;также на&nbsp;крупнейших маркетплейсах: OZON, Wildberries, Яндекс Маркет, Lamoda. В&nbsp;числе наших партнёров&nbsp;— крупнейшие розничные сети, такие как&nbsp;«Лента», «X5», «Магнит», и&nbsp;многие другие.<br>Товары бренда представлены в&nbsp;странах СНГ.",
+    "label": "Маркетплейсы",
+    "btnText": "Посмотреть точки продаж&nbsp;→",
+    "btnHref": "/gde-kupit"
+  })
+  @@include('sections/statement/statement.html', {
+    "id": "strategy",
+    "title": "Маркетинговая стратегия «Apollo в&nbsp;подарок»",
+    "text": "<p>В&nbsp;нашей компании нет дорогостоящих маркетинговых расходов&nbsp;— и&nbsp;мы&nbsp;не&nbsp;закладываем их&nbsp;в&nbsp;стоимость товаров. Благодаря этому каждый потребитель получает честную цену без&nbsp;скрытых наценок. Такая стратегия помогает нам оставаться лидером на&nbsp;рынке.</p><p>Наша основная цель&nbsp;— делать высококачественные товары доступными для&nbsp;наших потребителей!</p>"
+  })
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

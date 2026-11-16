@@ -1,0 +1,11 @@
+<article class="ap-promo-card@@if (context.mod) { ap-promo-card--@@mod} d-flex flex-column justify-content-between align-items-start gap-4 p-3 p-xl-4">
+  <picture class="ap-promo-card__media">@@if (context.imgMobile) {<source media="(max-width: 575.98px)" srcset="@@root/img/@@imgMobile" width="686" height="800">}<img class="ap-promo-card__img" src="@@root/img/@@img" width="832" height="1200" alt="" loading="lazy"></picture>
+  @@if (context.badge) {<span class="ap-badge">@@badge</span>}
+  <div class="ap-promo-card__body d-flex flex-column align-items-start gap-3 gap-xl-4 mt-auto">
+    <div class="ap-promo-card__text-wrap d-flex flex-column gap-2">
+      <h3 class="ap-promo-card__title">@@title</h3>
+      <p class="ap-promo-card__text">@@text</p>
+    </div>
+    @@if (context.link) {<a class="ap-promo-card__link" href="@@href">@@btnText</a>}@@if (context.modal && !context.link) {<button class="ap-btn ap-btn--@@btnMod" type="button" data-bs-toggle="modal" data-bs-target="@@modal">@@btnText</button>}@@if (!context.modal && !context.link) {<a class="ap-btn ap-btn--@@btnMod" href="@@href">@@btnText</a>}
+  </div>
+</article>

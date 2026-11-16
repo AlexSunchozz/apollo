@@ -1,0 +1,34 @@
+<!--
+  Первый экран внутренней страницы — общая секция: заголовок, текст, кнопка (+ надпись, преимущества) и коллаж из трёх фото (+ плашка)
+  Figma:  «О компании» 21:18718 / 21:18720, «APOLLO» 27:18198 / 27:18201
+  Ставится сразу под ui/breadcrumbs. Параметры и виды — в _page-hero.scss.
+  < 992:  текст, под ним коллаж (раскладка мобильного макета); ≥ 992 — текст слева (608), коллаж справа (632).
+  Фото — img/<img>/hero-1…3.webp (< 992 — hero-1…3-mobile.webp): у каждой страницы своя папка с копиями,
+  чтобы фото одной страницы можно было поменять, не задев другую.
+-->
+<section class="ap-section ap-page-hero@@if (context.eyebrow) { ap-page-hero--eyebrow}@@if (context.plaqueTitle) { ap-page-hero--plaque} pt-4 pt-xl-0 pb-5" aria-labelledby="@@id">
+  <div class="container px-3 px-sm-4">
+    <div class="d-flex flex-column flex-lg-row justify-content-between gap-4">
+      <div class="ap-page-hero__content d-flex flex-column align-items-start gap-4">
+        <div class="d-flex flex-column align-items-start gap-4">
+          @@if (context.eyebrow) {<p class="ap-page-hero__eyebrow">@@eyebrow</p>}
+          <div class="ap-heading gap-3">
+            <h1 class="ap-heading__title ap-heading__title--page" id="@@id">@@title</h1>
+            <div class="ap-heading__text ap-page-hero__text ap-paragraphs">@@text</div>
+          </div>
+          <a class="ap-btn ap-btn--primary" href="@@btnHref">@@btnText</a>
+        </div>
+        @@if (context.features) {<ul class="ap-page-hero__features d-flex flex-column flex-sm-row flex-wrap">}
+          @@for (var i = 0; i < (typeof features !== 'undefined' ? features.length : 0); i++) {<li class="ap-page-hero__feature d-flex align-items-center gap-2"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#check"></use></svg><span>`+features[i]+`</span></li>}
+        @@if (context.features) {</ul>}
+      </div>
+
+      <div class="ap-page-hero__collage align-self-xl-end align-self-center">
+        <picture><source media="(max-width: 991.98px)" srcset="@@root/img/@@img/hero-1-mobile.webp" width="502" height="582"><img class="ap-page-hero__img ap-page-hero__img--main" src="@@root/img/@@img/hero-1.webp" width="834" height="966" alt="" loading="lazy"></picture>
+        <picture><source media="(max-width: 991.98px)" srcset="@@root/img/@@img/hero-2-mobile.webp" width="304" height="362"><img class="ap-page-hero__img ap-page-hero__img--left" src="@@root/img/@@img/hero-2.webp" width="616" height="734" alt="" loading="lazy"></picture>
+        <picture><source media="(max-width: 991.98px)" srcset="@@root/img/@@img/hero-3-mobile.webp" width="206" height="248"><img class="ap-page-hero__img ap-page-hero__img--small" src="@@root/img/@@img/hero-3.webp" width="402" height="478" alt="" loading="lazy"></picture>
+        @@if (context.plaqueTitle) {<div class="ap-page-hero__plaque d-flex flex-column justify-content-end gap-2"><p class="ap-page-hero__plaque-title">@@plaqueTitle</p><p class="ap-page-hero__plaque-text">@@plaqueText</p></div>}
+      </div>
+    </div>
+  </div>
+</section>

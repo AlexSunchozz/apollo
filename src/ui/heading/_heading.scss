@@ -1,0 +1,93 @@
+// =============================================================================
+// UI: шапка блока — надпись (необязательно) + заголовок + текст (необязательно). Одна для всего сайта.
+// Figma: «Дизайн» 1:13038, «Представленность на рынке» 1:13051, блоки на фирменном фоне 1:13046 / 1:13094 / 1:5463,
+//        первый экран «О компании» 1:13018, «Где купить» 1:5423, «Контакты» 26:18192.
+// Отступы между строками: 16, с 1200 — 24 (классы gap-3 gap-xl-4).
+//
+//   .ap-heading                надпись — «Текст/16» фирменный, заголовок — H2, текст — «Текст/14 вторичный»
+//   .ap-heading__title--page   заголовок страницы (h1, 60 / 32)
+//   .ap-heading__title--page-compact  то же, но на мобилке 28 / 1 / −2 (как H2) — параметр compact: true вместе с h1
+//                              («Где купить», «Контакты», «Блог»)
+//   .ap-heading--lead          текст крупнее: «Текст/16» (мобилка 14)                       — «Дизайн», «О компании»
+//   .ap-heading--aside         ≥ 992 — надпись справа на уровне заголовка                    — «Дизайн»
+//   .ap-heading--on-dark       на фирменном фоне: заголовок белый, надпись 14 и текст светло-серые
+//
+// Разметка (ui/heading/heading.html), параметры: id (id заголовка — для aria-labelledby секции), title, text (можно
+// HTML-абзацы <p>), eyebrow, h1: true, lead: true, aside: true, dark: true, class — классы корня (ширина, выравнивание
+// от секции), textClass — классы текста (ширина текста от секции):
+//   @@include('ui/heading/heading.html', { "id": "design-title", "eyebrow": "Дизайн", "title": "…", "text": "…", "aside": true, "lead": true })
+// В секциях, которые сами подключаются с параметрами (sections/markets, sections/statement), та же разметка
+// написана классами напрямую — вложенный @@include с переменными gulp-file-include обрабатывает ненадёжно.
+// Ширины (максимальная ширина заголовка, текста) — классом секции на корне / на тексте (БЭМ-микс), не здесь.
+// =============================================================================
+
+.ap-heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  &__eyebrow {
+    color: $c-main;
+    @include text('text-16');
+  }
+
+  &__title {
+    color: $c-main;
+    @include text('h2');
+
+    &--page {
+      @include text('h1-page');
+    }
+
+    // Заголовок страницы, у которого на мобилке 28 / 1 / −2 (как H2): «Где купить», «Контакты», «Блог»
+    &--page-compact {
+      @include text('h1-compact');
+    }
+  }
+
+  &__text {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  &--lead &__text {
+    @include text('lead');
+  }
+
+  // Надпись справа (≥ 992): сетка — заголовок и текст слева, надпись справа в первой строке
+  &--aside {
+    @include media-breakpoint-up(lg) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+  }
+
+  &--aside &__eyebrow {
+    @include media-breakpoint-up(lg) {
+      grid-column: 2;
+      grid-row: 1;
+      text-align: right;
+    }
+  }
+
+  &--aside &__title,
+  &--aside &__text {
+    @include media-breakpoint-up(lg) {
+      grid-column: 1;
+    }
+  }
+
+  // На фирменном фоне
+  &--on-dark &__eyebrow {
+    color: $c-on-dark-muted;
+    @include text('text-14-secondary');
+  }
+
+  &--on-dark &__title {
+    color: $c-white;
+  }
+
+  &--on-dark &__text {
+    color: $c-on-dark-muted;
+  }
+}

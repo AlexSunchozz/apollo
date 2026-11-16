@@ -1,0 +1,41 @@
+<!--
+  Первый экран главной
+  Figma:  десктоп 2:18304, мобилка 2:18373
+  Фон — слайдер фото (Swiper, fade, автопрокрутка), данные — data/home-hero.json; текст поверх — статичный.
+  Фото: img — десктоп (2880 × 1308), imgMobile — < 576 (750 × 1206, необязательно; файлы *-mobile.webp).
+  < 768:  на всю высоту окна, шапка лежит поверх (overlay), текст по центру.
+  ≥ 768:  на всю высоту окна под шапкой; текст и кнопка — слева внизу.
+  Кнопка ведёт якорем на 3-й блок главной (товары) — у него должен быть id="products".
+-->
+<section class="ap-section ap-home-hero d-flex" id="hero" aria-label="Apollo — посуда и кухонные товары">
+  <div class="swiper ap-home-hero__slider" data-hero-slider>
+    <div class="swiper-wrapper">
+      @@loop('pages/index/home-hero/home-hero-slide.html', 'data/home-hero.json')
+    </div>
+  </div>
+  <div class="ap-home-hero__shade" aria-hidden="true"></div>
+
+  <div class="container px-3 px-sm-4 ap-home-hero__inner d-flex flex-column pb-3 pb-md-5">
+    <div class="ap-home-hero__content flex-grow-1 d-flex flex-column justify-content-center justify-content-md-end align-items-center align-items-md-start text-center text-md-start gap-3 gap-md-4">
+      <p class="ap-home-hero__eyebrow d-none d-md-flex flex-wrap gap-2">
+        <span>Интернет-магазин Apollo</span><span aria-hidden="true">/</span><span>на&nbsp;рынке с&nbsp;2001&nbsp;года</span>
+      </p>
+      <div class="ap-home-hero__text d-flex flex-column gap-3">
+        <h1 class="ap-home-hero__title">Посуда и&nbsp;кухонные товары APOLLO</h1>
+        <p class="ap-home-hero__lead d-none d-md-block">Ножи для&nbsp;точной нарезки, посуда для&nbsp;любимых блюд и&nbsp;детали для&nbsp;красивой сервировки.</p>
+      </div>
+      @@include('ui/button/button.html', { "text": "Перейти к&nbsp;товарам&nbsp;→", "href": "#products", "mod": "outline-light" })
+    </div>
+
+    <div class="ap-home-hero__bottom d-flex flex-column-reverse flex-md-row justify-content-md-between align-items-center align-items-md-end gap-3 mt-md-5">
+      <div class="ap-home-hero__dots d-flex gap-1" data-hero-dots></div>
+      <ul class="ap-home-hero__tags d-flex flex-wrap justify-content-center justify-content-md-end align-items-center gap-2">
+        <li><a href="#" data-stub>Готовить</a></li>
+        <li aria-hidden="true">|</li>
+        <li><a href="#" data-stub>Сервировать</a></li>
+        <li aria-hidden="true">|</li>
+        <li><a href="#" data-stub>Хранить</a></li>
+      </ul>
+    </div>
+  </div>
+</section>

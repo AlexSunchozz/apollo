@@ -1,0 +1,229 @@
+// =============================================================================
+// Карточка товара — «Доставка и оплата» и «Отзывы о товаре» (sections/product-reviews) — Figma: 43:18206,
+// мобилка 1:3978 / 1:4485
+// Карточки доставки — ui/feature-card (light), отзывы — ui/review, звёзды — ui/rating, кнопки — ui/button.
+//
+//   __delivery   2 карточки в ряд с 768 (рамки сливаются)
+//   __invite     нет отзывов: текст слева, кнопка справа (640) с 992; снизу линия, поле 32
+//   __reviews    есть отзывы: < 992 — оценка сверху, отзывы под ней; ≥ 992 — отзывы слева, оценка справа (416), зазор 32
+//   __photos     фото покупателей по 4 (квадраты); < 768 — лента прокручивается, видно 2
+//   __summary    оценка: рамка, поля 16 / 24; полосы 8 в высоту, серые с фирменной долей
+// =============================================================================
+
+.ap-product-reviews {
+  p {
+    margin: 0;
+  }
+
+  &__title {
+    margin: 0;
+    color: $c-main;
+    @include text('title-22');
+  }
+
+  &__lead {
+    color: $c-main;
+    @include text('text-16');
+    letter-spacing: 0;
+  }
+
+  &__note {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  [id] {
+    scroll-margin-top: 16px;
+
+    @include media-breakpoint-up(xl) {
+      scroll-margin-top: 88px;
+    }
+  }
+
+  // --- Доставка --------------------------------------------------------------------------------
+  &__delivery {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  // --- Нет отзывов -----------------------------------------------------------------------------
+  &__empty {
+    padding-bottom: 32px;
+    border-bottom: 1px solid $c-border;
+  }
+
+  &__invite {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+
+    @include media-breakpoint-up(lg) {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 48px;
+
+      .ap-btn {
+        flex: 0 1 640px;
+      }
+    }
+  }
+
+  // --- Есть отзывы -----------------------------------------------------------------------------
+  &__reviews {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr); // колонка не растягивается по содержимому (ленте фото)
+    gap: 24px;
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 416px);
+      align-items: start;
+      gap: 32px;
+    }
+  }
+
+  &__main {
+    min-width: 0;
+  }
+
+  // На мобилке заголовок «Отзывы о товаре» — над оценкой (как в макете): оценка встаёт после заголовка
+  @include media-breakpoint-down(lg) {
+    &__reviews {
+      grid-template-areas: 'title' 'summary' 'main';
+    }
+
+    &__main {
+      display: contents !important; // заголовок и список — прямые ячейки сетки
+    }
+
+    &__title--main {
+      grid-area: title;
+    }
+
+    &__summary {
+      grid-area: summary;
+    }
+  }
+
+  &__photos-block {
+    padding-bottom: 24px;
+    border-bottom: 1px solid $c-border;
+
+    @include media-breakpoint-up(md) {
+      padding-bottom: 32px;
+    }
+  }
+
+  // < 768 лента прокручивается: выходит в поля контейнера до обоих краёв экрана (значения = поля .container),
+  // первое фото — на линии контента, фото уходят под края, а не обрезаются по полю
+  &__photos {
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    @include media-breakpoint-down(sm) {
+      margin-inline: -16px;
+      padding-inline: 16px;
+      scroll-padding-inline: 16px;
+    }
+
+    @include media-breakpoint-between(sm, md) {
+      margin-inline: -24px;
+      padding-inline: 24px;
+      scroll-padding-inline: 24px;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__photo {
+    flex: 0 0 186px;
+    min-width: 0; // иначе фото не ужимается меньше своей натуральной ширины
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: $c-surface;
+
+    @include media-breakpoint-up(sm) {
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: 186px;
+    }
+  }
+
+  // Отзывы без фото скрываются фильтром «С фото» (product-reviews.js)
+  &__list > .is-filtered {
+    display: none !important;
+  }
+
+  // --- Оценка ------------------------------------------------------------------------------------
+  &__summary {
+    border: 1px solid $c-border;
+
+    .ap-btn {
+      align-self: flex-start;
+
+      @include media-breakpoint-up(lg) {
+        align-self: stretch;
+      }
+    }
+  }
+
+  &__summary-title {
+    color: $c-main;
+    @include text('text-16');
+  }
+
+  &__score {
+    color: $c-main;
+    @include text('price-22');
+    font-weight: $fw-bold;
+  }
+
+  &__bars {
+    margin: 0;
+    padding: 8px 0 16px;
+    list-style: none;
+  }
+
+  &__bar-label,
+  &__bar-count {
+    flex-shrink: 0;
+    color: $c-main;
+    @include text('caption-12');
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  &__bar-label {
+    width: 30px;
+  }
+
+  &__bar-count {
+    min-width: 18px;
+    text-align: right;
+  }
+
+  &__bar-track {
+    position: relative;
+    flex: 1 1 auto;
+    height: 8px;
+    background: $c-border;
+
+    span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      background: $c-main;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в product-reviews.html -----------
+.ap-product-reviews {
+  @include desktop(padding-block, 100px);
+}

@@ -1,0 +1,73 @@
+// =============================================================================
+// «Контакты» — первый блок (pages/contacts/contacts-intro) — Figma: десктоп 26:18194, мобилка 26:18195
+// Раскладка и отступы из шкалы — классами; здесь — типографика, ширины колонок и десктопные отступы (32, 100).
+// =============================================================================
+
+.ap-contacts-intro {
+  &__inner {
+    @include media-breakpoint-up(md) {
+      justify-content: space-between;
+    }
+  }
+
+  // Шапка — общий компонент ui/heading (h1); здесь — ширина колонки
+  &__head {
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 1 482px;
+    }
+  }
+
+  // Колонка контактов: в макете 391, начинается на 756 от края контента (справа остаётся 133)
+  &__list {
+    min-width: 0;
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 1 391px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      margin-right: 133px;
+    }
+  }
+
+  // Значение: «Цена/22» (мобилка 18), иконка 24
+  &__value {
+    margin: 0;
+    color: $c-main;
+    text-decoration: none;
+    @include text('price-22');
+    transition: opacity $transition;
+
+    @include media-breakpoint-down(lg) {
+      font-size: 18px;
+    }
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  a.ap-contacts-intro__value {
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  &__caption {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в contacts-intro.html ------------
+.ap-contacts-intro {
+  @include desktop(padding-top, 32px);
+  @include desktop(padding-bottom, 100px);
+}

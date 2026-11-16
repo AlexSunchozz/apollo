@@ -1,0 +1,70 @@
+// =============================================================================
+// UI: выбор количества «− 1 +» — Figma карточка товара 1:2255
+//   include 'ui/quantity/quantity.html' с параметрами { "name": "quantity", "max": "99" }
+//   рамка #E4E4E2, 116 × 56 (< 768 — 40 в высоту, как кнопки рядом); кнопки 28 × 36, знаки 20; число — «Текст/16»
+//   ui/quantity/quantity.js: −/+ в пределах min…max, ввод с клавиатуры; событие ap:quantity-change (detail: { value })
+// =============================================================================
+
+.ap-quantity {
+  flex-shrink: 0;
+  width: 116px;
+  height: 40px;
+  padding: 0 8px;
+  border: 1px solid $c-border;
+  background: $c-white;
+
+  @include media-breakpoint-up(md) {
+    height: 56px;
+  }
+
+  &__btn {
+    flex-shrink: 0;
+    width: 28px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: opacity $transition;
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:disabled {
+      opacity: .3;
+      cursor: default;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: -2px;
+    }
+  }
+
+  &__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    @include text('text-16');
+    text-align: center;
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+}

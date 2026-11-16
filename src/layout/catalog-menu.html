@@ -1,0 +1,39 @@
+<!--
+  Меню каталога — одна разметка для всех ширин (Bootstrap Offcanvas #catalog-menu)
+  Figma:  десктоп 2:18014 (по кнопке «Меню» в шапке), мобилка 2:18199 (5-я иконка нижней панели)
+  ≥ 1200: панель под шапкой, колонки групп + «Где купить» + «Контакты».
+  < 1200: на весь экран с крестиком; группы — сеткой в 2 колонки (колонки десктопа «растворяются», display: contents).
+  Группы и ссылки — data/catalog-menu.json; short — короткое название группы для мобилки.
+-->
+<div class="offcanvas offcanvas-end ap-catalog" id="catalog-menu" tabindex="-1" aria-label="Меню каталога" data-catalog>
+  <button class="ap-catalog__close d-xl-none" type="button" data-bs-dismiss="offcanvas" aria-label="Закрыть меню">
+    <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close"></use></svg>
+  </button>
+
+  <div class="ap-catalog__body">
+    <div class="container px-3 px-sm-4 pb-3 py-xl-4 d-flex flex-column flex-xl-row gap-4 gap-xl-3">
+      <nav class="ap-catalog__groups mb-2 mb-xl-0 d-xl-flex gap-xl-3" aria-label="Каталог">
+        @@loop('layout/catalog-menu-column.html', 'data/catalog-menu.json')
+      </nav>
+
+      <div class="ap-catalog__buy d-flex flex-column gap-3">
+        <p class="ap-catalog__title d-none d-xl-block">Где купить</p>
+        <ul class="ap-catalog__markets d-flex">
+          <li><a href="#" data-stub><img src="@@root/img/markets/wildberries.svg" width="32" height="32" alt="Wildberries"></a></li>
+          <li><a href="#" data-stub><img src="@@root/img/markets/ozon.svg" width="32" height="32" alt="Ozon"></a></li>
+          <li><a href="#" data-stub><img src="@@root/img/markets/megamarket.svg" width="32" height="32" alt="Мегамаркет"></a></li>
+          <li><a href="#" data-stub><img src="@@root/img/markets/lamoda.svg" width="32" height="32" alt="Lamoda"></a></li>
+        </ul>
+      </div>
+
+      <div class="ap-catalog__info d-flex flex-column gap-3">
+        <p class="ap-catalog__title d-none d-xl-block">Контакты</p>
+        <ul class="ap-catalog__contacts d-flex flex-column gap-3">
+          <li><a class="ap-catalog__contact d-flex align-items-center gap-3" href="tel:+78123241151"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#phone"></use></svg>+7&nbsp;812&nbsp;324-11-51</a></li>
+          <li><a class="ap-catalog__contact d-flex align-items-center gap-3" href="mailto:info@globalapollo.ru"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#mail"></use></svg>info@globalapollo.ru</a></li>
+          <li><a class="ap-catalog__contact ap-catalog__contact--address d-flex align-items-start gap-3" href="#" data-stub><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#geo"></use></svg><span>Санкт-Петербург, склад и&nbsp;отгрузка</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

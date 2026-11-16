@@ -1,0 +1,82 @@
+<!--
+  Карточка товара — первый экран: галерея, название, артикул, описание, кратко характеристики, цена, покупка,
+  + полоса преимуществ. Общая секция-шаблон детальной страницы товара (одна для всех товаров).
+  Figma:  десктоп 43:18203 + 1:2285 (страница 1:2192), мобилка 1:3978
+  Параметры: title, brand, collection, sku, text, price, priceNote, img (первое фото — путь от img/),
+  gallery — JSON фото [{ "img" }] (миниатюры; первое = img), specs — JSON кратких характеристик (ui/specs),
+  benefits — JSON преимуществ (ui/feature-card, вид light).
+  Галерея: миниатюра меняет большое фото (sections/product/product.js). Избранное, сравнение, «В корзину» —
+  кнопки ui/product-card (data-product-action, product-card.js: счётчики в шапке + событие ap:product-action).
+  Количество — ui/quantity. «Купить в один клик» — заглушка (подключает интегратор). «Отзывы» и «Все характеристики» —
+  якоря к разделам ниже (sections/product-details, sections/product-reviews).
+  Раскладка: < 992 — всё в колонку (галерея сверху); ≥ 992 — галерея слева, информация справа (632 + 632).
+-->
+<section class="ap-section ap-product pt-4 pb-5" aria-labelledby="product-title" data-product>
+  <div class="container px-3 px-sm-4 ap-product__inner d-flex flex-column gap-5">
+    <div class="ap-product__main">
+      <div class="ap-product__gallery d-flex flex-column gap-2 gap-md-3">
+        <div class="ap-product__photo"><img class="ap-product__photo-img" src="@@root/img/@@img" width="1264" height="1264" alt="@@title" data-gallery-main></div>
+        <div class="ap-product__thumbs d-flex gap-2 gap-md-3" aria-label="Фото товара">
+          @@loop('sections/product/product-thumb.html', 'data/@@gallery.json')
+        </div>
+      </div>
+
+      <div class="ap-product__info d-flex flex-column gap-4">
+        <div class="ap-product__line d-flex flex-wrap justify-content-between gap-2">
+          <span>@@brand</span><span>@@collection</span>
+        </div>
+
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex align-items-start justify-content-between gap-3">
+            <h1 class="ap-product__title ap-heading__title" id="product-title">@@title</h1>
+            <div class="ap-product__actions d-flex gap-2">
+              <button class="ap-product__action" type="button" aria-label="В избранное" aria-pressed="false" data-product-action="favorites"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#heart"></use></svg></button>
+              <button class="ap-product__action" type="button" aria-label="К сравнению" aria-pressed="false" data-product-action="compare"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#compare"></use></svg></button>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap align-items-center column-gap-4 row-gap-2">
+            <p class="ap-product__sku d-flex align-items-center gap-2">Артикул: <span data-product-sku>@@sku</span>
+              <button class="ap-product__copy" type="button" aria-label="Скопировать артикул" data-product-copy><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#copy"></use></svg></button>
+              <span class="ap-product__copied" role="status" aria-live="polite" data-product-copied></span>
+            </p>
+            <a class="ap-product__anchor" href="#product-reviews">Отзывы</a>
+          </div>
+        </div>
+
+        <p class="ap-product__text">@@text</p>
+
+        <div class="ap-product__specs d-flex flex-column gap-3 py-3">
+          <dl class="ap-specs">
+            @@loop('ui/specs/spec-row.html', 'data/@@specs.json')
+          </dl>
+          <a class="ap-link align-self-start" href="#product-specs">Все характеристики&nbsp;→</a>
+        </div>
+
+        <div class="d-flex flex-column gap-1">
+          <p class="ap-product__price">@@price</p>
+          <p class="ap-product__note">@@priceNote</p>
+        </div>
+
+        <div class="d-flex flex-column gap-2 gap-md-3">
+          <div class="d-flex gap-2">
+            @@include('ui/quantity/quantity.html', { "name": "quantity", "max": "99" })
+            <button class="ap-btn ap-btn--primary ap-btn--lg ap-product__cart flex-grow-1 gap-3" type="button" data-product-action="cart"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#cart"></use></svg>В&nbsp;корзину</button>
+          </div>
+          <a class="ap-btn ap-btn--outline" href="#" data-stub>Купить в&nbsp;один клик&nbsp;→</a>
+        </div>
+
+        <div class="ap-product__delivery d-flex gap-3">
+          <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#delivery"></use></svg>
+          <div class="d-flex flex-column gap-2">
+            <p class="ap-product__delivery-title">Доставка по&nbsp;всей РФ</p>
+            <p class="ap-product__note">Стоимость и&nbsp;срок&nbsp;— при&nbsp;оформлении заказа</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ap-product__benefits">
+      @@loop('ui/feature-card/feature-card.html', 'data/@@benefits.json')
+    </div>
+  </div>
+</section>

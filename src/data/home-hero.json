@@ -1,0 +1,5 @@
+[
+  { "img": "hero-1.webp", "imgMobile": "hero-1-mobile.webp", "alt": "Сервированный стол с посудой Apollo", "loading": "eager", "priority": "high" },
+  { "img": "hero-2.webp", "imgMobile": "hero-2-mobile.webp", "alt": "Сервированный стол с посудой Apollo", "loading": "lazy", "priority": "auto" },
+  { "img": "hero-3.webp", "imgMobile": "hero-3-mobile.webp", "alt": "Сервированный стол с посудой Apollo", "loading": "lazy", "priority": "auto" }
+]

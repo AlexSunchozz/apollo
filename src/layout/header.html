@@ -1,0 +1,57 @@
+<!--
+  Шапка (общая для всех страниц) + меню каталога + нижняя панель
+  Figma:  десктоп 2:17914, фиксированная (после 200px прокрутки) 2:17826, мобилка 1:6710
+  ≥ 1200:   логотип, «Меню», поиск, иконки + навигация с линией снизу.
+            После 200px прокрутки — фиксированная: только верхняя строка (одна разметка, класс .is-sticky, layout/header.js).
+  768–1199: логотип, «Меню», поиск (сужается), иконки; без навигации — макета нет, собрано из элементов десктопа.
+  < 768:    только логотип по центру (как «Хедер (моб.)»); меню, иконки — в нижней панели (layout/tabbar.html).
+  overlay: true (параметр подключения шапки) — < 768 шапка лежит поверх первого экрана: прозрачная, логотип белый (главная, Figma 2:18373).
+  «Меню» открывает меню каталога (layout/catalog-menu.html), в открытом состоянии иконка — крестик.
+  Поиск — только разметка формы, логику подключает интегратор.
+  Счётчики сравнения / избранного / корзины: пустой — скрыт; число выводит сервер в разметке
+  или JS событием ap:counter (layout/header.js).
+-->
+<header class="ap-header@@if (context.overlay) { ap-header--overlay}" data-header>
+  <div class="ap-header__panel pt-3 pb-md-3 pb-xl-0">
+    <div class="container px-3 px-sm-4">
+      <div class="ap-header__bar d-flex align-items-center justify-content-center justify-content-md-between">
+        <div class="ap-header__start d-flex align-items-center">
+          <a class="ap-header__logo" href="/" aria-label="Apollo — на главную">
+            <img src="@@root/img/logo.svg" width="120" height="21" alt="Apollo">
+          </a>
+          <button class="ap-header__menu-btn d-none d-md-flex align-items-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#catalog-menu" aria-controls="catalog-menu" aria-expanded="false">
+            <svg class="ap-icon ap-header__menu-open" aria-hidden="true"><use href="@@root/img/sprite.svg#burger"></use></svg>
+            <svg class="ap-icon ap-header__menu-close" aria-hidden="true"><use href="@@root/img/sprite.svg#close"></use></svg>
+            <span>Меню</span>
+          </button>
+        </div>
+
+        <form class="ap-header__search d-none d-md-flex align-items-center gap-3" action="#" method="get" role="search" data-search>
+          <input class="ap-header__search-input" type="search" name="q" placeholder="Найти нож, тарелку, чайник или серию..." aria-label="Поиск по каталогу" data-search-input>
+          <button class="ap-header__search-btn ap-header__search-clear align-items-center justify-content-center" type="button" aria-label="Очистить поиск" hidden data-search-clear>
+            <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close-sm"></use></svg>
+          </button>
+          <button class="ap-header__search-btn d-flex align-items-center justify-content-center" type="submit" aria-label="Найти">
+            <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#search"></use></svg>
+          </button>
+        </form>
+
+        <ul class="ap-header__actions d-none d-md-flex align-items-center">
+          @@include('layout/header-action.html', { "icon": "compare", "label": "Сравнение", "href": "#", "counter": "compare", "mod": "wide" })
+          @@include('layout/header-action.html', { "icon": "heart", "label": "Избранное", "href": "#", "counter": "favorites" })
+          @@include('layout/header-action.html', { "icon": "user", "label": "Личный кабинет", "href": "#" })
+          @@include('layout/header-action.html', { "icon": "cart", "label": "Корзина", "href": "#", "counter": "cart" })
+        </ul>
+      </div>
+
+      <nav class="ap-header__nav mt-3 d-none d-xl-block" aria-label="Разделы каталога">
+        <ul class="ap-header__menu d-flex flex-wrap justify-content-center row-gap-2 column-gap-3 pb-4">
+          @@loop('layout/header-menu-item.html', 'data/menu.json')
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+@@include('layout/catalog-menu.html')
+@@include('layout/tabbar.html')

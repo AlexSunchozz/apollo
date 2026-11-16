@@ -1,0 +1,120 @@
+// =============================================================================
+// Категория каталога (sections/category) — общая секция-шаблон всех страниц категорий
+// Figma: десктоп 1:2109, мобилка 1:2997 / 1:3530 / 1:3080
+// Раскладка и отступы из шкалы — классами в category.html; здесь — сетка панели над товарами, счётчики,
+// кнопка «Фильтр», ширина описания и десктопные отступы вне шкалы.
+// Навигация — ui/line-tabs (--nav), заголовок — классы ui/heading (h1 compact), сортировка — ui/form
+// (.ap-select--toolbar), вид — ui/view-switch, карточки — ui/product-card, фильтры — ui/filters.
+//
+//   панель над товарами   < 768: «сортировка | фильтр» / «счётчик | вид»; ≥ 768: «счётчик … сортировка вид фильтр»
+// =============================================================================
+
+.ap-category {
+  &__head {
+    max-width: 626px;
+  }
+
+  // --- Панель над товарами ----------------------------------------------------------------------
+  &__toolbar {
+    display: grid;
+    // < 768: сортировка тянется до кнопки фильтра (она у правого края), вид — справа под ней
+    grid-template-areas:
+      'sort sort actions'
+      'count views views';
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 16px 4px;
+
+    @include media-breakpoint-up(md) {
+      grid-template-areas: 'count sort views actions';
+      grid-template-columns: minmax(0, 1fr) 200px auto auto;
+      gap: 8px;
+    }
+  }
+
+  &__count {
+    min-width: 0;
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-12');
+
+    @include media-breakpoint-up(md) {
+      @include text('text-14-secondary');
+    }
+
+    span {
+      color: $c-main;
+    }
+
+    &--found {
+      grid-area: count;
+    }
+  }
+
+  &__sort {
+    grid-area: sort;
+    min-width: 0;
+  }
+
+  &__views {
+    grid-area: views;
+    justify-self: end;
+  }
+
+  &__actions {
+    grid-area: actions;
+    justify-self: end;
+  }
+
+  // «Сбросить фильтр»: высота как у соседних полей (40, ≥ 768 — 48)
+  &__reset {
+    white-space: nowrap; // короткая служебная подпись
+
+    @include media-breakpoint-up(md) {
+      height: 48px;
+      padding-block: 0;
+    }
+  }
+
+  // «Фильтр»: < 768 — квадрат 40 с иконкой; ≥ 768 — 48 с подписью, поля 16
+  &__filter {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid $c-border;
+    background: $c-white;
+    color: $c-main;
+    @include text('text-16');
+    cursor: pointer;
+    transition: border-color $transition;
+
+    @include media-breakpoint-up(md) {
+      width: auto;
+      height: 48px;
+      padding: 0 16px;
+    }
+
+    .ap-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      border-color: $c-main;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в category.html --------------------
+.ap-category {
+  @include desktop(padding-top, 32px);
+  @include desktop(padding-bottom, 100px);
+
+  &__inner { @include desktop(gap, 32px); }
+}

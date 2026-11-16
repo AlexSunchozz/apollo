@@ -1,0 +1,234 @@
+// =============================================================================
+// Карточка товара — первый экран (sections/product) — общая секция-шаблон — Figma: десктоп 43:18203 + 1:2285,
+// мобилка 1:3978
+// Раскладка и отступы из шкалы — классами в product.html; здесь — колонки, галерея, типографика,
+// десктопные отступы вне шкалы. Название — классы ui/heading (H2: 48 / мобилка 28), характеристики — ui/specs,
+// количество — ui/quantity, кнопки — ui/button, преимущества — ui/feature-card (light).
+//
+//   __main       < 992 — колонкой (зазор 24); ≥ 992 — галерея и информация по 632 из 1280, зазор 16
+//   __gallery    большое фото — квадрат; миниатюры 64 (≥ 768 — 92) через 8 / 16, выбранная — фирменная рамка
+//   __benefits   4 карточки в ряд с 992 (рамки сливаются), 2 — с 576, 1 — на мобилке
+// =============================================================================
+
+.ap-product {
+  p {
+    margin: 0;
+  }
+
+  &__main {
+    display: grid;
+    gap: 24px;
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+      gap: 16px;
+    }
+  }
+
+  // --- Галерея --------------------------------------------------------------------------------
+  &__gallery {
+    min-width: 0;
+  }
+
+  &__photo {
+    aspect-ratio: 1;
+    background: $c-surface;
+  }
+
+  &__photo-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__thumbs {
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__thumb {
+    flex: 0 0 64px;
+    height: 64px;
+    padding: 0;
+    border: 1px solid transparent;
+    background: $c-surface;
+    cursor: pointer;
+    transition: border-color $transition;
+
+    @include media-breakpoint-up(md) {
+      flex-basis: 92px;
+      height: 92px;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:hover,
+    &[aria-current] {
+      border-color: $c-main;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  // --- Информация -----------------------------------------------------------------------------
+  &__info {
+    min-width: 0;
+  }
+
+  &__line,
+  &__sku,
+  &__text,
+  &__note {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  &__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+
+    @include media-breakpoint-up(xl) {
+      max-width: 523px;
+    }
+  }
+
+  &__actions {
+    flex-shrink: 0;
+  }
+
+  &__action,
+  &__copy {
+    display: flex;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    cursor: pointer;
+    transition: opacity $transition;
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  &__action .ap-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  // В избранном / в сравнении: сердце заливается цветом обводки (заливка иконки — переменная, см. icons/heart.svg)
+  &__action[aria-pressed='true'] .ap-icon {
+    --ap-icon-fill: currentColor;
+  }
+
+  &__copy .ap-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  &__copy.is-copied {
+    opacity: .4;
+  }
+
+  // «Скопировано» рядом с иконкой — появляется на 1,5 с после копирования
+  &__copied {
+    color: $c-main;
+    @include text('caption-12');
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__sku span,
+  &__anchor {
+    color: $c-main;
+  }
+
+  &__anchor {
+    @include text('text-14-secondary');
+    text-decoration: none;
+    transition: opacity $transition;
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  // Кратко характеристики — между линиями
+  &__specs {
+    border-block: 1px solid $c-border;
+  }
+
+  &__price {
+    color: $c-main;
+    @include text('h2');
+    white-space: nowrap; // цена — короткая служебная строка
+  }
+
+  &__cart .ap-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__delivery {
+    > .ap-icon {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      color: $c-main;
+    }
+  }
+
+  &__delivery-title {
+    color: $c-main;
+    @include text('text-16');
+  }
+
+  // --- Преимущества ----------------------------------------------------------------------------
+  &__benefits {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+
+    @include media-breakpoint-up(sm) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в product.html ------------------
+.ap-product {
+  @include desktop(padding-top, 32px);
+  @include desktop(padding-bottom, 100px);
+
+  &__inner { @include desktop(gap, 100px); }
+}

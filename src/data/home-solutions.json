@@ -1,0 +1,32 @@
+[
+  {
+    "badge": "Для&nbsp;нового дома",
+    "title": "Готовые решения",
+    "text": "Всё для&nbsp;первых завтраков, семейных ужинов и&nbsp;порядка в&nbsp;новой кухне.",
+    "btnText": "Выбрать набор&nbsp;→",
+    "btnMod": "outline-light",
+    "href": "#",
+    "img": "home-solutions/new-home.webp",
+    "imgMobile": "home-solutions/new-home-mobile.webp"
+  },
+  {
+    "badge": "Для&nbsp;дизайнеров",
+    "title": "Комплектация кухни под&nbsp;проект",
+    "text": "Укажите стиль, цвета и&nbsp;бюджет. Приложите проект&nbsp;— поможем собрать подборку.",
+    "btnText": "Подобрать для&nbsp;проекта&nbsp;→",
+    "btnMod": "outline-light",
+    "modal": "#project-modal",
+    "img": "home-solutions/designers.webp",
+    "imgMobile": "home-solutions/designers-mobile.webp"
+  },
+  {
+    "badge": "Для&nbsp;бизнеса",
+    "title": "Оптовые заказы и&nbsp;специальные условия",
+    "text": "Соберите товары и&nbsp;количество в&nbsp;каталоге. Менеджер рассчитает подборку.",
+    "btnText": "Собрать оптовый запрос&nbsp;→",
+    "btnMod": "outline-light",
+    "href": "#",
+    "img": "home-solutions/business.webp",
+    "imgMobile": "home-solutions/business-mobile.webp"
+  }
+]

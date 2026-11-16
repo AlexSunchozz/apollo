@@ -1,0 +1,45 @@
+// =============================================================================
+// «Для дома, проекта и бизнеса» (pages/index/home-solutions) — Figma: десктоп 12:18183, мобилка 12:18216
+// Только для главной. Карточки — общий компонент ui/promo-card. Без отступа сверху.
+// Сетка и отступы из шкалы — классами; здесь — заголовок и отступы вне шкалы на десктопе (100, 32).
+// =============================================================================
+
+.ap-home-solutions {
+  &__title {
+    margin: 0;
+    max-width: 293px; // заголовок в 2 строки, как в макете (мобилка 293, десктоп 390)
+    color: $c-main;
+    @include text('h2');
+
+    @include media-breakpoint-up(md) {
+      max-width: 390px;
+    }
+  }
+
+  // Сетка карточек: CSS grid, а не row/col — у промо-карточки фото на весь фон,
+  // и внутренние поля колонок Bootstrap попадали бы под фото. Ряды переносятся при любом числе карточек.
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    @include media-breakpoint-up(xl) {
+      gap: 16px;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в home-solutions.html ------
+.ap-home-solutions {
+  @include desktop(padding-bottom, 100px);
+
+  &__inner { @include desktop(gap, 32px); }
+}

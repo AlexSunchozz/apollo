@@ -1,0 +1,17 @@
+<!--
+  Преимущества на фирменном фоне — общая секция: заголовок (+ надпись справа) и карточки ui/feature-card
+  Figma:  «APOLLO» — «Три причины взять базовую линейку» 1:4684 / 1:5089
+  Параметры: id, title, eyebrow (необязательно), wide: true — заголовок шире (742 вместо 472, «APOLLO genio / Premier»), data — имя JSON-файла с карточками в data/ без .json
+  (icon — иконка из спрайта, title, text). Сетка: < 768 — карточки столбиком, дальше — по 3 в ряд, ряды переносятся.
+-->
+<section class="ap-section ap-features py-5" id="@@id" aria-labelledby="@@id-title">
+  <div class="container px-3 px-sm-4 ap-features__inner d-flex flex-column gap-4">
+    <div class="ap-heading ap-heading--aside ap-heading--on-dark gap-3 gap-xl-4">
+      @@if (context.eyebrow) {<p class="ap-heading__eyebrow ap-features__eyebrow">@@eyebrow</p>}
+      <h2 class="ap-heading__title ap-features__title@@if (context.wide) { ap-features__title--wide}" id="@@id-title">@@title</h2>
+    </div>
+    <div class="ap-features__grid">
+      @@loop('ui/feature-card/feature-card.html', 'data/@@data.json')
+    </div>
+  </div>
+</section>

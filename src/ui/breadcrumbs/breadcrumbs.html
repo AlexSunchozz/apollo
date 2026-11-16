@@ -1,0 +1,9 @@
+<nav class="ap-breadcrumbs pt-4" aria-label="Навигационная цепочка">
+  <div class="container px-3 px-sm-4">
+    <ol class="d-flex flex-wrap align-items-center gap-2">
+      <li><a href="/">Главная</a></li>
+      @@for (var i = 0; i < (typeof items !== 'undefined' ? items.length : 0); i++) {<li><a href="`+items[i].href+`">`+items[i].title+`</a></li>}
+      <li aria-current="page">@@current</li>
+    </ol>
+  </div>
+</nav>

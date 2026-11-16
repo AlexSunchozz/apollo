@@ -1,0 +1,22 @@
+<!--
+  Товары на главной: табы по категориям + сетка карточек + «Открыть весь каталог →»
+  Figma:  десктоп 6:18435, мобилка 8:18965
+  Табы — общий компонент ui/tabs (data/home-products-tabs.json), карточки — ui/product-card (data/products.json).
+  Сетка: < 576 — 1 в ряд, 576–991 — 2, 992–1199 — 3, ≥ 1200 — 4; ряды переносятся при любом числе карточек.
+  Сюда ведёт кнопка первого экрана (#products).
+-->
+<section class="ap-section ap-home-products pt-5 pb-5" id="products" aria-label="Товары">
+  <div class="container px-3 px-sm-4">
+    <div class="ap-home-products__inner d-flex flex-column">
+      <div class="ap-tabs d-flex gap-1 gap-md-2" role="tablist" aria-label="Категории товаров" data-tabs>
+        @@loop('ui/tabs/tab.html', 'data/home-products-tabs.json')
+      </div>
+
+      <div class="ap-home-products__panels">
+        @@loop('pages/index/home-products/home-products-panel.html', 'data/home-products-tabs.json')
+      </div>
+
+      @@include('ui/button/button.html', { "text": "Открыть весь каталог&nbsp;→", "href": "#", "mod": "primary", "class": "ap-home-products__more align-self-start mt-3" })
+    </div>
+  </div>
+</section>

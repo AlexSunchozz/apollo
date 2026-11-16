@@ -1,0 +1,5 @@
+<div class="ap-heading@@if (context.aside) { ap-heading--aside}@@if (context.lead) { ap-heading--lead}@@if (context.dark) { ap-heading--on-dark}@@if (context.class) { @@class} gap-3 gap-xl-4">
+  @@if (context.eyebrow) {<p class="ap-heading__eyebrow">@@eyebrow</p>}
+  @@if (context.h1) {<h1 class="ap-heading__title ap-heading__title--page@@if (context.compact) {-compact}" id="@@id">@@title</h1>}@@if (!context.h1) {<h2 class="ap-heading__title" id="@@id">@@title</h2>}
+  @@if (context.text) {<div class="ap-heading__text ap-paragraphs@@if (context.textClass) { @@textClass}">@@text</div>}
+</div>

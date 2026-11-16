@@ -1,0 +1,12 @@
+@@include('layout/head.html', {
+  "title": "Страница не&nbsp;найдена — Apollo",
+  "description": "Страница не найдена или в ссылке есть ошибка. Перейдите в каталог Apollo или на главную."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('pages/404/error-page/error-page.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

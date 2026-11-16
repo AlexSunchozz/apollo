@@ -1,0 +1,24 @@
+<!--
+  Маркетплейсы — общая секция: заголовок с текстом, подпись, карточки маркетплейсов, внизу кнопка или примечание
+  Figma:  «О компании» 1:13050 / 1:13160 (без mod), «Где купить» 23:18186 / 23:18187 (mod: "intro")
+  Параметры и виды — в _markets.scss. Карточки — общий компонент ui/market-card, данные — data/markets.json.
+-->
+<section class="ap-section ap-markets@@if (context.mod) { ap-markets--@@mod} pb-5" id="@@id" aria-labelledby="@@id-title">
+  <div class="container px-3 px-sm-4 d-flex flex-column gap-3">
+    <div class="ap-markets__top d-flex flex-column gap-4">
+      <div class="ap-heading ap-markets__head gap-3 gap-xl-4">
+        @@if (context.eyebrow) {<p class="ap-heading__eyebrow">@@eyebrow</p>}
+        @@if (context.h1) {<h1 class="ap-heading__title ap-heading__title--page@@if (context.compact) {-compact}" id="@@id-title">@@title</h1>}@@if (!context.h1) {<h2 class="ap-heading__title" id="@@id-title">@@title</h2>}
+        <p class="ap-heading__text ap-markets__text">@@text</p>
+      </div>
+      @@if (context.label) {<p class="ap-markets__label">@@label</p>}
+    </div>
+
+    <div class="ap-markets__cards">
+      @@loop('ui/market-card/market-card.html', 'data/markets.json')
+    </div>
+
+    @@if (context.btnText) {<div class="ap-markets__footer d-flex justify-content-md-end"><a class="ap-btn ap-btn--outline" href="@@btnHref">@@btnText</a></div>}
+    @@if (context.note) {<p class="ap-markets__footer ap-markets__note d-flex align-items-start align-items-lg-center gap-2 gap-lg-3"><span class="ap-markets__note-icon" aria-hidden="true">i</span><span>@@note</span></p>}
+  </div>
+</section>

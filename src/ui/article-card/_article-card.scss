@@ -1,0 +1,100 @@
+// =============================================================================
+// UI: карточка статьи — Figma «Блог» (десктоп 1:5586, мобилка 1:5853)
+// Общий компонент: список статей блога, «Популярные статьи» (и другие страницы со статьями).
+//
+//   фото            < 576 — квадрат (343 × 343), с 576 — 416 × 400 (на 1440 — ровно 400 в высоту), cover
+//   низ             рамка 1px border/subtle (без верхней), поля 16, зазор 16: дата + просмотры, заголовок + стрелка
+//   дата            < 576 — «Текст/14 в одну строку», с 576 — «Текст/16»; просмотры — «Текст/12 мелкий» + глаз 12
+//   заголовок       'title-22': 22 / 1.1 (мобилка 18)
+//   стрелка 40×40   прозрачная с фирменной рамкой; ховер карточки — заливка фирменным, стрелка белая
+//
+// Вся карточка — одна ссылка. Данные (include / loop): href, img (путь от img/, 832 × 800), title, date,
+// datetime (ГГГГ-ММ-ДД), views; stub: true — ссылка-заглушка (data-stub).
+// Ширину задаёт сетка снаружи (row-cols-*); карточки в ряду одной высоты, длинный заголовок переносится.
+// =============================================================================
+
+.ap-article-card {
+  min-width: 0;
+
+  &__link {
+    color: $c-main;
+    text-decoration: none;
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: $c-surface;
+
+    @include media-breakpoint-up(sm) {
+      aspect-ratio: 416 / 400;
+    }
+  }
+
+  &__body {
+    min-width: 0;
+    border: 1px solid $c-border-subtle;
+    border-top: 0;
+  }
+
+  &__date {
+    @include text('text-14');
+    white-space: nowrap; // служебная короткая строка
+
+    @include media-breakpoint-up(sm) {
+      @include text('text-16');
+    }
+  }
+
+  // Глаз выровнен по базовой линии текста (align-items-baseline в разметке), а не по центру строки:
+  // < 375 размер текста дробный, браузер округляет метрики шрифта до пикселя — цифры смещаются, и иконка
+  // по центру «уезжала» относительно них. От базовой линии она идёт вместе с текстом; сдвиг в em
+  // возвращает её на середину строки (как в макете на 375) при любом масштабе.
+  &__views {
+    @include text('text-12');
+    white-space: nowrap;
+
+    .ap-icon {
+      width: 1em;
+      height: 1em;
+      margin-top: -.17em; // не выступает над строкой: высота блока = высоте текста (12)
+      transform: translateY(.17em);
+    }
+  }
+
+  &__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin: 0;
+    @include text('title-22');
+  }
+
+  &__arrow {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border: 1px solid $c-main;
+    transition:
+      background-color $transition,
+      color $transition;
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__link:hover &__arrow,
+  &__link:focus-visible &__arrow {
+    background-color: $c-main;
+    color: $c-white;
+  }
+}

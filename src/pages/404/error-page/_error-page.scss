@@ -1,0 +1,88 @@
+// =============================================================================
+// Страница 404 (pages/404/error-page) — Figma: десктоп 33:18186, мобилка 1:6953
+// Заголовок и текст — классы общего компонента ui/heading; кнопки — ui/button.
+// Картинка: цифры «4» по краям, тарелка по центру под ними; размеры — переменными по брейкпоинтам.
+// =============================================================================
+
+.ap-error-page {
+  --ap-error-digit: 160px;   // цифра «4»
+  --ap-error-plate: 178px;   // тарелка
+  --ap-error-width: 343px;   // ширина картинки (от левой «4» до правой)
+  --ap-error-digit-top: 7px; // сдвиг цифр от верха картинки
+
+  padding-block: 60px; // мобилка (макет 375); с 1200 — сверху 0, снизу 60
+
+  @include media-breakpoint-up(md) {
+    --ap-error-digit: 220px;
+    --ap-error-plate: 330px;
+    --ap-error-width: 640px;
+    --ap-error-digit-top: 40px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    --ap-error-digit: 300px;
+    --ap-error-plate: 475px;
+    --ap-error-width: 876px;
+    --ap-error-digit-top: 78px;
+  }
+
+  &__visual {
+    position: relative;
+    width: 100%;
+    max-width: var(--ap-error-width);
+    height: var(--ap-error-plate);
+  }
+
+  &__plate {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: var(--ap-error-plate);
+    height: var(--ap-error-plate);
+    transform: translateX(-50%);
+    object-fit: cover;
+  }
+
+  &__digit {
+    position: relative; // поверх тарелки
+    margin-top: var(--ap-error-digit-top);
+    color: $c-main;
+    font-size: var(--ap-error-digit);
+    line-height: 1;
+    letter-spacing: -3px;
+  }
+
+  &__heading {
+    max-width: 750px;
+    z-index: 1;
+
+    // ≥ 992 заголовок чуть заходит на тарелку (в макете — на 9)
+    @include media-breakpoint-up(lg) {
+      margin-top: -9px;
+    }
+  }
+
+  // Мобилка: кнопки во всю ширину (вторая растягивается), ≥ 992 — по центру по тексту
+  &__actions {
+    width: 100%;
+
+    @include media-breakpoint-up(sm) {
+      width: auto;
+    }
+
+    .ap-btn {
+      flex: 1 1 auto;
+
+      @include media-breakpoint-up(sm) {
+        flex: 0 0 auto;
+      }
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета: тарелка вплотную к шапке, снизу 60 ----------------
+.ap-error-page {
+  @include media-breakpoint-up(xl) {
+    padding-top: 0;
+  }
+}

@@ -1,0 +1,14 @@
+@@include('layout/head.html', {
+  "title": "Блог — Apollo",
+  "description": "Блог Apollo: новости и новинки, советы по выбору и уходу за посудой и ножами, рецепты и акции."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Блог" })
+  @@include('pages/blog/blog-list/blog-list.html')
+  @@include('sections/articles/articles.html', { "id": "popular", "mod": "end", "title": "Популярные статьи", "data": "blog-popular" })
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

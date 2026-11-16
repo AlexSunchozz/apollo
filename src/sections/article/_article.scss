@@ -1,0 +1,239 @@
+// =============================================================================
+// Статья (sections/article) — общая секция-шаблон детальной страницы статьи — Figma: десктоп 1:5749, мобилка 35:18191
+// Одни стили для всех статей. Раскладка и отступы из шкалы — классами в article.html; здесь — сетка колонок,
+// прилипание оглавления, типографика и десктопные отступы вне шкалы.
+//
+//   __meta          фото автора 92 (с 768) + 4 факта: < 768 — 2 колонки по 2 строки; ≥ 768 — в ряд (308 / 200 / 200 / 200)
+//   __layout        < 992 — оглавление над текстом (зазор 24); ≥ 992 — оглавление 416 + текст 848 (из 1280), зазор 16
+//   __toc           рамка, поля 16 (≥ 992 — 24); пункты — h3 «title-22» (мобилка 18); ≥ 992 — прилипает (top 16,
+//                   ≥ 1200 — 88: под фиксированной шапкой 72), невыделенные пункты бледные (40 %), выделенный
+//                   (aria-current, ставит article.js) и наведённый — яркие; < 992 все пункты яркие (как в макете)
+//   __content       текст из визуального редактора: h2 — «title-22» (не общий H2), p — «Текст/14 вторичный»;
+//                   блоки через 24, подзаголовок → текст 16; __gallery — фото по 2 в ряд, высота 208
+//   __share         Telegram / ВКонтакте / MAX: < 992 — зоны 40 × 40, ≥ 992 — 24; иконки 24, через 8
+//
+// Селекторы по тегам внутри __content — осознанно: туда выводится HTML из редактора CMS без классов.
+// =============================================================================
+
+.ap-article {
+  &__title {
+    margin: 0;
+  }
+
+  // --- Автор и факты ---------------------------------------------------------------------------
+  &__author-img {
+    flex-shrink: 0;
+    width: 92px;
+    height: 92px;
+    object-fit: cover;
+  }
+
+  &__facts {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-flow: column;
+    gap: 8px 16px;
+    align-items: center;
+    margin: 0;
+
+    @include media-breakpoint-up(md) {
+      grid-template-rows: none;
+      grid-template-columns: minmax(0, 308px) repeat(3, minmax(0, 200px));
+      grid-auto-flow: row;
+      gap: 16px;
+    }
+
+    dt {
+      color: $c-text-secondary;
+      @include text('caption-12');
+      font-weight: $fw-regular;
+
+      @include media-breakpoint-up(md) {
+        @include text('text-14-secondary');
+      }
+    }
+
+    dd {
+      margin: 0;
+      color: $c-main;
+      @include text('text-14-secondary');
+
+      @include media-breakpoint-up(md) {
+        font-size: 16px;
+      }
+    }
+  }
+
+  // --- Колонки ---------------------------------------------------------------------------------
+  &__layout {
+    display: grid;
+    gap: 24px;
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: minmax(0, 416fr) minmax(0, 848fr);
+      gap: 16px;
+      align-items: start;
+    }
+  }
+
+  // --- Оглавление ------------------------------------------------------------------------------
+  &__toc {
+    border: 1px solid $c-border;
+
+    @include media-breakpoint-up(lg) {
+      position: sticky;
+      top: 16px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      top: 88px;
+    }
+  }
+
+  &__toc-label {
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  &__toc-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__toc-item {
+    margin: 0;
+    @include text('title-22');
+  }
+
+  &__toc-link {
+    color: $c-main;
+    text-decoration: none;
+    transition: opacity $transition;
+
+    @include media-breakpoint-up(lg) {
+      opacity: .4;
+
+      &:hover,
+      &[aria-current] {
+        opacity: 1;
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  // --- Текст статьи ----------------------------------------------------------------------------
+  &__main {
+    min-width: 0;
+  }
+
+  &__content {
+    > * {
+      margin: 0;
+    }
+
+    > * + * {
+      margin-top: 24px;
+    }
+
+    // Переход по оглавлению: блок не прячется под краем экрана / фиксированной шапкой (≥ 1200 — 72)
+    [id] {
+      scroll-margin-top: 16px;
+
+      @include media-breakpoint-up(xl) {
+        scroll-margin-top: 88px;
+      }
+    }
+
+    h2 {
+      margin: 0;
+      color: $c-main;
+      @include text('title-22');
+    }
+
+    p {
+      margin: 0;
+      color: $c-text-secondary;
+      @include text('text-14-secondary');
+    }
+
+    h2 + *,
+    p + p {
+      margin-top: 16px;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  &__block > :first-child {
+    margin-top: 0;
+  }
+
+  &__gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+
+    img {
+      width: 100%;
+      height: 208px;
+      object-fit: cover;
+      background: $c-surface;
+    }
+  }
+
+  // --- Поделиться ------------------------------------------------------------------------------
+  &__share {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__share-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: $c-main;
+    transition: opacity $transition;
+
+    @include media-breakpoint-up(lg) {
+      width: 24px;
+      height: 24px;
+    }
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в article.html -----------------
+.ap-article {
+  @include desktop(padding-top, 32px);
+
+  &__main { @include desktop(gap, 32px); }
+}

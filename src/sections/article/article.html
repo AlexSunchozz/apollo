@@ -1,0 +1,48 @@
+<!--
+  Статья — общая секция-шаблон детальной страницы статьи блога (одна для всех статей)
+  Figma:  десктоп 1:5749 (страница 1:5737), мобилка 35:18191 (страница 1:5999)
+  Параметры: title, author, authorImg (необязательно; путь от img/, 184 × 184), date, datetime (ГГГГ-ММ-ДД), readTime, views,
+  data — JSON в data/ без .json: блоки статьи [{ "id", "toc", "title", "text", "images" }]:
+    id + toc — пункт оглавления (h3-ссылка на блок), title — подзаголовок h2 (необязательно), text — HTML-абзацы <p>,
+    images — фото в ряд по 2 [{ "img" (путь от img/), "alt" }].
+  Оглавление: < 992 — над текстом; ≥ 992 — колонка слева (416 из 1280), прилипает при прокрутке; выделенный пункт —
+  блок, до которого дошёл центр экрана (sections/article/article.js). Текст статьи (.ap-article__content) — обычные теги
+  h2 / p / img, стили от контейнера: в шаблоне CMS сюда выводится детальный текст из визуального редактора.
+  «Поделиться» — Telegram и ВКонтакте (ссылку на страницу подставляет article.js), MAX — заглушка.
+-->
+<section class="ap-section ap-article pt-4" aria-labelledby="article-title">
+  <div class="container px-3 px-sm-4 d-flex flex-column gap-4">
+    <h1 class="ap-article__title ap-heading__title ap-heading__title--page-compact" id="article-title">@@title</h1>
+
+    <div class="ap-article__meta d-flex align-items-center gap-3">
+      @@if (context.authorImg) {<img class="ap-article__author-img d-none d-md-block" src="@@root/img/@@authorImg" width="184" height="184" alt="">}
+      <dl class="ap-article__facts">
+        <div class="d-flex flex-column gap-2"><dt>Автор статьи:</dt><dd>@@author</dd></div>
+        <div class="d-flex flex-column gap-2"><dt>Последняя редакция:</dt><dd><time datetime="@@datetime">@@date</time></dd></div>
+        <div class="d-flex flex-column gap-2"><dt>Время на&nbsp;прочтение:</dt><dd>@@readTime</dd></div>
+        <div class="d-flex flex-column gap-2"><dt>Просмотров</dt><dd>@@views</dd></div>
+      </dl>
+    </div>
+
+    <div class="ap-article__layout">
+      <nav class="ap-article__toc d-flex flex-column gap-4 p-3 p-lg-4" aria-labelledby="article-toc-title" data-toc>
+        <p class="ap-article__toc-label" id="article-toc-title">Оглавление</p>
+        <ol class="ap-article__toc-list d-flex flex-column gap-3">
+          @@loop('sections/article/article-toc-item.html', 'data/@@data.json')
+        </ol>
+      </nav>
+
+      <div class="ap-article__main d-flex flex-column gap-4">
+        <div class="ap-article__content">
+          @@loop('sections/article/article-block.html', 'data/@@data.json')
+        </div>
+
+        <ul class="ap-article__share d-flex gap-2" aria-label="Поделиться">
+          <li><a class="ap-article__share-link" href="#" target="_blank" rel="noopener" aria-label="Поделиться в Telegram" data-share="telegram" data-stub><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#share-telegram"></use></svg></a></li>
+          <li><a class="ap-article__share-link" href="#" target="_blank" rel="noopener" aria-label="Поделиться во ВКонтакте" data-share="vk" data-stub><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#share-vk"></use></svg></a></li>
+          <li><a class="ap-article__share-link" href="#" target="_blank" rel="noopener" aria-label="Поделиться в MAX" data-stub><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#share-max"></use></svg></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

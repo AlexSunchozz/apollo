@@ -1,0 +1,6 @@
+[
+  { "href": "#", "title": "Нож разделочный Steel Pro, 15&nbsp;см", "collection": "Apollo Premier", "series": "Steel Pro", "rating": "4.9", "reviews": "31&nbsp;отзыв", "price": "2&nbsp;690&nbsp;₽", "badge": "Хит", "photo": false, "imgs": ["knife.png", "knife.png", "knife.png", "knife.png"] },
+  { "href": "#", "title": "Нож разделочный Steel Pro, 15&nbsp;см", "collection": "Apollo Premier", "series": "Steel Pro", "rating": "4.9", "reviews": "31&nbsp;отзыв", "price": "2&nbsp;690&nbsp;₽", "badge": "Набор", "photo": true, "imgs": ["knife-set.jpg", "knife-set.jpg", "knife-set.jpg", "knife-set.jpg"] },
+  { "href": "#", "title": "Нож разделочный Steel Pro, 15&nbsp;см", "collection": "Apollo Premier", "series": "Steel Pro", "rating": "4.9", "reviews": "31&nbsp;отзыв", "price": "2&nbsp;690&nbsp;₽", "badge": "Хит", "photo": false, "imgs": ["knife.png", "knife.png", "knife.png", "knife.png"] },
+  { "href": "#", "title": "Нож разделочный Steel Pro, 15&nbsp;см", "collection": "Apollo Premier", "series": "Steel Pro", "rating": "4.9", "reviews": "31&nbsp;отзыв", "price": "2&nbsp;690&nbsp;₽", "badge": "Новинка", "photo": true, "imgs": ["knife-set.jpg", "knife-set.jpg", "knife-set.jpg", "knife-set.jpg"] }
+]

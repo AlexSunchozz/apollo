@@ -1,0 +1,61 @@
+// =============================================================================
+// «О компании» — «Дизайн» (pages/about/about-design) — Figma: десктоп 1:13036, мобилка 1:13149
+// Раскладка шапки — классами; здесь — типографика, лента / сетка фото и десктопные отступы (100, 32).
+// =============================================================================
+
+.ap-about-design {
+  // Шапка — общий компонент ui/heading (aside + lead); здесь только ширина текста из макета
+  &__text {
+    max-width: 708px;
+  }
+
+  // < 768 — лента с прокруткой (фото во всю ширину контента), ≥ 768 — сетка по 2
+  &__gallery {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include media-breakpoint-up(md) {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      overflow: visible;
+    }
+
+    @include media-breakpoint-up(xl) {
+      gap: 16px;
+    }
+  }
+
+  &__photo {
+    flex: 0 0 100%;
+    display: block;
+    height: 300px;
+    background: $c-surface;
+    scroll-snap-align: start;
+
+    @include media-breakpoint-up(md) {
+      height: auto;
+      aspect-ratio: 632 / 482;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в about-design.html -----------
+.ap-about-design {
+  @include desktop(padding-block, 100px);
+
+  &__inner { @include desktop(gap, 32px); }
+}

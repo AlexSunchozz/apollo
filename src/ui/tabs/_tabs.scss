@@ -1,0 +1,89 @@
+// =============================================================================
+// UI: табы-переключатели — Figma «Button» в блоке товаров (6:18437), мобилка 1:1322
+//
+//   <div class="ap-tabs d-flex gap-1 gap-md-2" role="tablist" data-tabs>   (зазор: мобилка 4, ≥ 768 — 8)
+//     include 'ui/tabs/tab.html' в цикле по данным: id таба, id панели, подпись, выбран ли
+//   </div>
+//   Панели — role="tabpanel" + hidden у неактивных; переключение — ui/tabs/tabs.js (клик, ← → Home End).
+//
+//   .ap-tab                  рамка 1px, текст фирменный; < 768 — 14 / 1.2, ≥ 768 — «Текст/16»
+//   наведение и выбранный    заливка фирменным, текст белый (Figma: «Ножи»)
+//   .ap-tab--chip            чип-ссылка (подкатегории в ui/catalog-card): тот же вид, текст переносится
+//
+// < 768 — лента прокручивается по горизонтали (табов может быть сколько угодно) и уходит под край экрана
+//         (стоит в .container с полями px-3 px-sm-4); ≥ 768 — переносится.
+// =============================================================================
+
+.ap-tabs {
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none; // полоса прокрутки ленты не нужна — листается пальцем
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  // < 768: лента выходит в поля контейнера до края экрана — табы уходят под край, а не обрезаются
+  // по полю; первый таб — на линии контента. Значения = поля .container (px-3 / px-sm-4).
+  @include media-breakpoint-down(md) {
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+  }
+
+  @include media-breakpoint-between(sm, md) {
+    margin-inline: -24px;
+    padding-inline: 24px;
+    scroll-padding-inline: 24px;
+  }
+
+  @include media-breakpoint-up(md) {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+}
+
+// Мобилка (Figma 8:18965, «Чип»): поля 9 / 16, «Текст/14 в одну строку» — высота 34;
+// ≥ 768 (десктоп 6:18437): поля 7 / 16, «Текст/16» — высота 35
+.ap-tab {
+  flex-shrink: 0;
+  padding: 9px 16px;
+  border: 1px solid $c-border;
+  border-radius: 0;
+  background: transparent;
+  color: $c-main;
+  @include text('text-14');
+  white-space: nowrap; // подпись таба — короткая, лента прокручивается
+  cursor: pointer;
+  transition:
+    background-color $transition,
+    border-color $transition,
+    color $transition;
+
+  @include media-breakpoint-up(md) {
+    padding-block: 7px;
+    @include text('text-16');
+  }
+
+  &:hover,
+  &[aria-selected='true'] {
+    border-color: $c-main;
+    background-color: $c-main;
+    color: $c-white;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 2px;
+  }
+
+  // Чип-ссылка (подкатегории в ui/catalog-card): тот же вид, но не таб — текст из админки переносится
+  &--chip {
+    display: inline-block;
+    text-decoration: none;
+    white-space: normal;
+    text-align: left;
+  }
+}

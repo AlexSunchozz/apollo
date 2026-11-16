@@ -1,0 +1,61 @@
+// =============================================================================
+// Общие стили шаблона сайта (без секций): Bootstrap (только нужные модули), база,
+// типографика, UI-компоненты, шапка и подвал. Требует _tools.scss.
+// ОБЩИЕ СТИЛИ КОМПОНЕНТОВ (ui/*) ПОДКЛЮЧАЮТСЯ ТОЛЬКО ЗДЕСЬ — секции их не импортируют,
+// поэтому в template_styles.css каждый компонент присутствует один раз.
+// =============================================================================
+
+// 1. Bootstrap (только нужные модули)
+@import 'bootstrap/scss/utilities';
+@import 'utilities';
+@import 'bootstrap/scss/root';
+@import 'bootstrap/scss/reboot';
+@import 'bootstrap/scss/grid';
+@import 'bootstrap/scss/transitions'; // .fade для подложки Offcanvas / Modal
+@import 'bootstrap/scss/offcanvas';   // мобильное меню
+@import 'bootstrap/scss/modal';       // модальные окна
+@import 'bootstrap/scss/forms/form-control';
+@import 'bootstrap/scss/forms/form-check';
+@import 'bootstrap/scss/forms/validation';
+@import 'bootstrap/scss/helpers';
+@import 'bootstrap/scss/utilities/api';
+
+// 2. Проект
+@import 'fonts';
+@import 'root';
+@import 'base';
+@import 'typography';
+
+// 3. UI-компоненты (src/ui/<name>/_<name>.scss) — переиспользуемые блоки, по алфавиту.
+// Добавляются по мере появления в макетах Figma:
+@import '../ui/article-card/article-card';
+@import '../ui/badge/badge';
+@import '../ui/breadcrumbs/breadcrumbs';
+@import '../ui/button/button';
+@import '../ui/catalog-card/catalog-card';
+@import '../ui/counter/counter';
+@import '../ui/feature-card/feature-card';
+@import '../ui/filters/filters';
+@import '../ui/form/form';
+@import '../ui/heading/heading';
+@import '../ui/line-tabs/line-tabs';
+@import '../ui/link/link';
+@import '../ui/market-card/market-card';
+@import '../ui/modal/modal';
+@import '../ui/pagination/pagination';
+@import '../ui/product-card/product-card';
+@import '../ui/promo-card/promo-card';
+@import '../ui/quantity/quantity';
+@import '../ui/rating/rating';
+@import '../ui/review/review';
+@import '../ui/socials/socials';
+@import '../ui/specs/specs';
+@import '../ui/tabs/tabs';
+@import '../ui/tile/tile';
+@import '../ui/view-switch/view-switch';
+
+// 4. Layout
+@import '../layout/header';
+@import '../layout/catalog-menu';
+@import '../layout/tabbar';
+@import '../layout/footer';

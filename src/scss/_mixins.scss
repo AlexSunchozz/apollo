@@ -1,0 +1,48 @@
+// Набор свойств стиля текста из карты: (размер, line-height, letter-spacing, вес)
+@mixin _type-props($t) {
+  font-size: nth($t, 1);
+  line-height: nth($t, 2);
+  letter-spacing: nth($t, 3);
+  font-weight: nth($t, 4);
+}
+
+// Типографика из шкалы: @include text('h2');
+// Mobile-first: если стиль есть в $type-mobile — он базовый, а десктопный включается с $mobile-up (576).
+@mixin text($name) {
+  @if map-has-key($type-mobile, $name) {
+    @include _type-props(map-get($type-mobile, $name));
+
+    @include media-breakpoint-up($mobile-up) {
+      @include _type-props(map-get($type, $name));
+    }
+  } @else {
+    @include _type-props(map-get($type, $name));
+  }
+
+  // Промежуточные размеры по ширине окна ($type-steps)
+  @if map-has-key($type-steps, $name) {
+    @each $min-width, $size in map-get($type-steps, $name) {
+      @media (min-width: $min-width) {
+        font-size: $size;
+      }
+    }
+  }
+}
+
+// Брейкпоинты Bootstrap: sm 576, md 768, lg 992, xl 1200, xxl 1400
+// @include media-breakpoint-down(md) { ... } / media-breakpoint-up(xl) — из bootstrap/scss/mixins
+
+// ОТСТУПЫ: адаптив (< 1200) — классами Bootstrap в разметке (gap-3 gap-sm-4, p-3, mt-md-5 …),
+// десктоп (≥ 1200) — значения макета в CSS этим миксином:
+//   .ap-catalog__inner { @include desktop(gap, $sp-40); }
+// !important — чтобы перебить классы Bootstrap (они с !important и действуют «от ширины и выше»).
+// Внутри своих медиазапросов (1200–1439 и т.п.) — то же самое: @include desktop(gap, $sp-16, $mq: false).
+@mixin desktop($prop, $value, $mq: true) {
+  @if $mq {
+    @include media-breakpoint-up(xl) {
+      #{$prop}: $value !important;
+    }
+  } @else {
+    #{$prop}: $value !important;
+  }
+}

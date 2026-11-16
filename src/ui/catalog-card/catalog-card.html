@@ -1,0 +1,19 @@
+<article class="ap-catalog-card">
+  <div class="ap-catalog-card__inner">
+    <a class="ap-catalog-card__media" href="@@href"@@if (context.stub) { data-stub} tabindex="-1" aria-hidden="true"><img class="ap-catalog-card__img" src="@@root/img/@@img" width="686" height="642" alt="" loading="lazy"></a>
+    <div class="ap-catalog-card__body d-flex flex-column gap-3 p-3">
+      <div class="d-flex flex-column gap-2">
+        <div class="d-flex align-items-start gap-2">
+          <h2 class="ap-catalog-card__title"><a href="@@href"@@if (context.stub) { data-stub}>@@title</a></h2>
+          <span class="ap-catalog-card__count">@@count</span>
+        </div>
+        @@if (context.text) {<p class="ap-catalog-card__text">@@text</p>}
+      </div>
+      @@if (context.filters) {<div class="d-flex flex-column gap-2"><p class="ap-catalog-card__label">Фильтры</p><p class="ap-catalog-card__text">@@filters</p></div>}
+      <div class="ap-catalog-card__footer d-flex gap-3">
+        @@if (context.chips) {<ul class="ap-catalog-card__chips d-flex flex-wrap gap-2">@@for (var i = 0; i < (typeof chips !== 'undefined' ? chips.length : 0); i++) {<li><a class="ap-tab ap-tab--chip" href="`+chips[i].href+`" data-stub>`+chips[i].title+`</a></li>}</ul>}
+        <a class="ap-link ap-catalog-card__more" href="@@href"@@if (context.stub) { data-stub}>@@linkText</a>
+      </div>
+    </div>
+  </div>
+</article>

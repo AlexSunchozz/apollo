@@ -1,0 +1,5 @@
+<div class="ap-article__block"@@if (context.id) { id="@@id"}>
+  @@if (context.title) {<h2>@@title</h2>}
+  @@if (context.text) {@@text}
+  @@if (context.images) {<div class="ap-article__gallery">@@for (var i = 0; i < (typeof images !== 'undefined' ? images.length : 0); i++) {<img src="@@root/img/`+images[i].img+`" width="832" height="800" alt="`+images[i].alt+`" loading="lazy">}</div>}
+</div>

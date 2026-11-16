@@ -1,0 +1,12 @@
+// =============================================================================
+// Инструменты: токены + функции и миксины Bootstrap + миксины проекта.
+// CSS не выводит — только переменные, функции и миксины; подключается первым в template_styles.scss.
+// =============================================================================
+
+@import 'variables';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+@import 'bootstrap/scss/maps';
+@import 'bootstrap/scss/mixins';
+@import 'mixins';

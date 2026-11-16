@@ -1,0 +1,17 @@
+<!--
+  «Для дома, проекта и бизнеса» — заголовок + промо-карточки
+  Figma:  десктоп 12:18183, мобилка 12:18216
+  Без отступа сверху (отступ даёт предыдущий блок). Карточки — общий компонент ui/promo-card,
+  данные — data/home-solutions.json (img — десктоп, imgMobile — < 576; modal — кнопка открывает окно вместо ссылки).
+  Сетка: < 768 — 1 в ряд, 768–991 — 2, ≥ 992 — 3; ряды переносятся при любом числе карточек.
+-->
+<section class="ap-section ap-home-solutions pb-5" id="solutions" aria-labelledby="solutions-title">
+  <div class="container px-3 px-sm-4">
+    <div class="ap-home-solutions__inner d-flex flex-column gap-3">
+      <h2 class="ap-home-solutions__title" id="solutions-title">Для&nbsp;дома, проекта и&nbsp;бизнеса</h2>
+      <div class="ap-home-solutions__grid">
+        @@loop('ui/promo-card/promo-card.html', 'data/home-solutions.json')
+      </div>
+    </div>
+  </div>
+</section>

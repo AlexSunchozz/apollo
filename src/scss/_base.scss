@@ -1,0 +1,65 @@
+// Базовые стили поверх Bootstrap Reboot
+
+// Пропорциональное масштабирование всей вёрстки (механизм эталонного проекта).
+// Все размеры в CSS — в rem (px → rem делает сборка, postcss-pxtorem, 1rem = 16px),
+// поэтому достаточно менять корневой размер шрифта:
+//   320–374px:   ширина / 375 × 16  — мобильный макет 375 сжимается (ниже 320 — не уменьшаем);
+//   375–1919px:  без масштаба — размеры макета, на 1440 контент 1280 по центру, поля по бокам растут;
+//   от 1920px:   ширина / 1920 × 16 — вид как на 1920 (те же поля по бокам и размеры), увеличенный
+//                пропорционально ширине экрана (2560 → ×1.333, 3840 → ×2).
+// «PX» заглавными — чтобы сборка не перевела значение в rem.
+html {
+  @media (max-width: 374.98px) {
+    font-size: max(4.2667vw, 13.6533PX); // 16 / 375 × 100; не меньше 16 × 320/375 = 13.6533
+  }
+
+  @media (min-width: 1920px) {
+    font-size: calc(100vw / 120); // 16 / 1920: на 1920 ровно 16px (.8333vw давал 15.9994 — дробные размеры, чекбоксы сдвигались)
+  }
+}
+
+body {
+  @include text('body');
+  min-width: 320PX;
+  -webkit-font-smoothing: antialiased;
+  // Контент из админки: слово длиннее блока переносится, а не вылезает за него
+  // (срабатывает, только когда слово не помещается; во флекс-элементах нужен ещё min-width: 0)
+  overflow-wrap: break-word;
+}
+
+img { max-width: 100%; height: auto; }
+
+// Контейнер: 1280 контента + боковые поля. Адаптив — классами: <div class="container px-3 px-sm-4"> (16 / 24),
+// десктоп (≥ 1200) — 80 из макета. На 1440: 80 + 1280 + 80; на 375: 16 + 343 + 16.
+.container {
+  width: 100%;
+  max-width: $container-width + $container-pad * 2;
+  margin-inline: auto;
+  @include desktop(padding-inline, $container-pad);
+}
+
+// Переход по якорю (#products и т. п.): с 1200 шапка фиксированная (72px) — секция не прячется под ней
+section[id] {
+  @include media-breakpoint-up(xl) {
+    scroll-margin-top: 72px;
+  }
+}
+
+// Секция страницы: <section class="ap-section ap-<name>">.
+// Вертикальные поля: адаптив — классами в разметке (pt-5 pb-5), десктоп — desktop() в стилях секции
+// (общее значение из макета, когда оно появится, — сюда: @include desktop(padding-block, $section-py)).
+.ap-section {
+  position: relative;
+}
+
+// Иконка из спрайта: <svg class="ap-icon" aria-hidden="true"><use href="img/sprite.svg#name"></use></svg>
+// Размер по умолчанию 16, цвет — через color (fill: currentColor).
+.ap-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  vertical-align: middle;
+  overflow: visible; // обводка и края у границы viewBox не срезаются (пара к overflow=visible у <symbol> в спрайте)
+}

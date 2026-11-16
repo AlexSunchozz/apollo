@@ -1,0 +1,349 @@
+// =============================================================================
+// UI: карточка товара — Figma «Карточка товара» (десктоп 6:18761 / 6:18800, мобилка 8:18973 / 8:18974)
+// Общий компонент: главная, каталог, поиск, избранное и т. д.
+//
+//   .ap-product-card           верх 400px (слайдер фото + плашка + действия + точки) и низ с рамкой
+//   .ap-product-card--photo    фото на весь верх (интерьерные): белые иконки; ≥ 1200 — ещё затемнение сверху и белые точки;
+//                              без модификатора — товар на светлом фоне, по центру (вырезанный на прозрачном)
+//
+// Данные (include / loop): href, title, collection, series, rating, reviews, price, badge (необяз.), photo (да/нет),
+// imgs — массив файлов из img/products (слайды; один файл — слайдер без точек).
+// Ширину задаёт сетка снаружи (row-cols-* / col-*); высота карточек в ряду выравнивается, цена — внизу.
+// < 1200 — мобильный вид (мельче текст, иконки 40 с избранным), ≥ 1200 — десктопный.
+// Виды списка: --large (крупная сетка), --row (список; ≥ 768 — как список ui/catalog-card) — ставит ui/view-switch.
+// =============================================================================
+
+.ap-product-card {
+  background: $c-bg;
+
+  p,
+  h3 {
+    margin: 0;
+  }
+
+  // --- Верх: слайдер фото и слой поверх ------------------------------------------------------
+  &__top {
+    position: relative;
+    height: 400px;
+    background: $c-surface;
+  }
+
+  &__slider {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  &__slide {
+    display: block;
+    height: 100%;
+    padding: 67px 0 36px; // место под плашку сверху и точки снизу — товар по центру между ними
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  // Фото на весь верх. Затемнение сверху — только в десктопном виде (≥ 1200, Figma 6:18800);
+  // в мобильном (8:18965) фото без затемнения
+  &--photo &__slide {
+    padding: 0;
+  }
+
+  &--photo &__img {
+    object-fit: cover;
+  }
+
+  @include media-breakpoint-up(xl) {
+    &--photo &__top::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to bottom, rgba(28, 28, 28, .5), rgba(28, 28, 28, 0));
+      pointer-events: none;
+    }
+  }
+
+  // Плашка и действия — поверх слайдера; слой не мешает листать фото
+  &__overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+
+    > * {
+      pointer-events: auto;
+    }
+  }
+
+  // Плашка «Популярное» — общий компонент ui/badge
+
+  // Сравнение / избранное: мобилка — кнопки 40 × 40 (иконка сравнения 24, сердце 40), ≥ 1200 — только сравнение 24
+  &__actions {
+    margin: -8px -8px 0 0; // кнопки 40 стоят по краю 16, как иконки в макете
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    cursor: pointer;
+    transition: opacity $transition;
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &--favorite .ap-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    // В избранном: сердце заливается цветом обводки (заливка иконки — переменная --ap-icon-fill, см. icons/card-heart.svg)
+    &[aria-pressed='true'] .ap-icon {
+      --ap-icon-fill: currentColor;
+    }
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: -4px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &--photo &__action {
+    color: $c-white;
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__actions {
+      margin: 0;
+    }
+  }
+
+  // Точки слайдера: 8 × 4, активная 16 × 4; цвет — фирменный, на фото — белый
+  &__dots {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+
+    &:empty {
+      display: none !important; // один слайд — без точек
+    }
+  }
+
+  &__dot {
+    position: relative;
+    width: 8px;
+    height: 4px;
+    padding: 0;
+    border: 0;
+    border-radius: 100px;
+    background: $c-main;
+    opacity: .5;
+    cursor: pointer;
+    transition: width $transition, opacity $transition;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -8px -2px;
+    }
+
+    &.is-active {
+      width: 16px;
+      opacity: 1;
+    }
+  }
+
+  // На фото точки белые только в десктопном виде; в мобильном — фирменные (Figma 8:18965)
+  @include media-breakpoint-up(xl) {
+    &--photo &__dot {
+      background: $c-white;
+    }
+  }
+
+  // --- Низ: серия, название, рейтинг, цена и корзина --------------------------------------
+  &__body {
+    border: 1px solid $c-border-subtle;
+    border-top: 0;
+  }
+
+  // Серия: мобилка «Текст/12 мелкий», ≥ 1200 — 14 / 1.2
+  &__series {
+    color: $c-text-secondary;
+    @include text('text-12');
+
+    @include media-breakpoint-up(xl) {
+      @include text('text-14-secondary');
+    }
+  }
+
+  &__title {
+    @include text('text-16');
+
+    a {
+      color: $c-main;
+      text-decoration: none;
+      transition: opacity $transition;
+
+      &:hover {
+        opacity: .7;
+      }
+    }
+  }
+
+  &__rating {
+    color: $c-text-secondary;
+    @include text('text-12');
+  }
+
+  &__star {
+    width: 12px;
+    height: 12px;
+    color: $c-rating;
+  }
+
+  &__price {
+    color: $c-main;
+    @include text('price-22');
+    white-space: nowrap; // цена — короткая служебная строка
+  }
+
+  // Корзина: прозрачная с рамкой и фирменной иконкой → наведение: заливка, белая иконка (Figma)
+  &__cart {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid $c-main;
+    background: transparent;
+    color: $c-main;
+    cursor: pointer;
+    transition: background-color $transition, color $transition;
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background-color: $c-main;
+      color: $c-white;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  &__title a:focus-visible,
+  &__slide:focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 2px;
+  }
+}
+
+// --- Виды списка (модификаторы ставит ui/view-switch по выбору «Крупная сетка» / «Список») ------------
+// --large  крупная сетка (по 2 в ряд): < 768 — только фото 200 в высоту с точками (Figma 1:3693); ≥ 768 — обычная карточка
+// --row    список: фото слева (100; ≥ 768 — 308, как список каталога), справа серия, название, цена и корзина (Figma 1:3142);
+//          < 768 без плашки, кнопок на фото, точек и рейтинга — как в макете; ≥ 768 — всё на месте
+.ap-product-card--large {
+  @include media-breakpoint-down(md) {
+    .ap-product-card__top {
+      height: 200px;
+    }
+
+    .ap-product-card__slide {
+      padding: 16px 16px 36px;
+    }
+
+    &.ap-product-card--photo .ap-product-card__slide {
+      padding: 0;
+    }
+
+    .ap-product-card__overlay,
+    .ap-product-card__body {
+      display: none !important; // перебивает d-flex в разметке
+    }
+  }
+}
+
+.ap-product-card--row {
+  flex-direction: row !important; // перебивает flex-column в разметке
+
+  // Рамка вокруг всей карточки — у фото и текста (у корня — поля сетки)
+  .ap-product-card__top {
+    flex: 0 0 100px;
+    border: 1px solid $c-border-subtle;
+    border-right: 0;
+    height: auto;
+    min-height: 122px;
+
+    // ≥ 768 — как строка списка каталога (ui/catalog-card): фото 308, высота от 209, дальше по содержимому
+    @include media-breakpoint-up(md) {
+      flex-basis: $card-row-media;
+      min-height: $card-row-min-height;
+    }
+  }
+
+  .ap-product-card__slide {
+    padding: 8px;
+
+    @include media-breakpoint-up(md) {
+      padding: 48px 16px 36px;
+    }
+  }
+
+  &.ap-product-card--photo .ap-product-card__slide {
+    padding: 0;
+  }
+
+  .ap-product-card__body {
+    min-width: 0;
+    gap: 8px !important; // мобилка — 8, как в макете
+    padding: 8px !important;
+    border: 1px solid $c-border-subtle;
+    border-left: 0;
+
+    @include media-breakpoint-up(md) {
+      padding: 16px !important;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .ap-product-card__overlay,
+    .ap-product-card__dots,
+    .ap-product-card__rating {
+      display: none !important;
+    }
+  }
+}

@@ -1,0 +1,96 @@
+// =============================================================================
+// UI: промо-карточка — Figma «Для дома, проекта и бизнеса» (десктоп 1:916, мобилка 12:18219)
+// Общий компонент: фото на весь фон, плашка сверху (ui/badge), заголовок, текст и кнопка снизу.
+//
+//   < 1200 — высота 400, поля 16, зазор текст → кнопка 16 (мобилка);
+//   ≥ 1200 — высота 600, поля 24, зазор 24 (десктоп).
+// Фото: img — десктоп (832 × 1200), imgMobile — < 576 (686 × 800), подрезаются по карточке (cover).
+//   .ap-promo-card--compact   ниже: 400 на мобилке, с 768 — 350; текст до 403 («Bonito и Ribb», страница APOLLO, Figma 1:4718)
+// Параметры данных: mod ("compact"), link: true — вместо кнопки текстовая ссылка «Смотреть серию →» (ховер — подчёркивание).
+// Ширину задаёт сетка снаружи; длинные тексты переносятся, карточка растёт по высоте, если не помещаются.
+// =============================================================================
+
+.ap-promo-card {
+  position: relative;
+  min-height: 400px;
+  overflow: hidden;
+  color: $c-white;
+
+  @include media-breakpoint-up(xl) {
+    min-height: 600px;
+  }
+
+  // Фото и затемнение снизу — под содержимым
+  &__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: $shade-bottom;
+    pointer-events: none;
+  }
+
+  > :not(.ap-promo-card__media) {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__text-wrap {
+    max-width: 336px; // ширина текста в макете
+  }
+
+  &__title {
+    margin: 0;
+    @include text('price-22');
+    text-wrap: balance;
+  }
+
+  &__text {
+    margin: 0;
+    @include text('text-14-secondary');
+  }
+}
+
+// Компактная: ниже, ссылка вместо кнопки
+.ap-promo-card--compact {
+  @include media-breakpoint-up(md) {
+    min-height: 350px;
+  }
+
+  .ap-promo-card__text-wrap {
+    max-width: 403px;
+  }
+}
+
+.ap-promo-card__link {
+  color: $c-white;
+  @include text('text-14');
+  text-decoration: none;
+  text-underline-offset: 3px;
+
+  @include media-breakpoint-up(md) {
+    @include text('text-16');
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $c-white;
+    outline-offset: 2px;
+  }
+}

@@ -1,0 +1,40 @@
+<article class="ap-product-card@@if (context.photo) { ap-product-card--photo} d-flex flex-column">
+  <div class="ap-product-card__top">
+    <div class="swiper ap-product-card__slider" data-product-slider>
+      <div class="swiper-wrapper">
+        @@for (var i = 0; i < imgs.length; i++) {
+        <a class="swiper-slide ap-product-card__slide" href="`+href+`" tabindex="-1" aria-hidden="true"><img class="ap-product-card__img" src="@@root/img/products/`+imgs[i]+`" alt="" loading="lazy"></a>
+        }
+      </div>
+    </div>
+    <div class="ap-product-card__overlay d-flex justify-content-between align-items-start p-3">
+      @@if (context.badge) {<span class="ap-badge">@@badge</span>}
+      <div class="ap-product-card__actions d-flex ms-auto">
+        <button class="ap-product-card__action" type="button" aria-label="Сравнение" aria-pressed="false" data-product-action="compare">
+          <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#card-compare"></use></svg>
+        </button>
+        <button class="ap-product-card__action ap-product-card__action--favorite d-xl-none" type="button" aria-label="Избранное" aria-pressed="false" data-product-action="favorites">
+          <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#card-heart"></use></svg>
+        </button>
+      </div>
+    </div>
+    <div class="ap-product-card__dots d-flex justify-content-center gap-1 p-3" data-product-dots></div>
+  </div>
+
+  <div class="ap-product-card__body flex-grow-1 d-flex flex-column gap-2 gap-xl-3 p-3">
+    <div class="d-flex flex-column gap-2">
+      <p class="ap-product-card__series d-flex flex-wrap column-gap-2"><span>@@collection</span><span aria-hidden="true">/</span><span>@@series</span></p>
+      <h3 class="ap-product-card__title"><a href="@@href">@@title</a></h3>
+    </div>
+    <p class="ap-product-card__rating d-flex flex-wrap align-items-center gap-1">
+      <svg class="ap-icon ap-product-card__star" aria-hidden="true"><use href="@@root/img/sprite.svg#star"></use></svg>
+      <span>@@rating</span><span aria-hidden="true">/</span><span>@@reviews</span>
+    </p>
+    <div class="ap-product-card__buy d-flex align-items-center justify-content-between gap-2 mt-auto">
+      <p class="ap-product-card__price">@@price</p>
+      <button class="ap-product-card__cart" type="button" aria-label="Добавить в корзину" data-product-action="cart">
+        <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#cart"></use></svg>
+      </button>
+    </div>
+  </div>
+</article>

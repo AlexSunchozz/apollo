@@ -1,0 +1,33 @@
+// =============================================================================
+// UI: оценка звёздами (только показ) — Figma отзывы на карточке товара 43:18241, 43:18315
+//   include 'ui/rating/stars.html' с параметрами { "value": "4.8", "label": "4,8" }
+//   5 звёзд по 24: серые снизу, жёлтые сверху обрезаны по доле оценки (value / 5) — дробные оценки тоже видны.
+//   Выбор оценки в форме — ui/form .ap-rate.
+// =============================================================================
+
+.ap-stars {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-self: flex-start;
+  vertical-align: middle;
+
+  &__row {
+    display: flex;
+    color: $c-border;
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &--on {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(var(--ap-stars, 5) / 5 * 100%);
+      overflow: hidden;
+      color: $c-rating;
+    }
+  }
+}

@@ -1,0 +1,55 @@
+@@include('layout/head.html', {
+  "title": "Купить нож для овощей Swift APOLLO genio 10 см — цена, характеристики",
+  "description": "Нож для овощей Swift APOLLO genio с лезвием 10 см из нержавеющей стали. Для чистки и нарезки овощей и фруктов. Бесшовная конструкция, простой уход. Доставка по России."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "items": [{ "title": "Каталог", "href": "/catalog" }, { "title": "Ножи", "href": "/catalog/nozhi" }, { "title": "Для&nbsp;овощей", "href": "#" }], "current": "Swift" })
+  @@include('sections/product/product.html', {
+    "title": "Нож для&nbsp;овощей Swift Apollo genio",
+    "brand": "APOLLO genio",
+    "collection": "Коллекция Swift",
+    "sku": "SWF-006",
+    "text": "Для&nbsp;чистки овощей и&nbsp;фруктов, аккуратной нарезки продуктов. Гладкая стальная конструкция без&nbsp;зазоров и&nbsp;соединений&nbsp;— удобно пользоваться, легко мыть.",
+    "price": "690&nbsp;₽",
+    "priceNote": "Цена за&nbsp;1&nbsp;шт.",
+    "img": "product/swift-1.webp",
+    "gallery": "product/swift-gallery",
+    "specs": "product/swift-specs-short",
+    "benefits": "product/benefits"
+  })
+  @@include('sections/product-details/product-details.html', {
+    "about": "<p>Swift&nbsp;— нож для&nbsp;повседневных задач на&nbsp;кухне: почистить овощи и&nbsp;фрукты, нарезать продукты для&nbsp;салата или&nbsp;подготовить ингредиенты к&nbsp;ужину.</p><p>Гладкая «бесшовная» конструкция удобна в&nbsp;использовании и&nbsp;проста в&nbsp;уходе. Благодаря отсутствию зазоров и&nbsp;соединений грязь легко смывается с&nbsp;поверхности.</p><p>Строгий классический дизайн сочетается с&nbsp;любой кухонной посудой. Нож изготовлен из&nbsp;нержавеющей стали 3Cr14 и&nbsp;430.</p>",
+    "features": "product/swift-about",
+    "specs": "product/swift-specs"
+  })
+  @@include('sections/statement/statement.html', {
+    "id": "brand",
+    "mod": "end",
+    "title": "APOLLO genio",
+    "text": "<p>Коллекции собственной дизайн-студии Apollo. Продуманная форма и&nbsp;внимание к&nbsp;деталям для&nbsp;ежедневной готовки.</p>"
+  })
+  @@include('sections/product-reviews/product-reviews.html', {
+    "delivery": "product/delivery",
+    "reviews": true,
+    "reviewsData": "product/swift-reviews",
+    "photos": "product/swift-review-photos",
+    "rating": "4.8",
+    "ratingLabel": "4,8",
+    "ratingCount": "На&nbsp;основе 12&nbsp;отзывов",
+    "bars": "product/swift-rating",
+    "name": "Swift",
+    "emptyText": "Расскажите, как&nbsp;нож показал себя на&nbsp;вашей кухне."
+  })
+  @@include('sections/tiles/tiles.html', { "id": "kitchen", "title": "Для&nbsp;вашей кухни", "data": "product/kitchen" })
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+
+<!-- Модальные окна страницы -->
+@@include('layout/modal-review-login.html')
+@@include('layout/modal-review.html', { "title": "Нож для&nbsp;овощей Swift Apollo genio", "img": "product/swift-1.webp" })
+
+@@include('layout/scripts.html')

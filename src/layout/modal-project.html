@@ -1,0 +1,124 @@
+<!--
+  Окно «Подобрать для проекта» (Bootstrap Modal #project-modal)
+  Figma:  десктоп 1:1199, мобилка 1:1374, выпадающий список «Цвет» 1:1172
+  Открывается кнопкой с data-bs-target="#project-modal" (промо-карточка «Для дизайнеров»).
+  Поля — общие компоненты ui/form. Проверка при отправке: телефон (10–15 цифр) и согласие (ui/form/form.js).
+  Отправку на сервер подключает интегратор: action формы + событие ap:form-submit.
+  «Собрать сет →» — ссылка в каталог с параметрами (пока заглушка).
+-->
+<div class="modal fade ap-modal" id="project-modal" tabindex="-1" aria-labelledby="project-modal-title" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form class="d-flex flex-column gap-3" action="#" method="post" enctype="multipart/form-data" novalidate data-form>
+        <div class="d-flex justify-content-between align-items-start gap-3">
+          <h2 class="ap-modal__title" id="project-modal-title">Подобрать для&nbsp;проекта</h2>
+          <button class="ap-modal__close" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close-sm"></use></svg></button>
+        </div>
+        <p class="ap-modal__lead">Расскажите о&nbsp;кухне и&nbsp;приложите проект.<br>Это&nbsp;поможет составить подходящую подборку.</p>
+
+        <div class="row g-3">
+          <div class="col-12 col-sm-6">
+            <div class="ap-field d-flex flex-column gap-2">
+              <label class="ap-field__label" for="project-name">Имя</label>
+              <input class="ap-input" type="text" id="project-name" name="name" autocomplete="name">
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="ap-field d-flex flex-column gap-2">
+              <label class="ap-field__label" for="project-phone">Телефон*</label>
+              <input class="ap-input" type="tel" id="project-phone" name="phone" autocomplete="tel" inputmode="tel" required data-phone>
+            </div>
+          </div>
+        </div>
+
+        <div class="ap-field d-flex flex-column gap-2">
+          <span class="ap-field__label" id="project-file-label">Проект или&nbsp;референсы</span>
+          <label class="ap-input ap-file">
+            <input type="file" name="files[]" multiple aria-labelledby="project-file-label" data-file>
+            <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#attach"></use></svg>
+            <span class="ap-file__text" data-file-text>Выберите файл</span>
+          </label>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-sm-6">
+            <div class="ap-field d-flex flex-column gap-2">
+              <span class="ap-field__label" id="project-color-label">Цвет</span>
+              <div class="ap-select" data-select>
+                <button class="ap-input ap-select__toggle d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#project-color-list" aria-expanded="false" aria-controls="project-color-list" aria-labelledby="project-color-label">
+                  <span class="ap-select__value" data-select-value></span>
+                  <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#chevron-down"></use></svg>
+                </button>
+                <div class="ap-select__panel collapse" id="project-color-list">
+                  <div class="ap-select__list d-flex flex-column gap-2">
+                    @@include('ui/form/check.html', { "name": "color[]", "value": "Белый", "label": "Белый" })
+                    @@include('ui/form/check.html', { "name": "color[]", "value": "Черный", "label": "Черный" })
+                    @@include('ui/form/check.html', { "name": "color[]", "value": "Серый", "label": "Серый" })
+                    @@include('ui/form/check.html', { "name": "color[]", "value": "Бежевый", "label": "Бежевый" })
+                    @@include('ui/form/check.html', { "name": "color[]", "value": "Зеленый", "label": "Зеленый" })
+                    @@include('ui/form/check.html', { "name": "color[]", "value": "Синий", "label": "Синий" })
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="ap-field d-flex flex-column gap-2">
+              <span class="ap-field__label" id="project-budget-label">Бюджет, ₽</span>
+              <div class="ap-range d-flex flex-column gap-2" data-range data-min="0" data-max="500000" data-step="1000">
+                <div class="d-flex align-items-center gap-2">
+                  <input class="ap-input ap-input--sm" type="number" name="budget_from" placeholder="от" min="0" step="1000" inputmode="numeric" aria-label="Бюджет от, ₽" data-range-from>
+                  <span class="ap-range__dash" aria-hidden="true"></span>
+                  <input class="ap-input ap-input--sm" type="number" name="budget_to" placeholder="до" min="0" step="1000" inputmode="numeric" aria-label="Бюджет до, ₽" data-range-to>
+                </div>
+                <div class="ap-range__slider">
+                  <input type="range" aria-label="Бюджет от, ₽" tabindex="-1" data-range-min>
+                  <input type="range" aria-label="Бюджет до, ₽" tabindex="-1" data-range-max>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <fieldset class="ap-field d-flex flex-column gap-3">
+          <legend class="ap-field__label">Стиль</legend>
+          <div class="row row-cols-2 g-2">
+            <div class="col">@@include('ui/form/check.html', { "name": "style[]", "value": "Лофт", "label": "Лофт" })</div>
+            <div class="col">@@include('ui/form/check.html', { "name": "style[]", "value": "Классика", "label": "Классика" })</div>
+            <div class="col">@@include('ui/form/check.html', { "name": "style[]", "value": "Современный", "label": "Современный" })</div>
+            <div class="col">@@include('ui/form/check.html', { "name": "style[]", "value": "Минимализм", "label": "Минимализм" })</div>
+          </div>
+        </fieldset>
+
+        <fieldset class="ap-field d-flex flex-column gap-3">
+          <legend class="ap-field__label">Покрытие</legend>
+          <div class="row row-cols-2 g-2">
+            <div class="col">@@include('ui/form/check.html', { "name": "finish[]", "value": "Хром", "label": "Хром" })</div>
+            <div class="col">@@include('ui/form/check.html', { "name": "finish[]", "value": "Золото", "label": "Золото" })</div>
+          </div>
+        </fieldset>
+
+        <div class="ap-field d-flex flex-column gap-2">
+          <label class="ap-field__label" for="project-comment">Комментарий</label>
+          <textarea class="ap-input ap-textarea" id="project-comment" name="comment" placeholder="Количество персон, задачи, пожелания"></textarea>
+        </div>
+
+        <label class="ap-check ap-check--consent">
+          <input type="checkbox" name="consent" value="Y" required>
+          <span>Даю согласие на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="#" data-stub>политикой конфиденциальности</a></span>
+        </label>
+
+        <div class="row g-3">
+          <div class="col-12 col-sm-6 d-flex flex-column gap-2">
+            <button class="ap-btn ap-btn--primary" type="submit">Отправить запрос&nbsp;→</button>
+            <p class="ap-modal__note">Менеджер получит параметры проекта и&nbsp;свяжется для&nbsp;подбора товаров.</p>
+          </div>
+          <div class="col-12 col-sm-6 d-flex flex-column gap-2">
+            <a class="ap-btn ap-btn--outline" href="#" data-stub>Собрать сет&nbsp;→</a>
+            <p class="ap-modal__note">Откроется каталог с&nbsp;примененными параметрами&nbsp;— подбор можно продолжить самостоятельно.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

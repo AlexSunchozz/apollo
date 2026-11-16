@@ -1,0 +1,50 @@
+@@include('layout/head.html', {
+  "title": "APOLLO Premier — профессиональная линейка бренда Apollo",
+  "description": "APOLLO Premier — профессиональная линейка бренда Apollo: серии Grano и Steel Pro для дома и ресторанной кухни. Расширенная гарантия, сертифицировано для HoReCa, доставка по всей России."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "items": [{ "title": "Бренды", "href": "#" }], "current": "APOLLO Premier" })
+  @@include('sections/page-hero/page-hero.html', {
+    "id": "premier-title",
+    "img": "apollo-premier",
+    "eyebrow": "Бренд Apollo<span class=\"ap-page-hero__sep\" aria-hidden=\"true\">/</span>Профессиональный уровень",
+    "title": "Для&nbsp;тех, кто готовит серьёзно",
+    "text": "<p>APOLLO Premier&nbsp;— безопасные высокотехнологичные материалы, которые выдерживают профессиональную нагрузку. Подходит для&nbsp;дома и&nbsp;кухни ресторана.</p>",
+    "btnText": "Смотреть товары APOLLO Premier&nbsp;→",
+    "btnHref": "#hits",
+    "features": ["Расширенная гарантия", "Доставка по&nbsp;всей РФ", "Сертифицировано для&nbsp;HoReCa"],
+    "plaqueTitle": "Grano и&nbsp;Steel Pro",
+    "plaqueText": "Серии профессионального уровня APOLLO Premier"
+  })
+  @@include('sections/features/features.html', {
+    "id": "reasons",
+    "eyebrow": "Почему выбирают APOLLO Premier",
+    "title": "Три причины взять профессиональную линию",
+    "wide": true,
+    "data": "apollo-premier-features"
+  })
+  @@include('sections/promo-grid/promo-grid.html', {
+    "id": "series",
+    "eyebrow": "Линии APOLLO Premier",
+    "title": "Grano и&nbsp;Steel Pro&nbsp;— профессиональный уровень",
+    "text": "Grano отвечает за&nbsp;хранение продуктов, Steel Pro&nbsp;— за&nbsp;ножи для&nbsp;интенсивной готовки.",
+    "wide": true,
+    "data": "apollo-premier-series"
+  })
+  @@include('sections/products/products.html', {
+    "id": "hits",
+    "eyebrow": "Ассортимент",
+    "title": "Хиты APOLLO Premier",
+    "text": "Самые востребованные товары линейки&nbsp;— из&nbsp;серий Grano и&nbsp;Steel Pro.",
+    "data": "apollo-products",
+    "moreText": "Показать весь ассортимент APOLLO Premier&nbsp;→",
+    "catalogHref": "/catalog",
+    "brand": "apollo-premier"
+  })
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

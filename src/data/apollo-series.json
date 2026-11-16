@@ -1,0 +1,24 @@
+[
+  {
+    "mod": "compact",
+    "link": true,
+    "badge": "Готовка",
+    "title": "Bonito",
+    "text": "Кухонные товары и&nbsp;ножи для&nbsp;ежедневной готовки: лопатки, щипцы, кисти, поварские и&nbsp;хлебные ножи. Нержавеющая сталь и&nbsp;soft-touch рукояти.",
+    "btnText": "Смотреть серию Bonito&nbsp;→",
+    "href": "#",
+    "img": "apollo/series-bonito.webp",
+    "imgMobile": "apollo/series-bonito-mobile.webp"
+  },
+  {
+    "mod": "compact",
+    "link": true,
+    "badge": "Хранение",
+    "title": "Ribb",
+    "text": "Банки для&nbsp;хранения круп, специй и&nbsp;сыпучих продуктов&nbsp;— плотные крышки, штабелируются на&nbsp;полке холодильника или&nbsp;шкафа.",
+    "btnText": "Смотреть серию Ribb&nbsp;→",
+    "href": "#",
+    "img": "apollo/series-ribb.webp",
+    "imgMobile": "apollo/series-ribb-mobile.webp"
+  }
+]

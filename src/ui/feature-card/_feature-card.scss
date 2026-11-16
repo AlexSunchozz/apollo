@@ -1,0 +1,90 @@
+// =============================================================================
+// UI: карточка-преимущество на фирменном фоне — Figma «Три причины взять базовую линейку» 1:4690 / 1:5095
+// Иконка 24 (белая) сверху, заголовок «Цена/22» (мобилка 18) и текст «Текст/14» светло-серый снизу.
+// Рамка #6B5566; соседние рамки сливаются в одну линию (как у ui/market-card) — сетка у родителя без отступов.
+// Мобилка: поля 16, иконка → текст 32, высота по содержимому; ≥ 768 — поля 24, высота 300.
+//
+// Разметка (ui/feature-card/feature-card.html), данные — JSON: icon (имя иконки из спрайта, необязательно), title, text,
+// mod — вид: light (на белом), fill (фирменная заливка) — описание в конце файла.
+// Вывод: @@loop('ui/feature-card/feature-card.html', 'data/<файл>.json') — см. sections/features.
+// =============================================================================
+
+.ap-feature-card {
+  position: relative;
+  gap: 32px;
+  min-width: 0;
+  padding: 16px;
+  color: $c-white;
+  box-shadow:
+    1px 0 0 0 $c-border-on-dark,
+    0 1px 0 0 $c-border-on-dark,
+    1px 1px 0 0 $c-border-on-dark,
+    inset 1px 0 0 0 $c-border-on-dark,
+    inset 0 1px 0 0 $c-border-on-dark;
+
+  @include media-breakpoint-up(md) {
+    min-height: 300px;
+    padding: 24px;
+  }
+
+  .ap-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__title {
+    margin: 0;
+    color: $c-white;
+    @include text('price-22');
+
+    @include media-breakpoint-down(lg) {
+      font-size: 18px;
+    }
+  }
+
+  &__text {
+    color: $c-on-dark-muted;
+    @include text('text-14-secondary');
+  }
+}
+
+// --- Виды (поле mod в данных) ------------------------------------------------------------------
+// --light  на белом (карточка товара: преимущества 1:2285, «Доставка и оплата» 1:2370): рамка #E4E4E2,
+//          заголовок фирменный, текст вторичный; иконка → текст 24; высота по содержимому
+// --fill   фирменная заливка, без иконки (карточка товара: «О товаре» 1:2322): поля 24, разделители — белые 10 %;
+//          карточки идут столбиком вплотную
+.ap-feature-card--light {
+  gap: 24px;
+  color: $c-main;
+  box-shadow:
+    1px 0 0 0 $c-border,
+    0 1px 0 0 $c-border,
+    1px 1px 0 0 $c-border,
+    inset 1px 0 0 0 $c-border,
+    inset 0 1px 0 0 $c-border;
+
+  @include media-breakpoint-up(md) {
+    min-height: 0;
+  }
+
+  .ap-feature-card__title {
+    color: $c-main;
+  }
+
+  .ap-feature-card__text {
+    color: $c-text-secondary;
+  }
+}
+
+.ap-feature-card--fill {
+  background: $c-main;
+  box-shadow: none;
+
+  @include media-breakpoint-up(md) {
+    min-height: 0;
+  }
+
+  & + & {
+    border-top: 1px solid rgba($c-white, .1);
+  }
+}

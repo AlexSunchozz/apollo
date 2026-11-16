@@ -1,0 +1,26 @@
+[
+  {
+    "mod": "light",
+    "icon": "delivery",
+    "title": "Доставка по&nbsp;всей РФ",
+    "text": "Курьером, в&nbsp;пункты выдачи и&nbsp;постаматы"
+  },
+  {
+    "mod": "light",
+    "icon": "payment",
+    "title": "Оплата картой и&nbsp;СБП",
+    "text": "Безопасные онлайн-платежи"
+  },
+  {
+    "mod": "light",
+    "icon": "return",
+    "title": "Возврат в&nbsp;течение 14&nbsp;дней",
+    "text": "Даже если товар просто не&nbsp;подошел"
+  },
+  {
+    "mod": "light",
+    "icon": "certified",
+    "title": "Напрямую от&nbsp;Apollo",
+    "text": "Товары трех линеек бренда"
+  }
+]

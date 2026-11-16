@@ -1,0 +1,36 @@
+<div class="offcanvas offcanvas-end ap-filters" id="@@id" tabindex="-1" aria-labelledby="@@id-title">
+  <div class="ap-filters__scroll p-3">
+    <form class="ap-filters__form d-flex flex-column gap-4 p-3" id="@@id-form" action="#" method="get" data-filters>
+      <div class="ap-filters__head d-flex align-items-center justify-content-between gap-3 pb-3">
+        <h2 class="ap-filters__title" id="@@id-title">Фильтры</h2>
+        <button class="ap-filters__close" type="button" data-bs-dismiss="offcanvas">Свернуть</button>
+      </div>
+
+      <div class="ap-filters__groups">
+        <fieldset class="ap-filters__group ap-filters__group--price">
+          <legend class="ap-filters__legend">Цена, ₽</legend>
+          <div class="ap-range d-flex flex-column gap-4" data-range data-min="@@priceMin" data-max="@@priceMax" data-step="100">
+            <div class="d-flex align-items-center gap-2">
+              <input class="ap-input ap-input--sm" type="number" name="price_from" placeholder="от" min="@@priceMin" step="100" inputmode="numeric" aria-label="Цена от, ₽" data-range-from>
+              <span class="ap-range__dash" aria-hidden="true"></span>
+              <input class="ap-input ap-input--sm" type="number" name="price_to" placeholder="до" min="@@priceMin" step="100" inputmode="numeric" aria-label="Цена до, ₽" data-range-to>
+            </div>
+            <div class="ap-range__slider">
+              <input type="range" aria-label="Цена от, ₽" tabindex="-1" data-range-min>
+              <input type="range" aria-label="Цена до, ₽" tabindex="-1" data-range-max>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="ap-filters__group d-flex flex-column gap-3">
+          <label class="ap-switch"><span>Только в&nbsp;наличии</span><input type="checkbox" role="switch" name="available" value="Y"></label>
+          <label class="ap-switch"><span>Только наборы</span><input type="checkbox" role="switch" name="sets" value="Y"></label>
+        </div>
+
+        @@loop('ui/filters/filters-group.html', 'data/@@data.json')
+      </div>
+
+      <button class="ap-btn ap-btn--primary" type="reset" hidden data-filters-reset>Сбросить фильтр</button>
+    </form>
+  </div>
+</div>

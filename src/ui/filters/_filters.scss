@@ -1,0 +1,155 @@
+// =============================================================================
+// UI: панель фильтров каталога — Bootstrap Offcanvas справа — Figma «Категория фильтр» 1:4217
+// Общий компонент для всех списков товаров (категории, бренды, поиск).
+//
+//   include 'ui/filters/filters.html' с параметрами { "id": "category-filters", "data": "category-filters",
+//     "priceMin": "0", "priceMax": "20000" }
+//   Открывает кнопка data-bs-toggle="offcanvas" data-bs-target="#<id>"; «Свернуть» — закрывает.
+//   data — JSON групп флажков: [{ "title", "name", "items": ["…"], "mod" }], mod:
+//     scroll      список прокручивается (5 пунктов, тонкая полоса как в выпадающем списке) — «Серия»
+//     cols        пункты в 2 колонки — «Цвет», «Стиль»
+//     half        группа на половину ширины (две подряд встают рядом) — «Покрытие» | «Цвет»
+//     half-start  то же + разделитель справа (первая из пары)
+//   Цена — ui/form .ap-range, тумблеры — ui/form .ap-switch, флажки — ui/form .ap-check.
+//   ui/filters/filters.js: кнопки «Сбросить фильтр» ([data-filters-reset] в форме и
+//   [data-filters-reset="#<id>-form"] на странице) видны, когда что-то выбрано; событие ap:filters-change.
+//
+//   < 576 — на весь экран; ≥ 576 — панель 400 справа. Внутри — рамка, поля 16, заголовок «Цена/22»
+//   и «Свернуть» над линией; группы через 16, разделены линиями; подписи групп — 16 фирменные.
+// =============================================================================
+
+.ap-filters {
+  --bs-offcanvas-width: 100%;
+  --bs-offcanvas-bg: #{$c-bg};
+  --bs-offcanvas-border-width: 0;
+
+  @include media-breakpoint-up(sm) {
+    --bs-offcanvas-width: 400px;
+  }
+
+  &__scroll {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  &__form {
+    border: 1px solid $c-border;
+  }
+
+  &__head {
+    border-bottom: 1px solid $c-border;
+  }
+
+  &__title {
+    margin: 0;
+    color: $c-main;
+    @include text('price-22');
+  }
+
+  &__close {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+    cursor: pointer;
+    transition: color $transition;
+
+    &:hover {
+      color: $c-main;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  // Группы: по умолчанию во всю ширину, «half» — по половине
+  &__groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  &__group {
+    grid-column: 1 / -1;
+    min-width: 0;
+    margin: 0;
+    padding: 0 0 16px;
+    border: 0;
+    border-bottom: 1px solid $c-border;
+
+    &:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    &--price {
+      padding-bottom: 32px;
+    }
+
+    &--half,
+    &--half-start {
+      grid-column: auto;
+    }
+
+    &--half-start {
+      padding-right: 16px;
+      border-right: 1px solid $c-border;
+    }
+  }
+
+  &__legend {
+    float: left; // legend внутри fieldset ведёт себя как обычный блок
+    width: 100%;
+    margin: 0 0 16px;
+    padding: 0;
+    color: $c-main;
+    @include text('text-16');
+
+    + * {
+      clear: both;
+    }
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__group--cols &__options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  // Длинный список: видно 5 пунктов, полоса прокрутки — как у выпадающего списка ui/form
+  &__group--scroll &__options {
+    max-height: 143px;
+    padding-right: 8px;
+    overflow-y: auto;
+    scrollbar-color: #8a8a8a $c-white;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      border: .5px solid rgba(0, 0, 0, .1);
+      border-radius: 10px;
+      background: $c-white;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: #8a8a8a;
+    }
+  }
+
+  .ap-btn {
+    width: 100%;
+  }
+}

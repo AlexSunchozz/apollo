@@ -1,0 +1,49 @@
+<!--
+  «Узнавайте о новинках первыми» — подписка на рассылку (общая секция, для любых страниц)
+  Figma:  десктоп 17:18186, мобилка 1:1359; ховер кнопки 1:958; окно «Спасибо за подписку!» 1:1638 / 1:1649
+  Фон — фото (img/subscribe/subscribe.webp — десктоп 2880 × 1200, subscribe-mobile.webp — < 576, 750 × 1200),
+  затемнение снизу. Высота не меньше 600, содержимое прижато к низу; длинный текст растягивает блок.
+  < 992:  заголовок и текст над формой; < 768 — поле, согласие и кнопка друг под другом.
+  ≥ 992:  текст слева, форма справа (поле + согласие | кнопка).
+  Проверка (ui/form/form.js): почта и согласие обязательны. После проверки — событие ap:form-submit,
+  форма очищается и открывается окно #subscribe-modal (data-form-success). Отправку подключает интегратор.
+-->
+<section class="ap-section ap-subscribe d-flex" id="subscribe" aria-labelledby="subscribe-title">
+  <picture class="ap-subscribe__media"><source media="(max-width: 575.98px)" srcset="@@root/img/subscribe/subscribe-mobile.webp" width="750" height="1200"><img class="ap-subscribe__img" src="@@root/img/subscribe/subscribe.webp" width="2880" height="1200" alt="" loading="lazy"></picture>
+
+  <div class="container px-3 px-sm-4 d-flex flex-column justify-content-end pt-5 pb-3 pb-md-5 ap-subscribe__inner">
+    <div class="d-flex flex-column flex-lg-row align-items-lg-end justify-content-lg-between gap-3 gap-lg-5">
+      <div class="ap-subscribe__text d-flex flex-column gap-2 gap-sm-4">
+        <h2 class="ap-subscribe__title" id="subscribe-title">Узнавайте о&nbsp;новинках первыми</h2>
+        <p class="ap-subscribe__lead">Новые коллекции, акции и&nbsp;товары «в&nbsp;наличии»&nbsp;— коротко на&nbsp;почту, без&nbsp;спама.</p>
+      </div>
+
+      <form class="ap-subscribe__form d-flex flex-column flex-md-row align-items-start gap-2 gap-md-3" action="#" method="post" novalidate data-form data-form-success="#subscribe-modal">
+        <div class="ap-subscribe__fields d-flex flex-column gap-2 gap-md-3">
+          <input class="ap-input ap-subscribe__input" type="email" name="email" placeholder="Почта" aria-label="Почта" autocomplete="email" required>
+          <label class="ap-check ap-check--consent ap-check--on-dark">
+            <input type="checkbox" name="consent" value="Y" required>
+            <span>Даю согласие на&nbsp;получение информационных и&nbsp;рекламных сообщений</span>
+          </label>
+        </div>
+        <button class="ap-btn ap-btn--primary-on-dark ap-subscribe__btn" type="submit">Подписаться&nbsp;→</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Окно после подписки (Bootstrap Modal) — вне секции, чтобы не попасть под её слой -->
+<div class="modal fade ap-modal ap-modal--compact" id="subscribe-modal" tabindex="-1" aria-labelledby="subscribe-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content d-flex flex-column align-items-center gap-3 text-center">
+      <div class="d-flex flex-column align-items-center align-self-stretch gap-2">
+        <div class="d-flex justify-content-end align-self-stretch">
+          <button class="ap-modal__close" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close"></use></svg></button>
+        </div>
+        <h2 class="ap-modal__title" id="subscribe-modal-title">Спасибо за&nbsp;подписку!</h2>
+        <p class="ap-modal__lead">Теперь вы&nbsp;будете первыми узнавать<br>о&nbsp;новинках APOLLO!</p>
+      </div>
+      <button class="ap-btn ap-btn--primary" type="button" data-bs-dismiss="modal">Продолжить покупки</button>
+    </div>
+  </div>
+</div>

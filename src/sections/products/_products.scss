@@ -1,0 +1,32 @@
+// =============================================================================
+// Товары (sections/products) — общая секция — Figma «APOLLO» 1:4734 / 27:18203
+//
+// Подключение (товары — свои для каждой страницы, в своём JSON):
+//   @@include('sections/products/products.html', { "id": "hits", "eyebrow": "Ассортимент", "title": "Хиты APOLLO",
+//     "text": "…", "data": "apollo-products", "moreText": "Показать весь ассортимент APOLLO&nbsp;→",
+//     "catalogHref": "/catalog", "brand": "apollo" })
+// brand — код бренда: data-brand у секции (фильтр для компонента каталога) и ?brand=<код> в «Весь каталог →».
+// Шапка — классы общего компонента ui/heading (--aside); карточки — ui/product-card; сетка — row-cols Bootstrap.
+// Порции по 8 и кнопка «показать ещё» — sections/products/products.js.
+// «Весь каталог →» — общий компонент ui/link.
+// .ap-products--compact — десктоп: зазоры 24 (подборка товаров в статье); btnText / btnHref — кнопка вместо «Весь каталог →».
+// =============================================================================
+
+.ap-products {
+  // Скрытые порцией карточки (products.js ставит hidden): у карточки d-flex с !important — перебиваем
+  [data-products-list] > [hidden] {
+    display: none !important;
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в products.html ----------------
+.ap-products {
+  @include desktop(padding-block, 100px);
+
+  &__inner { @include desktop(gap, 32px); }
+}
+
+// Вид «compact» (подборка в статье, Figma 1:5799): десктоп — заголовок → карточки → кнопка через 24
+.ap-products--compact {
+  .ap-products__inner { @include desktop(gap, 24px); }
+}

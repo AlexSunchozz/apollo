@@ -1,0 +1,9 @@
+[
+  { "text": "Каталог", "href": "/catalog", "stub": false },
+  { "text": "Ножи", "href": "/catalog/nozhi", "stub": false },
+  { "text": "Посуда", "href": "#", "stub": true },
+  { "text": "Столовые приборы", "href": "#", "stub": true },
+  { "text": "Для&nbsp;приготовления", "href": "#", "stub": true },
+  { "text": "Готовые решения", "href": "#", "stub": true },
+  { "text": "Хранение", "href": "#", "stub": true }
+]

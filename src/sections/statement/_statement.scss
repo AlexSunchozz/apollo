@@ -1,0 +1,158 @@
+// =============================================================================
+// Блок на фирменном фоне (sections/statement) — общая секция: одна разметка, три вида.
+// Figma («О компании»): «Apollo — любимые вещи» 1:13028 / 1:13142, «Академия Штиглица» 1:13045 / 1:13156,
+//        «Маркетинговая стратегия» 1:13092 / 1:13202; «Где купить»: «Покупайте и на нашем сайте» 1:5462 / 1:5545
+//
+// Подключение на любой странице:
+//   @@include('sections/statement/statement.html', { "id": "strategy", "title": "…", "text": "<p>…</p>" })
+// Параметры: id (обязательно, уникальный на странице), title, text (HTML-абзацы <p>), eyebrow — надпись над заголовком,
+// img / imgMobile — фото справа (путь от img/, например "about/favorite.jpg"; мобильное — < 768), mod — вид:
+//   (без mod)   заголовок слева (632), текст справа (593), по верху                  — «Маркетинговая стратегия»
+//   --end       надпись + заголовок слева (740), текст справа, по низу, поля 80       — «Академия Штиглица»
+//   --media     заголовок и текст слева, фото справа (283; мобилка — под текстом, 300) — «Apollo — любимые вещи»
+// btnText / btnHref — вместо текста справа кнопка (белая, ap-btn--light): надпись, заголовок и текст слева (864),
+//   кнопка справа по низу, поля 80 (класс --action ставится сам)                    — «Покупайте и на нашем сайте»
+//   btnModal: "#id" — первая кнопка открывает окно (Bootstrap Modal) вместо ссылки;
+//   mod: "center" — с кнопкой: кнопки по центру по высоте, а не по низу (Каталог);
+//   btn2Text / btn2Href — вторая кнопка рядом (обводка, ap-btn--outline-light)           — «Не нашли нужную категорию?» (Каталог)
+// < 992 — всё в колонку. Поля: адаптив 48 (py-5), ≥ 1200 — 100 (--end — 80).
+// =============================================================================
+
+.ap-statement {
+  background: $c-main;
+
+  &__inner {
+    gap: 16px;
+
+    @include media-breakpoint-up(lg) {
+      align-items: flex-start;
+    }
+  }
+
+  &__head {
+    min-width: 0;
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 1 632px;
+    }
+  }
+
+  // Шапка (надпись, заголовок, текст) — классы общего компонента ui/heading (--on-dark); здесь только ширины
+  &__text {
+    @include media-breakpoint-down(lg) {
+      max-width: 100% !important;
+    }
+  }
+
+  // Текст справа от заголовка (вид без фото и без кнопки)
+  &__side {
+    min-width: 0;
+    color: $c-on-dark-muted;
+    @include text('text-14-secondary');
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 1 593px;
+    }
+  }
+
+  // Надпись над заголовком, текст по низу
+  &--end &__inner {
+    @include media-breakpoint-up(lg) {
+      align-items: flex-end;
+    }
+  }
+
+  &--end &__head {
+    @include media-breakpoint-up(lg) {
+      flex-basis: 740px;
+    }
+  }
+
+  // Текст — 524 из макета; при сужении окна (992–1279) обе колонки сжимаются пропорционально своей ширине
+  // (740 : 524), а не только текст, — пока на < 992 блок не встанет в столбик
+  &--end &__side {
+    @include media-breakpoint-up(lg) {
+      flex: 1 1 524px;
+    }
+  }
+
+  // Фото справа
+  &--media &__inner {
+    gap: 24px;
+
+    @include media-breakpoint-up(lg) {
+      align-items: center;
+      gap: 32px;
+    }
+  }
+
+  &--media &__head {
+    @include media-breakpoint-up(lg) {
+      flex: 1 1 0;
+    }
+  }
+
+  &--media &__text {
+    max-width: 566px;
+  }
+
+  &__media {
+    display: block;
+    height: 300px;
+    background: $c-surface;
+
+    @include media-breakpoint-up(lg) {
+      flex: 1 1 0;
+      min-width: 0;
+      height: 283px;
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // Кнопка справа (параметр btnText)
+  &--action &__inner {
+    gap: 24px;
+
+    @include media-breakpoint-up(lg) {
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  &--action &__head {
+    @include media-breakpoint-up(lg) {
+      flex-basis: 864px;
+    }
+  }
+
+  &--action &__text {
+    max-width: 460px;
+  }
+
+  &__action {
+    flex-shrink: 0;
+  }
+
+  // Кнопки по центру по высоте текста ("mod": "center" вместе с btnText — «Не нашли нужную категорию?», Каталог)
+  &--center &__inner {
+    @include media-breakpoint-up(lg) {
+      align-items: center;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами (py-5) ------------------------
+.ap-statement {
+  @include desktop(padding-block, 100px);
+
+  &--end,
+  &--action {
+    @include desktop(padding-block, 80px);
+  }
+}

@@ -1,0 +1,10 @@
+<div class="ap-catalog__column d-xl-flex flex-xl-column gap-xl-4">
+  @@for (var g = 0; g < groups.length; g++) {
+  <div class="ap-catalog__group d-flex flex-column gap-4 gap-xl-3">
+    `+(groups[g].href ? '<a class="ap-catalog__title" href="' + groups[g].href + '">' : '<p class="ap-catalog__title">')+``+(groups[g].short ? '<span class="d-xl-none">' + groups[g].short + '</span><span class="d-none d-xl-inline">' + groups[g].title + '</span>' : groups[g].title)+``+(groups[g].href ? '</a>' : '</p>')+`
+    <ul class="ap-catalog__links d-flex flex-column gap-3 gap-xl-2">
+      `+groups[g].links.map(function (l) { return '<li><a class="ap-catalog__link" href="' + l.href + '">' + l.text + '</a></li>'; }).join('')+`
+    </ul>
+  </div>
+  }
+</div>

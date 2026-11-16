@@ -1,0 +1,14 @@
+@@include('layout/head.html', {
+  "title": "Контакты — Apollo",
+  "description": "Контакты Apollo: телефон +7 812 324-11-51, почта info@globalapollo.ru, часы работы службы поддержки, адрес в Санкт-Петербурге."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Контакты" })
+  @@include('pages/contacts/contacts-intro/contacts-intro.html')
+  @@include('pages/contacts/contacts-address/contacts-address.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

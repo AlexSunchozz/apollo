@@ -1,0 +1,188 @@
+// =============================================================================
+// Подвал сайта (layout/footer.html) — Figma: десктоп 17:18329, мобилка 17:18595
+// Раскладка и отступы из шкалы — классами в разметке; здесь — типографика, размеры вне шкалы и десктоп (≥ 1200).
+// Иконки контактов 24 (обводка 1.5 не масштабируется — vector-effect в phone/mail/geo), преимуществ — 18.
+// =============================================================================
+
+// Контакты, город, заголовки: «Навигация/18», на мобилке — «Мобилка/навигация 16»
+@mixin _footer-nav {
+  @include text('nav-18');
+
+  @include media-breakpoint-down(md) {
+    font-size: 16px;
+  }
+}
+
+.ap-footer {
+  background: $c-bg;
+  color: $c-main;
+
+  ul,
+  p {
+    margin: 0;
+    padding: 0;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity $transition, color $transition;
+
+    &:hover {
+      color: rgb(111, 29, 70);
+    }
+
+    &.ap-footer__social:hover,
+    &.ap-footer__city:hover,
+    &.ap-footer__contact:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  // --- О компании и контакты ----------------------------------------------------------------
+  &__about {
+    min-width: 0;
+
+    @include media-breakpoint-up(xl) {
+      flex: 0 0 407px;
+    }
+  }
+
+  // Описание: мобилка и ≥ 1200 — 270 (как в макетах), 768–1199 — во всю ширину (колонка подвала одна)
+  &__brand {
+    max-width: 270px;
+
+    @include media-breakpoint-between(md, lg) {
+      max-width: none;
+    }
+  }
+
+  &__logo {
+    display: block;
+
+    img {
+      display: block;
+      width: 120px;
+      height: auto;
+    }
+  }
+
+  &__desc,
+  &__copy,
+  &__links,
+  &__legal {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  &__links {
+    @include text('text-14');
+  }
+
+  // Копирайт в одну строку, документы переносятся рядом
+  &__copy {
+    @include media-breakpoint-up(xl) {
+      flex-shrink: 0;
+    }
+  }
+
+  &__legal {
+    min-width: 0;
+  }
+
+  &__contact,
+  &__city {
+    @include _footer-nav;
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+      color: $c-main;
+    }
+  }
+
+  &__contact span {
+    min-width: 0; // длинный адрес переносится
+  }
+
+  // --- Преимущества и «Компания» --------------------------------------------------------------
+  &__aside {
+    @include media-breakpoint-up(xl) {
+      flex: 0 1 848px;
+      min-width: 0;
+    }
+  }
+
+  // 2 × 2: мобилка — во всю ширину (16 / 8), ≥ 768 — 416 (8 / 16, поля пункта 8 сверху и снизу)
+  &__features {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 8px;
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+      flex: 0 1 416px;
+      gap: 8px 16px;
+    }
+  }
+
+  &__feature {
+    min-width: 0;
+    @include text('nav-18');
+    font-size: 14px;
+
+    @include media-breakpoint-up(md) {
+      padding-block: 8px;
+      font-size: 16px;
+    }
+
+    .ap-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__company {
+    @include media-breakpoint-up(md) {
+      flex: 0 0 308px;
+    }
+
+    @include media-breakpoint-between(md, xl) {
+      flex-basis: 216px;
+    }
+  }
+
+  &__heading {
+    @include _footer-nav;
+  }
+
+  &__partner img {
+    display: block;
+    width: 81px;
+    height: auto;
+
+    @include media-breakpoint-up(md) {
+      width: 122px;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в footer.html ----------------
+.ap-footer {
+  &__inner {
+    @include desktop(padding-block, 40px);
+  }
+
+  &__about {
+    @include desktop(gap, 32px);
+  }
+}

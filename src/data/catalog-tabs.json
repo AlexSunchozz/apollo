@@ -1,0 +1,13 @@
+[
+  {
+    "tab": "catalog-tab-categories",
+    "panel": "catalog-panel-categories",
+    "label": "Категории",
+    "selected": true
+  },
+  {
+    "tab": "catalog-tab-collections",
+    "panel": "catalog-panel-collections",
+    "label": "Коллекции"
+  }
+]

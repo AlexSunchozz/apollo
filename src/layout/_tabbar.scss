@@ -1,0 +1,75 @@
+// =============================================================================
+// Нижняя панель (layout/tabbar.html) — Figma 2:18169, только < 768 (класс d-md-none)
+// Фиксирована внизу (класс fixed-bottom), появляется после 500px прокрутки (.is-visible),
+// иконки 40 / 42 по краям и с равными промежутками (классы в разметке).
+// =============================================================================
+
+$tabbar-height: 59px; // 8 + 42 + 8 + рамка 1
+
+.ap-tabbar {
+  border-top: 1px solid $c-border-subtle;
+  background: $c-bg;
+  // Скрыта до 500px прокрутки: уезжает вниз за экран и недоступна с клавиатуры.
+  // .is-visible ставит layout/header.js.
+  transform: translateY(100%);
+  visibility: hidden;
+  transition: transform $transition, visibility 0s .3s;
+
+  &.is-visible {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform $transition, visibility 0s;
+  }
+
+  &__list {
+    margin: 0;
+    list-style: none;
+  }
+
+  &__item {
+    position: relative;
+    display: block;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    line-height: 0;
+    cursor: pointer;
+
+    .ap-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    // Сравнение, избранное — рамка 42 × 42
+    &--wide .ap-icon {
+      width: 42px;
+      height: 42px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: -2px;
+    }
+  }
+
+  // Счётчик (ui/counter): над правым верхним углом рамки иконки
+  &__count {
+    top: -3px;
+    right: -2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-tabbar,
+  .ap-tabbar.is-visible {
+    transition: none;
+  }
+}
+
+// Место под панель внизу страницы — контент не прячется за ней
+@include media-breakpoint-down(md) {
+  body {
+    padding-bottom: $tabbar-height;
+  }
+}

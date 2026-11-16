@@ -1,0 +1,58 @@
+// =============================================================================
+// «Контакты» — адрес и карта (pages/contacts/contacts-address) — Figma: десктоп 1:6126, мобилка 1:6206
+// Карточка адреса: рамка #E4E4E2 (без правой на десктопе — к ней примыкает карта; без нижней на мобилке),
+// «Адрес» — H2 (48 / 28), адрес — «Текст/14 вторичный». Карта — 264 в высоту, заглушка обрезается по центру.
+// TODO: Яндекс.Карты вместо заглушки — см. комментарий в contacts-address.html.
+// =============================================================================
+
+.ap-contacts-address {
+  &__card {
+    gap: 32px;
+    min-width: 0;
+    border: 1px solid $c-border;
+    border-bottom: 0;
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 0 50%; // ровно пополам с картой (с flex-basis 0 поля карточки делали её шире)
+      min-height: 264px;
+      border-right: 0;
+      border-bottom: 1px solid $c-border;
+    }
+  }
+
+  &__title {
+    color: $c-main;
+    @include text('h2');
+  }
+
+  &__text {
+    margin: 0;
+    color: $c-text-secondary;
+    font-style: normal;
+    @include text('text-14-secondary');
+  }
+
+  &__map {
+    position: relative;
+    height: 264px;
+    overflow: hidden;
+    background: #f4f4f4; // цвет заглушки карты из макета
+
+    @include media-breakpoint-up(lg) {
+      flex: 0 0 50%;
+      min-width: 0;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — pb-5 -------------------------------------
+.ap-contacts-address {
+  @include desktop(padding-bottom, 100px);
+}

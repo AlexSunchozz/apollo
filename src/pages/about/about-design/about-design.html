@@ -1,0 +1,24 @@
+<!--
+  «О компании» — «Дизайн»: надпись, заголовок, текст + фото
+  Figma:  десктоп 1:13036, мобилка 1:13149
+  Фото — data/about-design.json (img — ≥ 768, imgMobile — < 768).
+  < 768:  надпись над заголовком; фото — лентой с прокруткой пальцем (на 375 видно одно, как в макете).
+  ≥ 768:  фото по 2 в ряд, ряды переносятся при любом количестве; ≥ 992 — надпись справа от заголовка.
+-->
+<section class="ap-section ap-about-design py-5" id="design" aria-labelledby="design-title">
+  <div class="container px-3 px-sm-4 ap-about-design__inner d-flex flex-column gap-4">
+    @@include('ui/heading/heading.html', {
+      "id": "design-title",
+      "aside": true,
+      "lead": true,
+      "eyebrow": "Дизайн",
+      "title": "Свой взгляд на&nbsp;привычные вещи",
+      "textClass": "ap-about-design__text",
+      "text": "Мы&nbsp;создаём не&nbsp;просто функциональные формы, а&nbsp;выразительные образы, в&nbsp;которых воплощены ментальные ценности и&nbsp;культурный код российского потребителя. Все наши усилия направлены на&nbsp;улучшение потребительского предложения на&nbsp;рынке"
+    })
+
+    <div class="ap-about-design__gallery">
+      @@loop('pages/about/about-design/about-design-photo.html', 'data/about-design.json')
+    </div>
+  </div>
+</section>

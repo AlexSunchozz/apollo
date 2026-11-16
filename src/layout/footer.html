@@ -1,0 +1,70 @@
+<!--
+  Подвал (общий для всех страниц)
+  Figma:  десктоп 17:18329, мобилка 17:18595
+  < 768:   всё в одну колонку: о компании → контакты → соцсети → город → преимущества (2 в ряд) → «Компания» →
+           «Коллаборации» → копирайт → документы столбиком.
+  768–1199: о компании и контакты сверху, ниже — преимущества и «Компания» рядом.
+  ≥ 1200:  слева о компании и контакты (407), справа преимущества 2 × 2 и «Компания» (848); внизу — копирайт и документы.
+  Ссылки на страницы и документы — заглушки (data-stub), соцсети — адреса уточнит интегратор.
+-->
+<footer class="ap-footer">
+  <div class="container px-3 px-sm-4 ap-footer__inner d-flex flex-column gap-4 pt-5 pb-3 pb-md-5">
+    <div class="d-flex flex-column flex-lg-row justify-content-between gap-4">
+      <div class="ap-footer__about d-flex flex-column gap-4">
+        <div class="ap-footer__brand d-flex flex-column gap-3">
+          <a class="ap-footer__logo" href="/" aria-label="Apollo — на главную"><img src="@@root/img/logo.svg" width="120" height="21" alt="Apollo" loading="lazy"></a>
+          <p class="ap-footer__desc">Посуда, ножи, чайники и&nbsp;кухонная утварь трех линеек&nbsp;— с&nbsp;2001&nbsp;года. Прямые продажи от&nbsp;производителя.</p>
+        </div>
+
+        <div class="d-flex flex-column gap-4">
+          <ul class="ap-footer__contacts d-flex flex-column gap-3">
+            <li><a class="ap-footer__contact d-flex align-items-center gap-3" href="tel:+78123241151"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#phone"></use></svg>+7&nbsp;812&nbsp;324-11-51</a></li>
+            <li><a class="ap-footer__contact d-flex align-items-center gap-3" href="mailto:info@globalapollo.ru"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#mail"></use></svg>info@globalapollo.ru</a></li>
+            <li><a class="ap-footer__contact d-flex align-items-center gap-3" href="#" data-stub><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#geo"></use></svg><span>Санкт-Петербург, склад и&nbsp;отгрузка</span></a></li>
+          </ul>
+
+          @@include('ui/socials/socials.html', { "mod": "touch" })
+
+          <p class="ap-footer__city d-flex align-items-center gap-2">
+            <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#geo-pin"></use></svg>
+            <span class="d-flex flex-wrap align-items-center gap-2"><span>Санкт-Петербург</span><span aria-hidden="true">/</span><span>Доставка по&nbsp;всей России</span></span>
+          </p>
+        </div>
+      </div>
+
+      <div class="ap-footer__aside d-flex flex-column flex-md-row align-items-start justify-content-between gap-4">
+        <ul class="ap-footer__features">
+          <li class="ap-footer__feature d-flex flex-column align-items-start gap-2"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#delivery"></use></svg>Доставка по&nbsp;всей РФ</li>
+          <li class="ap-footer__feature d-flex flex-column align-items-start gap-2"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#payment"></use></svg>Оплата картой и&nbsp;СБП</li>
+          <li class="ap-footer__feature d-flex flex-column align-items-start gap-2"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#return"></use></svg>Возврат в&nbsp;течение 14&nbsp;дней</li>
+          <li class="ap-footer__feature d-flex flex-column align-items-start gap-2"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#certified"></use></svg>Сертифицировано</li>
+        </ul>
+
+        <div class="ap-footer__company d-flex flex-column gap-4">
+          <nav class="d-flex flex-column gap-3" aria-labelledby="footer-company-title">
+            <p class="ap-footer__heading" id="footer-company-title">Компания</p>
+            <ul class="ap-footer__links d-flex flex-column gap-3">
+              <li><a href="/about">О&nbsp;компании</a></li>
+              <li><a href="/blog">Блог</a></li>
+              <li><a href="/contacts">Контакты</a></li>
+            </ul>
+          </nav>
+          <div class="d-flex flex-column align-items-start gap-3">
+            <p class="ap-footer__heading">Коллаборации</p>
+            <a class="ap-footer__partner" href="#" data-stub aria-label="Академия Штиглица"><img src="@@root/img/footer/stieglitz.svg" width="122" height="48" alt="Академия Штиглица" loading="lazy"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ap-footer__bottom d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-4">
+      <p class="ap-footer__copy">©&nbsp;2026 Apollo. Все права защищены.</p>
+      <ul class="ap-footer__legal d-flex flex-column flex-md-row flex-wrap justify-content-xl-end gap-2 column-gap-md-4">
+        <li><a href="/cookie">Файлы cookie</a></li>
+        <li><a href="/privacy">Политика обработки персональных данных</a></li>
+        <li><a href="/soglasie-na-obrabotku-dannih">Согласие на&nbsp;обработку данных</a></li>
+        <li><a href="/offerta">Публичная оферта</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,48 @@
+@@include('layout/head.html', {
+  "title": "APOLLO — кухонные ножи, посуда и принадлежности для дома",
+  "description": "APOLLO — линейка кухонных товаров для ежедневного использования. Ножи, утварь и емкости для хранения из серий Bonito и Ribb. Доступные цены, гарантия качества и доставка по России."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "items": [{ "title": "Бренды", "href": "#" }], "current": "APOLLO" })
+  @@include('sections/page-hero/page-hero.html', {
+    "id": "apollo-title",
+    "img": "apollo",
+    "eyebrow": "Бренд Apollo<span class=\"ap-page-hero__sep\" aria-hidden=\"true\">/</span>Доступная линейка",
+    "title": "Качество на&nbsp;каждый день, а&nbsp;не&nbsp;по&nbsp;особому случаю",
+    "text": "<p>APOLLO&nbsp;— базовая линейка бренда: она&nbsp;закрывает повседневные задачи на&nbsp;кухне&nbsp;— готовку, хранение продуктов и&nbsp;подготовку к&nbsp;готовке. Широкий охват цен и&nbsp;гарантированное качество&nbsp;— без&nbsp;переплаты за&nbsp;дизайн или&nbsp;материалы, которые не&nbsp;нужны каждый день.</p>",
+    "btnText": "Смотреть товары APOLLO&nbsp;→",
+    "btnHref": "#hits",
+    "features": ["Средний ценовой сегмент", "Гарантия на&nbsp;всю линейку", "Доставка по&nbsp;всей РФ"],
+    "plaqueTitle": "Bonito и&nbsp;Ribb",
+    "plaqueText": "Серии линейки APOLLO"
+  })
+  @@include('sections/features/features.html', {
+    "id": "reasons",
+    "eyebrow": "Почему выбирают APOLLO",
+    "title": "Три причины взять базовую линейку",
+    "data": "apollo-features"
+  })
+  @@include('sections/promo-grid/promo-grid.html', {
+    "id": "series",
+    "eyebrow": "Серии APOLLO",
+    "title": "Bonito и&nbsp;Ribb&nbsp;— основа линейки",
+    "text": "Две серии закрывают разные задачи: одна&nbsp;— для&nbsp;готовки, вторая&nbsp;— для&nbsp;хранения продуктов.",
+    "data": "apollo-series"
+  })
+  @@include('sections/products/products.html', {
+    "id": "hits",
+    "eyebrow": "Ассортимент",
+    "title": "Хиты APOLLO",
+    "text": "Самые востребованные товары линейки&nbsp;— из&nbsp;серий Bonito и&nbsp;Ribb.",
+    "data": "apollo-products",
+    "moreText": "Показать весь ассортимент APOLLO&nbsp;→",
+    "catalogHref": "/catalog",
+    "brand": "apollo"
+  })
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

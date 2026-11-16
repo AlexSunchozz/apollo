@@ -1,0 +1,18 @@
+<!--
+  Блок на фирменном фоне — общая секция (параметры и виды — в _statement.scss)
+  Figma:  «О компании» 1:13028 / 1:13142, 1:13045 / 1:13156, 1:13092 / 1:13202; «Где купить» 1:5462 / 1:5545; «Каталог» 1:1813 / 1:2760 (две кнопки, первая открывает окно)
+-->
+<section class="ap-section ap-statement@@if (context.mod) { ap-statement--@@mod}@@if (context.btnText) { ap-statement--action} py-5" id="@@id" aria-labelledby="@@id-title">
+  <div class="container px-3 px-sm-4">
+    <div class="ap-statement__inner d-flex flex-column flex-lg-row">
+      <div class="ap-heading ap-heading--on-dark ap-statement__head gap-3 gap-xl-4">
+        @@if (context.eyebrow) {<p class="ap-heading__eyebrow">@@eyebrow</p>}
+        <h2 class="ap-heading__title" id="@@id-title">@@title</h2>
+        @@if (context.img || context.btnText) {<div class="ap-heading__text ap-statement__text ap-paragraphs">@@text</div>}
+      </div>
+      @@if (context.img) {<picture class="ap-statement__media"><source media="(max-width: 767.98px)" srcset="@@root/img/@@imgMobile" width="686" height="600"><img class="ap-statement__img" src="@@root/img/@@img" width="1248" height="566" alt="" loading="lazy"></picture>}
+      @@if (context.btnText) {<div class="ap-statement__action d-flex flex-wrap gap-2">@@if (context.btnModal) {<button class="ap-btn ap-btn--light" type="button" data-bs-toggle="modal" data-bs-target="@@btnModal">@@btnText</button>}@@if (!context.btnModal) {<a class="ap-btn ap-btn--light" href="@@btnHref">@@btnText</a>}@@if (context.btn2Text) {<a class="ap-btn ap-btn--outline-light" href="@@btn2Href">@@btn2Text</a>}</div>}
+      @@if (!context.img && !context.btnText) {<div class="ap-statement__side ap-paragraphs">@@text</div>}
+    </div>
+  </div>
+</section>

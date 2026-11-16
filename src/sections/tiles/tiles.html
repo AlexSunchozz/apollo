@@ -1,0 +1,14 @@
+<!--
+  Подборка плиток-ссылок — общая секция: заголовок и плитки ui/tile (вид wide) по 3 в ряд
+  Figma:  карточка товара — «Для вашей кухни» 1:2408 (мобилка 1:3978)
+  Параметры: id, title, data — JSON плиток (поля ui/tile; "mod": "wide").
+  Сетка: < 768 — по 1, ≥ 768 — по 3; лишние переносятся на новый ряд. Сверху 0, снизу 48 (десктоп 100).
+-->
+<section class="ap-section ap-tiles pb-5" id="@@id" aria-labelledby="@@id-title">
+  <div class="container px-3 px-sm-4 d-flex flex-column gap-4">
+    <h2 class="ap-tiles__title ap-heading__title" id="@@id-title">@@title</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+      @@loop('ui/tile/tile.html', 'data/@@data.json')
+    </div>
+  </div>
+</section>

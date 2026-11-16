@@ -1,0 +1,7 @@
+[
+  { "tab": "products-tab-all", "panel": "products-panel-all", "label": "Все", "selected": true },
+  { "tab": "products-tab-knives", "panel": "products-panel-knives", "label": "Ножи" },
+  { "tab": "products-tab-dishes", "panel": "products-panel-dishes", "label": "Посуда" },
+  { "tab": "products-tab-tools", "panel": "products-panel-tools", "label": "Инструменты" },
+  { "tab": "products-tab-storage", "panel": "products-panel-storage", "label": "Хранение" }
+]

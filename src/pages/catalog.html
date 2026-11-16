@@ -1,0 +1,28 @@
+@@include('layout/head.html', {
+  "title": "Каталог APOLLO — посуда, ножи и кухонные принадлежности",
+  "description": "Более 1000 товаров APOLLO в 8 категориях. Кухонные ножи, посуда, столовые приборы, чайники, аксессуары и утварь. Три линейки для разных задач и бюджетов."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Каталог" })
+  @@include('pages/catalog/catalog-list/catalog-list.html')
+  @@include('sections/statement/statement.html', {
+    "id": "help",
+    "mod": "center",
+    "title": "Не&nbsp;нашли нужную<br class=\"d-none d-lg-inline\"> категорию?",
+    "text": "<p>Подскажем, где&nbsp;искать, или&nbsp;соберем подборку под&nbsp;задачу&nbsp;— например, посуду для&nbsp;подарка или&nbsp;утварь для&nbsp;кофейни.</p>",
+    "btnText": "Написать нам&nbsp;→",
+    "btnModal": "#feedback-modal",
+    "btn2Text": "На&nbsp;главную&nbsp;→",
+    "btn2Href": "/"
+  })
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+
+<!-- Модальные окна страницы -->
+@@include('layout/modal-feedback.html')
+
+@@include('layout/scripts.html')

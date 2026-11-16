@@ -1,0 +1,43 @@
+// =============================================================================
+// Точка входа стилей → dist/css/template_styles.css — ОДИН файл на все страницы (пожелание интегратора):
+// любой блок можно перенести на другую страницу, и он придёт со стилями. Стили не привязываются к странице.
+// Порядок: инструменты (CSS не выводят) → общее (_core: база, ui/*, layout) → секции.
+// Каждый блок подключается здесь ровно один раз; секции не импортируют стили компонентов.
+// =============================================================================
+
+@import 'tools';
+@import 'core';
+
+// Общие секции (src/sections/<name>/_<name>.scss) — используются на нескольких страницах, по алфавиту:
+@import '../sections/article/article';
+@import '../sections/articles/articles';
+@import '../sections/category/category';
+@import '../sections/features/features';
+@import '../sections/markets/markets';
+@import '../sections/page-hero/page-hero';
+@import '../sections/product/product';
+@import '../sections/product-details/product-details';
+@import '../sections/product-reviews/product-reviews';
+@import '../sections/products/products';
+@import '../sections/promo-grid/promo-grid';
+@import '../sections/statement/statement';
+@import '../sections/subscribe/subscribe';
+@import '../sections/tiles/tiles';
+
+// Уникальные секции страниц (src/pages/<page>/<name>/_<name>.scss), сгруппированы по страницам:
+// index
+@import '../pages/index/home-hero/home-hero';
+@import '../pages/index/home-categories/home-categories';
+@import '../pages/index/home-products/home-products';
+@import '../pages/index/home-solutions/home-solutions';
+// about
+@import '../pages/about/about-design/about-design';
+// contacts
+@import '../pages/contacts/contacts-intro/contacts-intro';
+@import '../pages/contacts/contacts-address/contacts-address';
+// catalog
+@import '../pages/catalog/catalog-list/catalog-list';
+// blog
+@import '../pages/blog/blog-list/blog-list';
+// 404
+@import '../pages/404/error-page/error-page';

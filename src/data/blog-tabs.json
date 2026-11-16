@@ -1,0 +1,6 @@
+[
+  { "tab": "blog-tab-news", "panel": "blog-panel-news", "label": "Новости и&nbsp;новинки", "selected": true },
+  { "tab": "blog-tab-care", "panel": "blog-panel-care", "label": "Выбор и&nbsp;уход" },
+  { "tab": "blog-tab-recipes", "panel": "blog-panel-recipes", "label": "Рецепты и&nbsp;советы" },
+  { "tab": "blog-tab-sales", "panel": "blog-panel-sales", "label": "Акции" }
+]

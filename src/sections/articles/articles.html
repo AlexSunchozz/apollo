@@ -1,0 +1,17 @@
+<!--
+  Статьи — общая секция: заголовок и карточки ui/article-card из JSON
+  Figma:  «Блог» — «Популярные статьи» 1:5688 / 35:18189; статья — «Статьи по теме» 1:5746 / 1:6018
+  Параметры: id, title, data — имя JSON-файла в data/ без .json (поля ui/article-card);
+  mod: "end" — последний блок страницы перед подвалом (снизу 0, десктоп 30 — «Блог»).
+  Отступ сверху — 0: секция идёт за блоком со своим нижним отступом. Снизу — 48, десктоп 100.
+  Сетка: < 576 — 1 в ряд, 576–991 — 2, ≥ 992 — 3; лишние карточки переносятся на новый ряд.
+-->
+<section class="ap-section ap-articles@@if (context.mod) { ap-articles--@@mod} pb-5" id="@@id" aria-labelledby="@@id-title">
+  <div class="container px-3 px-sm-4 d-flex flex-column gap-4">
+    <h2 class="ap-articles__title ap-heading__title" id="@@id-title">@@title</h2>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2 gx-xl-3 gy-xl-4">
+      @@loop('ui/article-card/article-card.html', 'data/@@data.json')
+    </div>
+  </div>
+</section>

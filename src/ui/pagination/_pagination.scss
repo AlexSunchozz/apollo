@@ -1,0 +1,50 @@
+// =============================================================================
+// UI: постраничная навигация — Figma «Блог» (десктоп 1:5678, мобилка 1:5989)
+// Номера страниц и «>» (следующая), «>>» (последняя) через 16, фирменный цвет;
+// < 576 — «Текст/14 в одну строку», с 576 — «Текст/16».
+//   include 'ui/pagination/pagination.html' без параметров — пустой <nav data-pagination hidden>;
+//   кнопки рисует ui/pagination/pagination.js (initPagination), страницы считает секция-владелец.
+// Открытая страница (aria-current) — подчёркнута (в макете визуально не выделена);
+// неактивные «>», «>>» (на последней странице) — бледные. Ховер — прозрачность, как у ссылок сайта.
+// =============================================================================
+
+.ap-pagination {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: $c-main;
+    @include text('text-14');
+    cursor: pointer;
+    transition: opacity $transition;
+
+    @include media-breakpoint-up(sm) {
+      @include text('text-16');
+    }
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &[aria-current] {
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    &:disabled {
+      opacity: .4;
+      cursor: default;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+}

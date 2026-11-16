@@ -1,0 +1,36 @@
+@@include('layout/head.html', {
+  "title": "Какие ножи нужны на&nbsp;домашней кухне&nbsp;— блог Apollo",
+  "description": "Какие ножи нужны на домашней кухне: поварской нож, нож для овощей и для хлеба, чем дополнить набор и как ухаживать за ножами."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "items": [{ "title": "Блог", "href": "/blog" }], "current": "Какие ножи нужны на&nbsp;домашней кухне" })
+  @@include('sections/article/article.html', {
+    "title": "Какие ножи нужны на&nbsp;домашней кухне",
+    "author": "Елена Власова, шеф-повар",
+    "authorImg": "articles/author-vlasova.webp",
+    "date": "12&nbsp;июня 2026",
+    "datetime": "2026-06-12",
+    "readTime": "2&nbsp;минуты",
+    "views": "789",
+    "data": "articles/kakie-nozhi-nuzhny-na-domashney-kukhne"
+  })
+  @@include('sections/products/products.html', {
+    "id": "picks",
+    "mod": "compact",
+    "title": "Подборка товаров",
+    "data": "articles/kakie-nozhi-nuzhny-na-domashney-kukhne-products",
+    "btnText": "Перейти в&nbsp;каталог&nbsp;→",
+    "btnHref": "/catalog"
+  })
+  @@include('sections/articles/articles.html', {
+    "id": "related",
+    "title": "Статьи по&nbsp;теме",
+    "data": "articles/kakie-nozhi-nuzhny-na-domashney-kukhne-related"
+  })
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

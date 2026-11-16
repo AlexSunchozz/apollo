@@ -1,0 +1,31 @@
+@@include('layout/head.html', {
+  "title": "Где купить — Apollo",
+  "description": "Где купить посуду и кухонные товары Apollo: Wildberries, Ozon, Яндекс Маркет, Lamoda и интернет-магазин Apollo."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Где купить" })
+  @@include('sections/markets/markets.html', {
+    "id": "markets",
+    "mod": "intro",
+    "h1": true,
+    "compact": true,
+    "title": "Где купить Apollo",
+    "text": "Выбирайте посуду и&nbsp;кухонные товары Apollo там, где удобно.<br class=\"d-none d-lg-inline\"> Мы&nbsp;представлены на&nbsp;популярных маркетплейсах.",
+    "label": "Знакомые площадки.<br>Удобный способ покупки.",
+    "note": "Ассортимент, цены и&nbsp;условия доставки могут отличаться.<br class=\"d-none d-lg-inline\"> Актуальная информация доступна на&nbsp;выбранной площадке."
+  })
+  @@include('sections/statement/statement.html', {
+    "id": "shop",
+    "eyebrow": "Интернет-магазин Apollo",
+    "title": "Покупайте и&nbsp;на&nbsp;нашем сайте",
+    "text": "<p>Изучите коллекции, сравните характеристики и&nbsp;выберите товары для&nbsp;своей кухни в&nbsp;каталоге Apollo.</p>",
+    "btnText": "Перейти в&nbsp;каталог&nbsp;→",
+    "btnHref": "/catalog"
+  })
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

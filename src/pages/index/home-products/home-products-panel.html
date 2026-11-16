@@ -1,0 +1,5 @@
+<div class="ap-home-products__panel" role="tabpanel" id="@@panel" aria-labelledby="@@tab" tabindex="0"@@if (!context.selected) { hidden}>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-2 g-xl-3">
+    @@loop('ui/product-card/product-card.html', 'data/products.json')
+  </div>
+</div>

@@ -1,0 +1,24 @@
+[
+  {
+    "mod": "compact",
+    "link": true,
+    "badge": "Хранение",
+    "title": "Grano",
+    "text": "Банки для&nbsp;хранения с&nbsp;герметичным затвором из&nbsp;высокотехнологичных материалов, которые выдерживают интенсивное ежедневное использование&nbsp;— дома или&nbsp;на&nbsp;профессиональной кухне.",
+    "btnText": "Смотреть серию Grano&nbsp;→",
+    "href": "#",
+    "img": "apollo-premier/series-1.webp",
+    "imgMobile": "apollo-premier/series-1-mobile.webp"
+  },
+  {
+    "mod": "compact",
+    "link": true,
+    "badge": "Ножи",
+    "title": "Steel Pro",
+    "text": "Ножи профессионального класса&nbsp;— острота и&nbsp;баланс для&nbsp;интенсивной ежедневной готовки, дома или&nbsp;на&nbsp;кухне ресторана.",
+    "btnText": "Смотреть серию Steel Pro&nbsp;→",
+    "href": "#",
+    "img": "apollo-premier/series-2.webp",
+    "imgMobile": "apollo-premier/series-2-mobile.webp"
+  }
+]

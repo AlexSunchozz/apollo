@@ -1,0 +1,45 @@
+// =============================================================================
+// Преимущества на фирменном фоне (sections/features) — общая секция — Figma «APOLLO» 1:4684 / 1:5089
+//
+// Подключение на любой странице (карточки — свои для каждой страницы, в своём JSON):
+//   @@include('sections/features/features.html', { "id": "reasons", "eyebrow": "Почему выбирают APOLLO",
+//     "title": "Три причины взять базовую линейку", "data": "apollo-features" })
+// Шапка — классы общего компонента ui/heading (--aside, --on-dark); карточки — ui/feature-card.
+// =============================================================================
+
+.ap-features {
+  background: $c-main;
+
+  // Надпись здесь белая «Текст/16» (в ui/heading --on-dark она серая 14)
+  &__eyebrow {
+    color: $c-white;
+    @include text('text-16');
+  }
+
+  &__title {
+    max-width: 472px;
+
+    &--wide {
+      max-width: 742px;
+    }
+
+    @include media-breakpoint-down(lg) {
+      max-width: 100%;
+    }
+  }
+
+  // Без отступов: рамки соседних карточек сливаются (см. ui/feature-card)
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — py-5 ------------------------------------
+.ap-features {
+  @include desktop(padding-block, 100px);
+}

@@ -1,0 +1,19 @@
+<!--
+  Заголовок + промо-карточки по 2 в ряд — общая секция
+  Figma:  «APOLLO» — «Bonito и Ribb — основа линейки» 1:4711 / 1:5116
+  Параметры: id, title, text, eyebrow (необязательно, справа от заголовка с 992), wide: true — заголовок шире (640 вместо 454), data — имя JSON-файла с карточками
+  в data/ без .json (поля ui/promo-card; для вида как в макете — "mod": "compact", "link": true).
+  Отступ только сверху (снизу его даёт следующий блок). < 768 — карточки столбиком, дальше по 2 в ряд.
+-->
+<section class="ap-section ap-promo-grid pt-5" id="@@id" aria-labelledby="@@id-title">
+  <div class="container px-3 px-sm-4 d-flex flex-column gap-4">
+    <div class="ap-heading ap-heading--aside ap-heading--lead gap-3">
+      @@if (context.eyebrow) {<p class="ap-heading__eyebrow">@@eyebrow</p>}
+      <h2 class="ap-heading__title ap-promo-grid__title@@if (context.wide) { ap-promo-grid__title--wide}" id="@@id-title">@@title</h2>
+      @@if (context.text) {<p class="ap-heading__text ap-promo-grid__text">@@text</p>}
+    </div>
+    <div class="ap-promo-grid__grid">
+      @@loop('ui/promo-card/promo-card.html', 'data/@@data.json')
+    </div>
+  </div>
+</section>

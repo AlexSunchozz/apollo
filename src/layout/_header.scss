@@ -1,0 +1,285 @@
+// =============================================================================
+// Шапка сайта (layout/header.html) — Figma 2:17914, фиксированная 2:17826, мобилка 1:6710
+//
+//   .ap-header               место шапки в потоке (при .is-sticky держит высоту — контент не прыгает)
+//   .ap-header__panel        белая панель; в .is-sticky (≥ 1200) — fixed сверху, без навигации
+//   .ap-header__bar          строка 40px: логотип + «Меню» | поиск | иконки
+//   .ap-header__nav          навигация каталога с линией снизу (≥ 1200, скрыта в .is-sticky)
+//   .is-menu-open            меню каталога открыто: у «Меню» иконка-крестик (layout/header.js)
+//
+// Раскладка, видимость по ширинам и отступы из шкалы (16, 24, 8) — классами Bootstrap в разметке.
+// Здесь — значения вне шкалы (10, 32, поля поиска), оформление и состояния.
+// =============================================================================
+
+.ap-header {
+  position: relative;
+  z-index: $header-z;
+
+  a {
+    text-decoration: none; // подчёркивание ссылок из Reboot — в макете его нет
+  }
+
+  &__panel {
+    background: $c-bg;
+  }
+
+  &__bar {
+    column-gap: 24px; // только когда поиск сужается (768–1439): на 1440 зазоры получаются сами
+  }
+
+  &__start {
+    flex-shrink: 0;
+    gap: 32px;
+  }
+
+  // Логотип: мобилка 80 × 13.94, с 768 — 120 × 21.29 (Figma)
+  &__logo {
+    display: block;
+    flex-shrink: 0;
+
+    img {
+      display: block;
+      width: 80px;
+      height: auto;
+    }
+  }
+
+  // «Меню»: иконка 24 + текст «Навигация/18», зазор 10; открыто — крестик вместо бургера
+  &__menu-btn {
+    gap: 10px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    @include text('nav-18');
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity $transition;
+
+    // Курсор-рука и на иконке, и на слове «Меню»
+    .ap-icon,
+    span {
+      cursor: pointer;
+    }
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover {
+      opacity: .7;
+    }
+  }
+
+  &__menu-close,
+  &.is-menu-open &__menu-open {
+    display: none;
+  }
+
+  &.is-menu-open &__menu-close {
+    display: inline-block;
+  }
+
+  // --- Поиск: рамка 1px, поля 3 / 5 / 3 / 16, кнопка 32 с иконкой 20 -----------------------
+  &__search {
+    flex: 0 1 $header-search-max;
+    min-width: 0;
+    padding: 3px 5px 3px 16px;
+    border: 1px solid $c-border;
+    background: $c-bg;
+    transition: border-color $transition;
+
+    &:focus-within {
+      border-color: $c-main;
+    }
+  }
+
+  &__search-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: $c-text;
+    @include text('text-14');
+    text-overflow: ellipsis; // на 768–1023 плейсхолдер не помещается целиком — многоточие вместо обрезки
+
+    &::placeholder {
+      color: $c-text-secondary;
+      opacity: 1;
+    }
+
+    // Крестик очистки у type="search" в WebKit — в макете его нет
+    &::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+    }
+  }
+
+  &__search-btn {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    cursor: pointer;
+    transition: opacity $transition;
+
+    .ap-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      opacity: .7;
+    }
+  }
+
+  // Очистить поиск (Figma 43:18464): крестик 14 в зоне 32, слева от лупы; виден, когда в поле есть текст
+  &__search-clear {
+    margin-right: -16px; // вплотную к лупе (у формы зазор 16 между полем и кнопками)
+
+    &:not([hidden]) {
+      display: flex;
+    }
+
+    .ap-icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  // --- Иконки: сравнение (28), избранное, кабинет, корзина (24); зазор 10 ------------------
+  &__actions {
+    flex-shrink: 0;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__action {
+    position: relative;
+    display: block;
+    color: $c-main;
+    transition: opacity $transition;
+
+    &:hover {
+      color: $c-main;
+      opacity: .7;
+    }
+
+    .ap-icon {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+
+    // Сравнение — иконка 28 × 28
+    &--wide .ap-icon {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  // Счётчик (ui/counter) над правым верхним углом иконки
+  &__count {
+    top: -5px;
+    right: -4px;
+  }
+
+  &__action--wide &__count {
+    top: -4px;
+  }
+
+  // --- Навигация: 14px, серый; снизу линия 1px на ширину контента --------------------------
+  &__nav {
+    border-bottom: 1px solid $c-border;
+  }
+
+  &__menu {
+    margin: 0;
+    list-style: none;
+  }
+
+  &__menu-link {
+    display: block;
+    color: $c-text-secondary;
+    @include text('text-14');
+    white-space: nowrap;
+    transition: color $transition;
+
+    &:hover,
+    &.is-active {
+      color: $c-main;
+    }
+  }
+
+  :is(&__menu-btn, &__search-btn, &__action, &__menu-link, &__logo):focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 2px;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__logo img {
+      width: 120px;
+    }
+
+    &__bar {
+      height: $header-bar-height;
+    }
+  }
+
+  // --- Фиксированная шапка (Figma 2:17826): ≥ 1200, после 200px прокрутки (класс от layout/header.js) ---
+  // Панель становится fixed с полями 16 / 16, навигация скрыта; .ap-header держит исходную высоту (JS).
+  @include media-breakpoint-up(xl) {
+    &.is-sticky &__panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      padding-bottom: 16px !important; // перебивает pb-xl-0
+      animation: ap-header-in .25s ease-out;
+    }
+
+    &.is-sticky &__nav {
+      display: none !important; // перебивает d-xl-block
+    }
+  }
+}
+
+// --- Шапка поверх первого экрана (главная, < 768; Figma 2:18373) ---------------------------
+// Параметр overlay при подключении шапки: прозрачная, лежит поверх фото, логотип белый.
+@include media-breakpoint-down(md) {
+  .ap-header--overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    // Ниже 320 страница держит ширину 320 (min-width у body), а absolute-шапка считала бы ширину
+    // от экрана (300, 280…) — логотип уезжал бы влево от центра страницы
+    min-width: 320PX;
+
+    .ap-header__panel {
+      background: transparent;
+    }
+
+    .ap-header__logo img {
+      filter: brightness(0) invert(1); // фирменный логотип → белый, без отдельного файла
+    }
+  }
+}
+
+@keyframes ap-header-in {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-header__panel { animation: none !important; }
+}

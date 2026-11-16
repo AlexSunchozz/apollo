@@ -1,0 +1,54 @@
+// =============================================================================
+// UI: соцсети (ВКонтакте, Telegram, Facebook, Instagram) — одна разметка для всего сайта
+// Figma: подвал 17:18359 / 17:18624, контакты 1:6166 / 1:6242. Иконки 24 через 16, фирменный цвет.
+//
+//   .ap-socials           иконки 24 через 16
+//   .ap-socials--touch    < 768 — зоны нажатия 40 × 40 вплотную (подвал на мобилке), ≥ 768 — как обычно
+//
+// Разметка (ui/socials/socials.html): @@include('ui/socials/socials.html', { "mod": "touch" })
+// Ссылки — заглушки (data-stub): адреса страниц в соцсетях подставляет интегратор в одном месте.
+// =============================================================================
+
+.ap-socials {
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: $c-main;
+    transition: opacity $transition;
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  &--touch {
+    @include media-breakpoint-down(md) {
+      gap: 0;
+    }
+  }
+
+  &--touch &__link {
+    @include media-breakpoint-down(md) {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}

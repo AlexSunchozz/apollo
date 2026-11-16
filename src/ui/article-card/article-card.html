@@ -1,0 +1,15 @@
+<article class="ap-article-card d-flex flex-column">
+  <a class="ap-article-card__link flex-grow-1 d-flex flex-column" href="@@href"@@if (context.stub) { data-stub}>
+    <img class="ap-article-card__img" src="@@root/img/@@img" width="832" height="800" alt="" loading="lazy">
+    <div class="ap-article-card__body flex-grow-1 d-flex flex-column gap-3 p-3">
+      <div class="d-flex flex-wrap align-items-center justify-content-between column-gap-3 row-gap-1">
+        <time class="ap-article-card__date" datetime="@@datetime">@@date</time>
+        <span class="ap-article-card__views d-flex align-items-baseline gap-1"><span class="visually-hidden">Просмотров:</span>@@views<svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#eye"></use></svg></span>
+      </div>
+      <div class="d-flex align-items-end justify-content-between gap-3">
+        <h3 class="ap-article-card__title">@@title</h3>
+        <span class="ap-article-card__arrow d-flex align-items-center justify-content-center" aria-hidden="true"><svg class="ap-icon"><use href="@@root/img/sprite.svg#arrow-right"></use></svg></span>
+      </div>
+    </div>
+  </a>
+</article>

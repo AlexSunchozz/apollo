@@ -1,0 +1,101 @@
+// =============================================================================
+// UI: отзыв о товаре — Figma карточка товара 43:18229 (мобилка 1:4485)
+//   loop 'ui/review/review.html' по JSON: letter (буква в аватаре), name, verified (покупка подтверждена),
+//   date, datetime, rating (1–5), text, photos (необязательно — пути от img/, по 2 в ряд, 186 в высоту / мобилка 144)
+//   Звёзды — разметка ui/rating (.ap-stars) прямо в партиале: вложенный include с переменными цикла ненадёжен.
+//   аватар 48 (мобилка 32) с рамкой, буква «Цена/22»; имя 16 фирменный; «Покупка подтверждена» и дата — 12 вторичный;
+//   текст «Текст/14 вторичный»; под отзывом — линия и поле 16 (у последнего в списке — нет)
+// =============================================================================
+
+.ap-review {
+  padding-bottom: 16px;
+  border-bottom: 1px solid $c-border;
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  &__avatar {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border: 1px solid $c-border;
+    color: $c-main;
+    @include text('price-22');
+
+    @include media-breakpoint-up(md) {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  // Шапка: < 768 — «имя … дата» и под ними «Покупка подтверждена» (1:4485); ≥ 768 — всё в строку, дата справа
+  &__head {
+    display: grid;
+    grid-template-areas:
+      'name date'
+      'verified verified';
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px 16px;
+
+    @include media-breakpoint-up(md) {
+      grid-template-areas: 'name verified date';
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 8px 32px;
+    }
+  }
+
+  &__name {
+    grid-area: name;
+    margin: 0;
+    color: $c-main;
+    @include text('text-16');
+    letter-spacing: 0;
+  }
+
+  &__verified {
+    grid-area: verified;
+  }
+
+  &__date {
+    grid-area: date;
+  }
+
+  &__verified,
+  &__date {
+    color: $c-text-secondary;
+    @include text('caption-12');
+    white-space: nowrap; // короткие служебные строки
+  }
+
+  &__verified .ap-icon {
+    width: 12px;
+    height: 12px;
+    color: $c-main;
+  }
+
+  &__text {
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  &__photo {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 144px;
+    object-fit: cover;
+    background: $c-surface;
+
+    @include media-breakpoint-up(md) {
+      height: 186px;
+    }
+  }
+}

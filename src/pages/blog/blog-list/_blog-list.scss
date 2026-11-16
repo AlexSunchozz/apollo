@@ -1,0 +1,34 @@
+// =============================================================================
+// «Блог» — список статей (pages/blog/blog-list) — Figma: десктоп 1:5573, мобилка 35:18187
+// Раскладка и отступы из шкалы — классами; здесь — десктопные отступы вне шкалы (32 сверху, 100 снизу).
+// Заголовок — классы ui/heading (ap-heading__title--page-compact: мобилка 28), рубрики — ui/line-tabs,
+// карточки — ui/article-card, страницы — ui/pagination.
+// =============================================================================
+
+.ap-blog-list {
+  &__title {
+    margin: 0;
+  }
+
+  // При смене страницы список прокручивается к рубрикам: с 1200 — под фиксированной шапкой (72)
+  &__tabs {
+    scroll-margin-top: 16px;
+
+    @include media-breakpoint-up(xl) {
+      scroll-margin-top: 88px;
+    }
+  }
+
+  &__panel:focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 4px;
+  }
+
+  // Статьи на других страницах (blog-list.js ставит hidden): у карточки d-flex с !important — перебиваем
+  [data-articles-list] > [hidden] {
+    display: none !important;
+  }
+
+  @include desktop(padding-top, 32px);
+  @include desktop(padding-bottom, 100px);
+}

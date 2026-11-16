@@ -1,0 +1,58 @@
+// =============================================================================
+// Карточка товара — «О товаре» и «Характеристики» (sections/product-details) — Figma: 43:18205, мобилка 1:3978
+// Табы — ui/line-tabs (ссылки-якоря), карточки справа — ui/feature-card (fill), характеристики — ui/specs --lined.
+//
+//   __about    < 992 — колонкой (зазор 24); ≥ 992 — текст до 524 слева, карточки 632 справа; снизу линия, поле 32
+//   заголовки разделов — «Цена/22» (мобилка 18); при переходе по якорю — отступ сверху (≥ 1200 — под шапкой 72)
+// =============================================================================
+
+.ap-product-details {
+  p {
+    margin: 0;
+  }
+
+  &__about {
+    display: grid;
+    gap: 24px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid $c-border;
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: minmax(0, 524px) minmax(0, 632px);
+      justify-content: space-between;
+      align-items: start;
+      gap: 32px;
+    }
+  }
+
+  &__text {
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0;
+    color: $c-main;
+    @include text('title-22');
+  }
+
+  &__paragraphs {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  [id] {
+    scroll-margin-top: 16px;
+
+    @include media-breakpoint-up(xl) {
+      scroll-margin-top: 88px;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в product-details.html ----------
+.ap-product-details {
+  @include desktop(padding-bottom, 100px);
+
+  &__inner { @include desktop(gap, 32px); }
+  &__specs { @include desktop(margin-top, 16px); } // линия «О товаре» → «Характеристики» — 48 (32 + 16)
+}

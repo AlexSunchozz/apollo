@@ -1,0 +1,52 @@
+// =============================================================================
+// Утилиты Bootstrap: оставляем только то, что нужно для адаптива раскладки.
+// Внешний вид (цвета, шрифты, рамки, тени) — в BEM-стилях компонентов, не классами.
+//
+// Доступны (все с адаптивными версиями -sm/-md/-lg/-xl/-xxl):
+//   d-*                         display
+//   flex-*, justify-content-*, align-items-*, align-content-*, align-self-*, order-*
+//   m-*, mx-*, my-*, mt-* …     margin  (стандартная шкала Bootstrap: 0, 1=4, 2=8, 3=16, 4=24, 5=48px)
+//   p-*, px-*, py-*, pt-* …     padding
+//   gap-*, row-gap-*, column-gap-*, g-* (отступы сетки row/col)
+//   text-start / text-center / text-end
+//
+// ПРАВИЛО РАСКЛАДКИ (все секции и шапка):
+//   Флекс-раскладка и её адаптив — классами в разметке, mobile-first:
+//     display, направление, перенос, align-*/justify-*, order, flex-shrink-0, mt-auto, сетка row/col-*.
+//     <div class="ap-x__inner d-flex flex-column flex-xl-row align-items-xl-start">
+//   ОТСТУПЫ (gap, margin, padding):
+//     адаптив (< 1200) — классами Bootstrap, стандартная шкала 0/1/2/3/4/5 = 0/4/8/16/24/48px,
+//       только без префикса, -sm-, -md-, -lg- (gap-3 gap-sm-4 p-3 mt-md-5); значения макета округляются до шкалы;
+//     десктоп (≥ 1200) — значения макета в CSS секции: @include desktop(gap, $sp-30) (с !important — перебивает классы).
+//     Классами -xl- / -xxl- отступы не задаём.
+//     Исключения (в CSS на всех ширинах): поля шапки (зависят от .is-sticky), верх первого экрана (место под шапку),
+//     декоративные бейджи, выравнивание по размеру соседнего элемента, отрицательные наезды.
+//   В SCSS секции также — то, что классами не выразить:
+//     flex-basis и ширины, grid-template-*, aspect-ratio, display: contents, gap вне шкалы (41, 23…),
+//     диапазоны не по брейкпоинтам Bootstrap (1440, 1280), display у элементов с [hidden]
+//     (d-flex с !important перебил бы hidden).
+//   Одно свойство одного элемента — в одном месте: утилиты с !important, SCSS их не перебьёт.
+//   Внутреннее устройство атомарных UI (кнопка, таб, бургер, иконка в квадрате) — в их SCSS.
+//
+// Нужна ещё утилита — добавьте её ключ в список (ключи: bootstrap/scss/_utilities.scss).
+// =============================================================================
+
+$utilities-keep: (
+  'display',
+  'flex', 'flex-direction', 'flex-grow', 'flex-shrink', 'flex-wrap',
+  'justify-content', 'align-items', 'align-content', 'align-self', 'order',
+  'margin', 'margin-x', 'margin-y', 'margin-top', 'margin-end', 'margin-bottom', 'margin-start',
+  'padding', 'padding-x', 'padding-y', 'padding-top', 'padding-end', 'padding-bottom', 'padding-start',
+  'gap', 'row-gap', 'column-gap',
+  'text-align',
+);
+
+$_kept: ();
+
+@each $key, $utility in $utilities {
+  @if index($utilities-keep, $key) {
+    $_kept: map-merge($_kept, ($key: $utility));
+  }
+}
+
+$utilities: $_kept;

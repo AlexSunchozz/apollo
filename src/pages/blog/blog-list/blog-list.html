@@ -1,0 +1,20 @@
+<!--
+  «Блог» — первый блок (сразу под ui/breadcrumbs): заголовок страницы, рубрики-табы, статьи, страницы и «Показать еще»
+  Figma:  десктоп 1:5573, мобилка 35:18187
+  Рубрики — ui/line-tabs (data/blog-tabs.json): каждая открывает свою панель (blog-list-panel.html) — пока в панелях
+  одинаковые копии статей (data/blog-articles.json), карточки — ui/article-card.
+  В панели — по 6 статей на страницу (data-articles="6"): ui/pagination переключает страницы, «Показать еще» добавляет
+  следующую страницу к открытым (blog-list.js). Без JS видны все статьи, страниц и кнопки нет.
+  Сетка: < 576 — 1 в ряд (зазор 8), 576–991 — 2, ≥ 992 — 3; ≥ 1200 — 16 между карточками, 24 между рядами.
+-->
+<section class="ap-section ap-blog-list pt-4 pb-5" aria-labelledby="blog-title">
+  <div class="container px-3 px-sm-4 d-flex flex-column gap-3 gap-xl-4">
+    <h1 class="ap-blog-list__title ap-heading__title ap-heading__title--page-compact" id="blog-title">Блог</h1>
+
+    @@include('ui/line-tabs/line-tabs.html', { "label": "Рубрики блога", "data": "blog-tabs", "class": "ap-blog-list__tabs" })
+
+    <div class="ap-blog-list__panels">
+      @@loop('pages/blog/blog-list/blog-list-panel.html', 'data/blog-tabs.json')
+    </div>
+  </div>
+</section>

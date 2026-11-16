@@ -1,0 +1,69 @@
+// =============================================================================
+// UI: переключатель вида списка карточек — «Плотная сетка / Крупная сетка / Список»
+// Figma: каталог 1:1676 (мобилка 1:2639), категория 1:2144 (мобилка 1:3106). Общий для всех страниц с карточками.
+//
+//   include 'ui/view-switch/view-switch.html' с параметрами { "target": "#category-grid", "large": true }
+//     target — CSS-селектор сеток, которые переключаются (можно несколько: "[data-catalog-grid]");
+//     large: true — третья кнопка «Крупная сетка» (без неё — «сетка» и «список»).
+//   Сетка описывает свои виды атрибутами (переключает ui/view-switch/view-switch.js):
+//     data-view-grid="row-cols-1 row-cols-lg-2"   классы колонок вида (Bootstrap row-cols-*)
+//     data-view-list="row-cols-1"
+//     data-view-list-item="ap-product-card--row"  необязательно — классы карточек (детей сетки) в этом виде
+//   Вид карточки — модификатором самого компонента (ui/product-card: --large, --row); ui/catalog-card
+//   подстраивается сам по своей ширине и классов не требует.
+//
+//   кнопки 40 (≥ 768 — 48) вплотную; выбранная — фирменная заливка и белая иконка;
+//   невыбранная — белая с рамкой, иконка светло-серая (ховер — фирменная)
+// =============================================================================
+
+.ap-view-switch {
+  flex-shrink: 0;
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid $c-border;
+    background: $c-white;
+    color: $c-border;
+    cursor: pointer;
+    transition:
+      background-color $transition,
+      border-color $transition,
+      color $transition;
+
+    @include media-breakpoint-up(md) {
+      width: 48px;
+      height: 48px;
+    }
+
+    & + & {
+      margin-left: -1px;
+    }
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover {
+      color: $c-main;
+    }
+
+    &[aria-pressed='true'] {
+      position: relative;
+      border-color: $c-main;
+      background: $c-main;
+      color: $c-white;
+    }
+
+    &:focus-visible {
+      position: relative;
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+}

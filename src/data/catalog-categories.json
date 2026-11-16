@@ -1,0 +1,101 @@
+[
+  {
+    "href": "/catalog/nozhi",
+    "img": "catalog/knives.webp",
+    "title": "Ножи",
+    "count": "142&nbsp;товара",
+    "text": "Поварские, для&nbsp;хлеба, для&nbsp;овощей&nbsp;— по&nbsp;стали и&nbsp;рукояти для&nbsp;любой техники нарезки.",
+    "filters": "Серия, назначение, материал рукояти, материал лезвия",
+    "linkText": "Смотреть все ножи&nbsp;→",
+    "chips": [
+      {
+        "title": "Наборы ножей",
+        "href": "#"
+      },
+      {
+        "title": "Аксессуары к&nbsp;ножам",
+        "href": "#"
+      }
+    ]
+  },
+  {
+    "href": "#",
+    "stub": true,
+    "img": "catalog/cutlery.webp",
+    "title": "Столовые приборы",
+    "count": "96&nbsp;товаров",
+    "text": "Наборы на&nbsp;каждый день и&nbsp;отдельная линейка детских наборов.",
+    "filters": "Серия, навеска",
+    "linkText": "Смотреть все приборы&nbsp;→",
+    "chips": [
+      {
+        "title": "Наборы",
+        "href": "#"
+      },
+      {
+        "title": "Детские наборы",
+        "href": "#"
+      }
+    ]
+  },
+  {
+    "href": "#",
+    "stub": true,
+    "img": "catalog/kettles.webp",
+    "title": "Чайники",
+    "count": "58&nbsp;товаров",
+    "text": "По&nbsp;объему и&nbsp;назначению&nbsp;— для&nbsp;плиты, индукции и&nbsp;заваривания чая.",
+    "filters": "Серия, назначение, объём",
+    "linkText": "Смотреть все чайники&nbsp;→"
+  },
+  {
+    "href": "#",
+    "stub": true,
+    "img": "catalog/tools.webp",
+    "title": "Кухонные инструменты",
+    "count": "210&nbsp;товаров",
+    "text": "Лопатки, щипцы, половники&nbsp;— силикон и&nbsp;нержавеющая сталь для&nbsp;любой сковороды.",
+    "filters": "Серия, назначение",
+    "linkText": "Смотреть всю утварь&nbsp;→"
+  },
+  {
+    "href": "#",
+    "stub": true,
+    "img": "catalog/accessories.webp",
+    "title": "Аксессуары",
+    "count": "77&nbsp;товаров",
+    "text": "Кисти, прихватки, разделочные доски и&nbsp;мелочи, без&nbsp;которых не&nbsp;обходится кухня.",
+    "filters": "Серия, назначение",
+    "linkText": "Смотреть все аксессуары&nbsp;→"
+  },
+  {
+    "href": "#",
+    "stub": true,
+    "img": "catalog/tableware.webp",
+    "title": "Столовая посуда",
+    "count": "318&nbsp;товаров",
+    "text": "Салатники, пиалы и&nbsp;банки для&nbsp;хранения&nbsp;— керамика и&nbsp;фарфор трёх линеек Apollo.",
+    "filters": "Серия, назначение, материал",
+    "linkText": "Смотреть всю посуду&nbsp;→"
+  },
+  {
+    "href": "#",
+    "stub": true,
+    "img": "catalog/bakeware.webp",
+    "title": "Посуда для&nbsp;приготовления",
+    "count": "64&nbsp;товара",
+    "text": "Формы и&nbsp;противни для&nbsp;духовки&nbsp;— от&nbsp;кексов до&nbsp;хлеба.",
+    "filters": "Серия, назначение",
+    "linkText": "Смотреть всю посуду&nbsp;→"
+  },
+  {
+    "href": "#",
+    "stub": true,
+    "img": "catalog/aroma.webp",
+    "title": "Ароматика для&nbsp;дома",
+    "count": "45&nbsp;товаров",
+    "text": "Диффузоры, аромасвечи и&nbsp;саше&nbsp;— натуральные эфирные масла и&nbsp;парфюмерия для&nbsp;дома.",
+    "filters": "Серия, назначение",
+    "linkText": "Смотреть всю ароматику&nbsp;→"
+  }
+]

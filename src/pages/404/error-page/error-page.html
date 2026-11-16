@@ -1,0 +1,25 @@
+<!--
+  Страница 404: «4 [разбитая тарелка] 4», заголовок, текст, кнопки «Перейти в каталог» и «На главную»
+  Figma:  десктоп 33:18186, мобилка 1:6953
+  Тарелка — img/404/broken-plate.webp (950 × 950, белый фон, как у страницы), цифры поверх по краям.
+  Размеры: < 768 — цифры 160, тарелка 178 (макет 375); 768–991 — 220 / 330; ≥ 992 — 300 / 475 (макет 1440).
+-->
+<section class="ap-section ap-error-page" aria-labelledby="error-title">
+  <div class="container px-3 px-sm-4 d-flex flex-column align-items-center gap-3 gap-lg-5">
+    <div class="d-flex flex-column align-items-center align-self-stretch">
+      <div class="ap-error-page__visual d-flex justify-content-between align-items-start" aria-hidden="true">
+        <img class="ap-error-page__plate" src="@@root/img/404/broken-plate.webp" width="950" height="950" alt="">
+        <span class="ap-error-page__digit">4</span>
+        <span class="ap-error-page__digit">4</span>
+      </div>
+      <div class="ap-heading ap-error-page__heading align-items-center text-center gap-3">
+        <h1 class="ap-heading__title" id="error-title"><span class="visually-hidden">Ошибка 404. </span>Кажется, что-то разбилось…</h1>
+        <p class="ap-heading__text">Страница не&nbsp;найдена или&nbsp;в&nbsp;ссылке есть ошибка.<br>Загляните в&nbsp;каталог&nbsp;— там есть чем наполнить кухню</p>
+      </div>
+    </div>
+    <div class="ap-error-page__actions d-flex justify-content-center gap-1 gap-lg-2">
+      <a class="ap-btn ap-btn--primary" href="/catalog">Перейти в&nbsp;каталог&nbsp;→</a>
+      <a class="ap-btn ap-btn--outline" href="/">На&nbsp;главную&nbsp;→</a>
+    </div>
+  </div>
+</section>

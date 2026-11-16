@@ -1,0 +1,93 @@
+<!--
+  Карточка товара — «Доставка и оплата» и «Отзывы о товаре». Общая секция-шаблон.
+  Figma:  десктоп 43:18206 (доставка 1:2370, нет отзывов 1:2388, есть отзывы 43:18207), мобилка 1:3978 / 1:4485
+  Параметры: delivery — JSON карточек доставки (ui/feature-card, вид light), name — короткое название товара
+  («Поделитесь впечатлениями о Swift»), emptyText — подпись в пустом блоке; есть отзывы — reviews: true и
+  reviewsData — JSON отзывов (ui/review), photos — JSON фото покупателей [{ "img" }], rating ("4.8"), ratingLabel ("4,8"),
+  ratingCount («На основе 12 отзывов»), bars — JSON полос [{ "stars", "count", "percent" }].
+  Без reviews: true выводится только приглашение оставить отзыв — блок отзывов, фото и оценка не показываются.
+  «Оставить отзыв»: не вошёл — окно «Войдите, чтобы оставить отзыв» (#review-login-modal), вошёл — форма (#review-modal);
+  признак — data-authorized="true" у секции (ставит сервер), sections/product-reviews/product-reviews.js.
+  Отзывы — по 3 с «Показать еще отзывы» (механизм sections/products: data-products, products.js); «С фото» —
+  только отзывы с фото; сортировка — событие ap:sort-change (подключает интегратор).
+-->
+<section class="ap-section ap-product-reviews py-5" aria-label="Доставка и отзывы" data-product-reviews data-authorized="false">
+  <div class="container px-3 px-sm-4 ap-product-reviews__inner d-flex flex-column gap-5">
+    <div class="d-flex flex-column gap-3" id="product-delivery">
+      <h2 class="ap-product-reviews__title">Доставка и&nbsp;оплата</h2>
+      <div class="ap-product-reviews__delivery">
+        @@loop('ui/feature-card/feature-card.html', 'data/@@delivery.json')
+      </div>
+    </div>
+
+    @@if (!context.reviews) {<div class="ap-product-reviews__empty d-flex flex-column gap-3" id="product-reviews">
+      <h2 class="ap-product-reviews__title">Отзывы о&nbsp;товаре</h2>
+      <div class="ap-product-reviews__invite">
+        <div class="d-flex flex-column gap-2">
+          <p class="ap-product-reviews__lead">Поделитесь впечатлениями о&nbsp;@@name</p>
+          <p class="ap-product-reviews__note">@@emptyText</p>
+        </div>
+        <button class="ap-btn ap-btn--primary" type="button" data-review-open>Оставить отзыв&nbsp;→</button>
+      </div>
+    </div>}
+
+    @@if (context.reviews) {<div class="ap-product-reviews__reviews" id="product-reviews">
+      <div class="ap-product-reviews__main d-flex flex-column gap-4">
+        <h2 class="ap-product-reviews__title ap-product-reviews__title--main">Отзывы о&nbsp;товаре</h2>
+
+        <div class="ap-product-reviews__photos-block d-flex flex-column gap-3">
+          <p class="ap-product-reviews__lead">Фото покупателей</p>
+          <div class="ap-product-reviews__photos d-flex gap-2 gap-md-3">
+            @@loop('sections/product-reviews/product-reviews-photo.html', 'data/@@photos.json')
+          </div>
+        </div>
+
+        <div class="d-flex flex-column gap-4" data-products="3">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div class="d-flex flex-wrap align-items-center column-gap-3 row-gap-2">
+              <span class="ap-product-reviews__lead">Все отзывы</span>
+              <label class="ap-check ap-check--lg"><input type="checkbox" data-reviews-photo><span>С&nbsp;фото</span></label>
+            </div>
+            <div class="ap-select ap-select--plain" data-select data-reviews-sort>
+              <button class="ap-select__toggle d-flex align-items-center gap-3" type="button" data-bs-toggle="collapse" data-bs-target="#reviews-sort-list" aria-expanded="false" aria-controls="reviews-sort-list" aria-label="Сортировка отзывов">
+                <span class="ap-select__value" data-select-value>Сначала новые</span>
+                <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#chevron-down"></use></svg>
+              </button>
+              <div class="ap-select__panel collapse" id="reviews-sort-list">
+                <div class="ap-select__list d-flex flex-column gap-2">
+                  <label class="ap-check"><input type="radio" name="reviews_sort" value="Сначала новые" checked><span>Сначала новые</span></label>
+                  <label class="ap-check"><input type="radio" name="reviews_sort" value="Сначала старые"><span>Сначала старые</span></label>
+                  <label class="ap-check"><input type="radio" name="reviews_sort" value="Сначала высокая оценка"><span>Сначала высокая оценка</span></label>
+                  <label class="ap-check"><input type="radio" name="reviews_sort" value="Сначала низкая оценка"><span>Сначала низкая оценка</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ap-product-reviews__list d-flex flex-column gap-4" data-products-list>
+            @@loop('ui/review/review.html', 'data/@@reviewsData.json')
+          </div>
+
+          <button class="ap-btn ap-btn--outline align-self-start" type="button" hidden data-products-more>Показать еще отзывы&nbsp;→</button>
+        </div>
+      </div>
+
+      <aside class="ap-product-reviews__summary d-flex flex-column gap-3 p-3 p-md-4" aria-label="Оценка товара">
+        <div class="d-flex flex-column gap-2">
+          <p class="ap-product-reviews__summary-title">Оценка товара</p>
+          <div class="d-flex flex-column gap-1">
+            <div class="d-flex align-items-center gap-2">
+              <span class="ap-product-reviews__score">@@ratingLabel</span>
+              <span class="ap-stars" style="--ap-stars: @@rating" role="img" aria-label="Оценка @@ratingLabel из 5"><span class="ap-stars__row" aria-hidden="true"><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg></span><span class="ap-stars__row ap-stars__row--on" aria-hidden="true"><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg><svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg></span></span>
+            </div>
+            <p class="ap-product-reviews__note">@@ratingCount</p>
+          </div>
+        </div>
+        <ul class="ap-product-reviews__bars d-flex flex-column gap-2">
+          @@loop('sections/product-reviews/product-reviews-bar.html', 'data/@@bars.json')
+        </ul>
+        <button class="ap-btn ap-btn--primary" type="button" data-review-open>Оставить отзыв&nbsp;→</button>
+      </aside>
+    </div>}
+  </div>
+</section>

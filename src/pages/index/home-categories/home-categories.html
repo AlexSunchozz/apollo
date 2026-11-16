@@ -1,0 +1,18 @@
+<!--
+  Подборки на главной: Хиты, Акции, Новинки, Идеи для подарков + «Все категории →»
+  Figma:  десктоп 5:18400, мобилка 5:18416
+  Карточки — общий компонент ui/tile (data/home-categories.json, img — путь от img/):
+  img — десктоп (616 × 800, по 4 в ряд), imgMobile — < 992 (600 × 716, по 2 в ряд; необязательно).
+  < 992 (мобилка, планшет) — по 2 в ряд, с 992 — по 4. Карточки переносятся на новые ряды (отступ 16) —
+  количество любое, последняя нечётная остаётся своей ширины.
+-->
+<section class="ap-section ap-home-categories pt-5" id="categories" aria-label="Подборки товаров">
+  <div class="container px-3 px-sm-4">
+    <div class="ap-home-categories__inner d-flex flex-column gap-3">
+      <div class="row row-cols-2 row-cols-lg-4 gx-2 gy-3 gx-md-3">
+        @@loop('ui/tile/tile.html', 'data/home-categories.json')
+      </div>
+      <a class="ap-link align-self-start" href="#" data-stub>Все категории&nbsp;→</a>
+    </div>
+  </div>
+</section>

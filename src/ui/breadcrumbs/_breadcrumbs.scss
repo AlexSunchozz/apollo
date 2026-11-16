@@ -1,0 +1,50 @@
+// =============================================================================
+// UI: навигационная цепочка «Главная / … / Страница» — общий компонент внутренних страниц
+// Figma 1:13013 (О компании), мобилка 1:13124. Текст 14, ссылки — вторичный цвет, текущая — фирменный;
+// разделитель «/» рисует CSS (после пункта — при переносе остаётся в конце строки). Свой контейнер и отступ сверху 24 — ставится первым в <main>, перед первой секцией.
+//
+// Разметка (ui/breadcrumbs/breadcrumbs.html):
+//   @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "О&nbsp;компании" })
+//   промежуточные уровни — items (необязательно):
+//   @@include('ui/breadcrumbs/breadcrumbs.html', { "items": [{ "title": "Каталог", "href": "/catalog" }], "current": "Ножи" })
+// =============================================================================
+
+.ap-breadcrumbs {
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    min-width: 0;
+    color: $c-main;
+    @include text('text-14');
+  }
+
+  // Разделитель — после пункта: при переносе «/» остаётся в конце строки, а не начинает следующую (Figma 1:6009)
+  li:not(:last-child)::after {
+    content: '/';
+    margin-left: 8px;
+    color: $c-text-secondary;
+  }
+
+  a {
+    color: $c-text-secondary;
+    text-decoration: none;
+    transition: color $transition;
+
+    &:hover {
+      color: $c-main;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  @include media-breakpoint-down(lg) {
+    margin-top: 8px;
+  }
+}

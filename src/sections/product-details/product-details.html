@@ -1,0 +1,38 @@
+<!--
+  Карточка товара — табы-разделы, «О товаре» и «Характеристики». Общая секция-шаблон.
+  Figma:  десктоп 43:18205 (табы 1:2396, «О товаре» 1:2315, «Характеристики» 1:2335), мобилка 1:3978
+  Параметры: about — HTML-абзацы <p> описания, features — JSON карточек справа (ui/feature-card, вид fill),
+  specs — JSON всех характеристик (ui/specs --lined).
+  Табы — ссылки-якоря на разделы страницы (ui/line-tabs): «О товаре», «Характеристики» — здесь,
+  «Доставка и оплата», «Отзывы» — в sections/product-reviews. Выделен раздел, до которого дошёл центр экрана
+  (общий модуль ui/scrollspy). < 768 табы прокручиваются по горизонтали.
+-->
+<section class="ap-section ap-product-details pb-5" aria-label="О товаре" data-product-details>
+  <div class="container px-3 px-sm-4 ap-product-details__inner d-flex flex-column gap-4">
+    <nav class="ap-line-tabs" aria-label="Разделы карточки товара">
+      <ul class="ap-line-tabs__list d-flex gap-3">
+        <li><a class="ap-line-tabs__tab d-block px-2 pb-2" href="#product-about">О&nbsp;товаре</a></li>
+        <li><a class="ap-line-tabs__tab d-block px-2 pb-2" href="#product-specs">Характеристики</a></li>
+        <li><a class="ap-line-tabs__tab d-block px-2 pb-2" href="#product-delivery">Доставка и&nbsp;оплата</a></li>
+        <li><a class="ap-line-tabs__tab d-block px-2 pb-2" href="#product-reviews">Отзывы</a></li>
+      </ul>
+    </nav>
+
+    <div class="ap-product-details__about" id="product-about">
+      <div class="ap-product-details__text d-flex flex-column gap-3">
+        <h2 class="ap-product-details__title">О&nbsp;товаре</h2>
+        <div class="ap-product-details__paragraphs d-flex flex-column gap-3">@@about</div>
+      </div>
+      <div class="ap-product-details__features d-flex flex-column">
+        @@loop('ui/feature-card/feature-card.html', 'data/@@features.json')
+      </div>
+    </div>
+
+    <div class="ap-product-details__specs d-flex flex-column gap-4" id="product-specs">
+      <h2 class="ap-product-details__title">Характеристики</h2>
+      <dl class="ap-specs ap-specs--lined">
+        @@loop('ui/specs/spec-row.html', 'data/@@specs.json')
+      </dl>
+    </div>
+  </div>
+</section>

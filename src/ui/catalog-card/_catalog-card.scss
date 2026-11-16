@@ -1,0 +1,152 @@
+// =============================================================================
+// UI: карточка каталога — категория или коллекция — Figma «Каталог»: категория 1:1689, коллекция 1:1868,
+// вид «список» 1:1985, мобилка 1:2650. Общий компонент: одна разметка для категорий и коллекций.
+//
+//   фото            cover; узкая карточка — сверху, 300 в высоту; широкая — слева 308, на всю высоту карточки
+//   название        «Цена/22» + счётчик товаров «Текст/12 мелкий» справа; описание — «Текст/14 вторичный»
+//   «Фильтры»       необязательно (категория): подпись фирменная, список — вторичный
+//   чипы            необязательно (категория): подкатегории — ui/tabs .ap-tab--chip, переносятся
+//   ссылка          «Смотреть все … →» — ui/link, внизу карточки
+//
+// Раскладка — по ширине самой карточки (container queries), поэтому одна разметка подходит для сетки,
+// списка и мобилки, без модификаторов от секции:
+//   < 560           фото сверху, низ с рамкой (мобилка, узкая колонка)
+//   ≥ 560           фото слева 308, текст справа; высота от 321 (сетка по 2, Figma 632 × 321)
+//   ≥ 900           чипы и ссылка в одну строку, ссылка справа (без чипов — слева); высота по содержимому (вид «список», 1280)
+// Данные (include / loop): href, img (путь от img/, 686 × 642), title, count, text, filters, chips [{ title, href }],
+// linkText, stub: true — ссылки-заглушки. Ширину задаёт сетка снаружи (row-cols-*), карточки в ряду одной высоты.
+// =============================================================================
+
+.ap-catalog-card {
+  container-type: inline-size;
+  min-width: 0;
+
+  p,
+  h2 {
+    margin: 0;
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: $c-bg;
+  }
+
+  &__media {
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+    height: 300px;
+    background: $c-surface;
+  }
+
+  &__img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 1px solid $c-border-subtle;
+    border-top: 0;
+  }
+
+  &__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    @include text('price-22');
+
+    a {
+      color: $c-main;
+      text-decoration: none;
+      transition: opacity $transition;
+
+      &:hover {
+        opacity: .7;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $c-main;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  &__count {
+    flex-shrink: 0;
+    color: $c-text-secondary;
+    @include text('text-12');
+    white-space: nowrap; // служебная короткая строка
+  }
+
+  &__text {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  &__label {
+    color: $c-main;
+    @include text('text-14-secondary');
+  }
+
+  // Чипы сверху, ссылка — внизу карточки
+  &__footer {
+    flex: 1 1 auto;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  // Ссылка всегда внизу карточки (и когда чипов нет)
+  &__more {
+    margin-top: auto;
+  }
+
+  &__chips {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // --- Широкая карточка: фото слева -------------------------------------------------------------
+  @container (min-width: 560px) {
+    &__inner {
+      flex-direction: row;
+      min-height: 321px;
+    }
+
+    &__media {
+      flex-basis: $card-row-media;
+      height: auto;
+    }
+
+    &__body {
+      border-top: 1px solid $c-border-subtle;
+      border-left: 0;
+    }
+  }
+
+  // --- Вид «список»: чипы и ссылка в одну строку, высота по содержимому --------------------------
+  @container (min-width: 900px) {
+    &__inner {
+      min-height: 0;
+    }
+
+    &__footer {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    // Есть чипы — ссылка справа в их строке; нет — слева, как в макете
+    &__chips + &__more {
+      margin-left: auto;
+    }
+  }
+}

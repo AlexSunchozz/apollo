@@ -1,0 +1,57 @@
+<!--
+  Окно «Оставить отзыв» (Bootstrap Modal #review-modal, вид ui/modal --form)
+  Figma:  мобилка 1:4439; десктоп — стили прошлых форм («Написать нам»: поля 24, заголовок 22)
+  Открывается кнопкой «Оставить отзыв», когда пользователь вошёл (sections/product-reviews/product-reviews.js).
+  Параметры: title — название товара, img — фото товара (путь от img/).
+  Поля — ui/form: оценка (.ap-rate), отзыв (textarea, обязательный), фото (.ap-file--drop, необязательно).
+  Проверка при отправке — ui/form/form.js; отправку подключает интегратор (action + событие ap:form-submit).
+-->
+<div class="modal fade ap-modal ap-modal--form" id="review-modal" tabindex="-1" aria-labelledby="review-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form class="d-flex flex-column gap-3" action="#" method="post" enctype="multipart/form-data" novalidate data-form>
+        <div class="ap-modal__head d-flex flex-column gap-3 pb-3">
+          <div class="d-flex justify-content-between align-items-start gap-3">
+            <h2 class="ap-modal__title" id="review-modal-title">Оставить отзыв</h2>
+            <button class="ap-modal__close" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close-sm"></use></svg></button>
+          </div>
+          <div class="ap-modal__product d-flex align-items-center gap-3">
+            <img class="ap-modal__product-img" src="@@root/img/@@img" width="170" height="170" alt="">
+            <p class="ap-modal__product-title">@@title</p>
+          </div>
+        </div>
+
+        <fieldset class="ap-field ap-rate d-flex flex-column gap-2">
+          <legend class="ap-field__label ap-field__label--lg">Ваша оценка</legend>
+          <div class="ap-rate__stars">
+            <input type="radio" name="rating" value="5" id="review-rating-5"><label for="review-rating-5" aria-label="5 из 5"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#star-fill"></use></svg></label>
+            <input type="radio" name="rating" value="4" id="review-rating-4"><label for="review-rating-4" aria-label="4 из 5"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#star-fill"></use></svg></label>
+            <input type="radio" name="rating" value="3" id="review-rating-3"><label for="review-rating-3" aria-label="3 из 5"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#star-fill"></use></svg></label>
+            <input type="radio" name="rating" value="2" id="review-rating-2"><label for="review-rating-2" aria-label="2 из 5"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#star-fill"></use></svg></label>
+            <input type="radio" name="rating" value="1" id="review-rating-1"><label for="review-rating-1" aria-label="1 из 5"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#star-fill"></use></svg></label>
+          </div>
+          <p class="ap-modal__lead">Нажмите на&nbsp;звезду, чтобы поставить оценку</p>
+        </fieldset>
+
+        <div class="ap-field d-flex flex-column gap-2">
+          <label class="ap-field__label ap-field__label--lg" for="review-text">Отзыв</label>
+          <textarea class="ap-input ap-textarea ap-textarea--sm" id="review-text" name="text" placeholder="Расскажите, как товар показал себя в использовании: что понравилось и что можно улучшить" required></textarea>
+        </div>
+
+        <div class="ap-field d-flex flex-column gap-2">
+          <span class="ap-field__label ap-field__label--lg" id="review-photos-label">Фотографии (необязательно)</span>
+          <label class="ap-input ap-file ap-file--drop">
+            <input type="file" name="photos[]" accept="image/jpeg,image/png" multiple aria-labelledby="review-photos-label" data-file>
+            <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#image"></use></svg>
+            <span class="d-flex flex-column gap-2"><span class="ap-file__title">Добавить фотографии</span><span class="ap-file__text" data-file-text>JPG, PNG до&nbsp;10&nbsp;МБ каждый</span></span>
+          </label>
+        </div>
+
+        <div class="d-flex flex-column align-items-start gap-3">
+          <p class="ap-modal__lead">Перед публикацией отзыв пройдет проверку</p>
+          <button class="ap-btn ap-btn--primary ap-modal__submit" type="submit">Отправить отзыв&nbsp;→</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

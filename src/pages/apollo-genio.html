@@ -1,0 +1,50 @@
+@@include('layout/head.html', {
+  "title": "APOLLO genio — дизайнерская линейка бренда Apollo",
+  "description": "APOLLO genio — дизайнерская линейка бренда Apollo: коллекции Yala и Loft собственной дизайнерской студии. Подходит для подарков, гарантия на всю линейку, доставка по всей России."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "items": [{ "title": "Бренды", "href": "#" }], "current": "APOLLO genio" })
+  @@include('sections/page-hero/page-hero.html', {
+    "id": "genio-title",
+    "img": "apollo-genio",
+    "eyebrow": "Бренд Apollo<span class=\"ap-page-hero__sep\" aria-hidden=\"true\">/</span>Дизайнерская линейка",
+    "title": "Авторский дизайн APOLLO genio вместо типовой посуды",
+    "text": "<p>APOLLO genio&nbsp;— коллекции medium+ уровня, которые создаёт собственная дизайнерская студия бренда. Продуманная форма, фактура и&nbsp;цвет&nbsp;— для&nbsp;тех, кто выбирает эстетику и&nbsp;не&nbsp;любит «как&nbsp;у&nbsp;всех».</p>",
+    "btnText": "Смотреть товары APOLLO genio&nbsp;→",
+    "btnHref": "#hits",
+    "features": ["Подходит для&nbsp;подарков", "Дизайн собственной студии", "Доставка по&nbsp;всей РФ"],
+    "plaqueTitle": "Yala и&nbsp;Loft",
+    "plaqueText": "Две дизайнерские линии APOLLO genio"
+  })
+  @@include('sections/features/features.html', {
+    "id": "reasons",
+    "eyebrow": "Почему выбирают APOLLO genio",
+    "title": "Три причины выбрать дизайнерскую линию",
+    "wide": true,
+    "data": "apollo-genio-features"
+  })
+  @@include('sections/promo-grid/promo-grid.html', {
+    "id": "series",
+    "eyebrow": "Линии APOLLO genio",
+    "title": "Yala и&nbsp;Loft&nbsp;— коллекции APOLLO genio",
+    "text": "Yala отвечает за&nbsp;посуду для&nbsp;сервировки и&nbsp;хранения, Loft&nbsp;— за&nbsp;ножи с&nbsp;фирменной посадкой рукояти.",
+    "wide": true,
+    "data": "apollo-genio-series"
+  })
+  @@include('sections/products/products.html', {
+    "id": "hits",
+    "eyebrow": "Ассортимент",
+    "title": "Хиты APOLLO genio",
+    "text": "Самые востребованные товары линейки&nbsp;— из&nbsp;серий Yala и&nbsp;Loft.",
+    "data": "apollo-products",
+    "moreText": "Показать весь ассортимент APOLLO genio&nbsp;→",
+    "catalogHref": "/catalog",
+    "brand": "apollo-genio"
+  })
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

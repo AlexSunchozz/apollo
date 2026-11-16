@@ -1,0 +1,25 @@
+[
+  {
+    "mod": "wide",
+    "href": "/catalog/nozhi",
+    "img": "product/kitchen-knives.webp",
+    "title": "Другие ножи",
+    "text": "Для&nbsp;разных продуктов и&nbsp;способов нарезки"
+  },
+  {
+    "mod": "wide",
+    "href": "#",
+    "stub": true,
+    "img": "product/kitchen-boards.webp",
+    "title": "Разделочные доски",
+    "text": "Подготовка ингредиентов с&nbsp;комфортом"
+  },
+  {
+    "mod": "wide",
+    "href": "#",
+    "stub": true,
+    "img": "product/kitchen-tools.webp",
+    "title": "Кухонные инструменты",
+    "text": "Полезные помощники для&nbsp;ежедневной готовки"
+  }
+]

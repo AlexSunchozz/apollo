@@ -1,0 +1,9 @@
+<div class="ap-blog-list__panel" role="tabpanel" id="@@panel" aria-labelledby="@@tab" tabindex="0"@@if (!context.selected) { hidden} data-articles="6">
+  <div class="d-flex flex-column align-items-center gap-3 gap-xl-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-2 gx-xl-3 gy-xl-4 align-self-stretch" data-articles-list>
+      @@loop('ui/article-card/article-card.html', 'data/blog-articles.json')
+    </div>
+    @@include('ui/pagination/pagination.html')
+    <button class="ap-btn ap-btn--outline" type="button" hidden data-articles-more>Показать еще&nbsp;→</button>
+  </div>
+</div>

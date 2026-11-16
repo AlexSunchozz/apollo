@@ -1,0 +1,32 @@
+<!--
+  Товары — общая секция: заголовок (+ надпись справа, текст), карточки ui/product-card, «Показать ещё» и «Весь каталог»
+  Figma:  «APOLLO» — «Хиты APOLLO» 1:4734 / 27:18203
+  Параметры: id, title, text, eyebrow (необязательно), data — имя JSON-файла с товарами в data/ без .json
+  (поля ui/product-card), moreText — подпись кнопки «показать ещё», catalogHref — ссылка «Весь каталог →»,
+  brand — код бренда (необязательно): атрибут data-brand у секции и ?brand=<код> в ссылке «Весь каталог →».
+  Интегратор подставляет data-brand в фильтр компонента каталога (например, PROPERTY_BRAND) — один шаблон блока на все бренды.
+  Показ порциями (sections/products/products.js): сначала 8 карточек (data-products="8"), кнопка открывает следующие 8;
+  если скрытых карточек нет — кнопки нет. Без JS видны все карточки.
+  Интегратор может подгружать товары с сервера: событие ap:products-more (detail: { root, brand, shown, total }).
+  Вместо ссылки «Весь каталог →» — кнопка-ссылка: btnText + btnHref (статья — «Перейти в каталог →», Figma 1:5799 / 1:6114);
+  moreText необязателен (без него кнопки «показать ещё» нет); mod: "compact" — десктоп: заголовок → карточки → кнопка через 24.
+  Сетка: < 576 — 1 в ряд, 576–991 — 2, 992–1199 — 3, ≥ 1200 — 4.
+-->
+<section class="ap-section ap-products@@if (context.mod) { ap-products--@@mod} py-5" id="@@id" aria-labelledby="@@id-title" data-products="8"@@if (context.brand) { data-brand="@@brand"}>
+  <div class="container px-3 px-sm-4 ap-products__inner d-flex flex-column gap-4">
+    <div class="ap-heading ap-heading--aside gap-3 gap-xl-4">
+      @@if (context.eyebrow) {<p class="ap-heading__eyebrow">@@eyebrow</p>}
+      <h2 class="ap-heading__title" id="@@id-title">@@title</h2>
+      @@if (context.text) {<p class="ap-heading__text">@@text</p>}
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-2 g-xl-3" data-products-list>
+      @@loop('ui/product-card/product-card.html', 'data/@@data.json')
+    </div>
+
+    <div class="ap-products__footer d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-md-between gap-3">
+      @@if (context.moreText) {<button class="ap-btn ap-btn--primary" type="button" hidden data-products-more>@@moreText</button>}
+      @@if (context.btnText) {<a class="ap-btn ap-btn--primary" href="@@btnHref">@@btnText</a>}@@if (!context.btnText) {<a class="ap-link ms-md-auto" href="@@catalogHref@@if (context.brand) {?brand=@@brand}">Весь каталог&nbsp;→</a>}
+    </div>
+  </div>
+</section>

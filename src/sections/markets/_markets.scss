@@ -1,0 +1,132 @@
+// =============================================================================
+// Маркетплейсы (sections/markets) — общая секция: заголовок с текстом, подпись, карточки, кнопка или примечание
+// Figma: «О компании» 1:13050 / 1:13160 — без mod; «Где купить» 23:18186 / 23:18187 — mod "intro"
+//
+// Подключение на любой странице:
+//   @@include('sections/markets/markets.html', { "id": "market", "title": "…", "text": "…", "label": "Маркетплейсы" })
+// Параметры: id (обязательно), title, text, eyebrow — надпись над заголовком, h1: true — заголовок страницы (h1, 60 / 32; + compact: true — на мобилке 28),
+// label — подпись над карточками, btnText / btnHref — кнопка-обводка под карточками (справа),
+// note — примечание под карточками со значком «i». Карточки — ui/market-card, данные — data/markets.json.
+//
+//   (без mod)  ≥ 768 — шапка и подпись по центру; поля 100 сверху и снизу             — «APOLLO рядом с вами»
+//   --intro    первый блок страницы (сразу под ui/breadcrumbs): шапка слева, подпись справа по низу (≥ 992);
+//              сверху 32 (мобилка 24), снизу 100                                         — «Где купить Apollo»
+// < 768 — всё по левому краю, подпись — «Текст/12 мелкий» над карточками.
+// =============================================================================
+
+.ap-markets {
+  &__head {
+    min-width: 0;
+    max-width: 704px;
+  }
+
+  // Шапка (надпись, заголовок, текст) — классы общего компонента ui/heading; здесь только ширины
+  &__text {
+    max-width: 656px;
+
+    @include media-breakpoint-down(lg) {
+      max-width: 100%;
+    }
+  }
+
+  // Мобилка — «Текст/12 мелкий», ≥ 768 — «Текст/16»
+  &__label {
+    color: $c-main;
+    @include text('text-12');
+
+    @include media-breakpoint-up(md) {
+      @include text('text-16');
+    }
+  }
+
+  // Без отступов: рамки соседних карточек сливаются (см. ui/market-card); < 768 — по 2, дальше по 4
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  // Карточки → кнопка / примечание: мобилка 16 (gap-3) + 8 = 24 только у примечания и с 768
+  &__footer {
+    @include media-breakpoint-up(md) {
+      margin-top: 8px;
+    }
+  }
+
+  &__note {
+    margin-top: 8px;
+    color: $c-text-secondary;
+    @include text('caption-12');
+
+    @include media-breakpoint-up(lg) {
+      max-width: 584px;
+      @include text('text-14-secondary');
+    }
+  }
+
+  // Значок «i» в круге 24
+  &__note-icon {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 1px solid $c-border;
+    border-radius: 50%;
+    color: $c-border;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    line-height: 1;
+  }
+
+  // --- Вид по умолчанию: шапка и подпись по центру (≥ 768) -------------------------------------
+  &:not(&--intro) {
+    padding-top: 48px;
+  }
+
+  &:not(&--intro) &__top {
+    @include media-breakpoint-up(md) {
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  // --- Первый блок страницы: шапка слева, подпись справа -------------------------------------
+  &--intro {
+    padding-top: 24px;
+  }
+
+  &--intro &__head {
+    max-width: 544px;
+  }
+
+  &--intro &__top {
+    @include media-breakpoint-up(lg) {
+      flex-direction: row !important;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 8px; // шапка → карточки 24
+    }
+  }
+
+  &--intro &__label {
+    @include media-breakpoint-up(lg) {
+      text-align: right;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — pb-5 и выше --------------------------
+.ap-markets {
+  @include desktop(padding-bottom, 100px);
+
+  &:not(&--intro) { @include desktop(padding-top, 100px); }
+
+  &:not(&--intro) &__top { @include desktop(gap, 32px); }
+
+  &--intro { @include desktop(padding-top, 32px); }
+}

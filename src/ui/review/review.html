@@ -1,0 +1,13 @@
+<article class="ap-review d-flex gap-3"@@if (context.photos) { data-review-photos}>
+  <span class="ap-review__avatar d-flex align-items-center justify-content-center" aria-hidden="true">@@letter</span>
+  <div class="ap-review__body d-flex flex-column gap-2">
+    <div class="ap-review__head">
+      <h3 class="ap-review__name">@@name</h3>
+      @@if (context.verified) {<span class="ap-review__verified d-flex align-items-center gap-2"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#verified"></use></svg>Покупка подтверждена</span>}
+      <time class="ap-review__date" datetime="@@datetime">@@date</time>
+    </div>
+    <span class="ap-stars" style="--ap-stars: @@rating" role="img" aria-label="Оценка @@rating из 5"><span class="ap-stars__row" aria-hidden="true">@@for (var i = 0; i < 5; i++) {<svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg>}</span><span class="ap-stars__row ap-stars__row--on" aria-hidden="true">@@for (var i = 0; i < 5; i++) {<svg class="ap-icon"><use href="@@root/img/sprite.svg#star-fill"></use></svg>}</span></span>
+    <p class="ap-review__text">@@text</p>
+    @@if (context.photos) {<div class="ap-review__photos d-flex gap-2">@@for (var i = 0; i < (typeof photos !== 'undefined' ? photos.length : 0); i++) {<img class="ap-review__photo" src="@@root/img/`+photos[i]+`" width="800" height="600" alt="Фото покупателя" loading="lazy">}</div>}
+  </div>
+</article>

@@ -1,0 +1,42 @@
+[
+  {
+    "title": "Ножи",
+    "href": "/catalog/nozhi",
+    "current": true
+  },
+  {
+    "title": "Столовые приборы",
+    "href": "#",
+    "stub": true
+  },
+  {
+    "title": "Чайники",
+    "href": "#",
+    "stub": true
+  },
+  {
+    "title": "Кухонные инструменты",
+    "href": "#",
+    "stub": true
+  },
+  {
+    "title": "Аксессуары",
+    "href": "#",
+    "stub": true
+  },
+  {
+    "title": "Столовая посуда",
+    "href": "#",
+    "stub": true
+  },
+  {
+    "title": "Посуда для&nbsp;приготовления",
+    "href": "#",
+    "stub": true
+  },
+  {
+    "title": "Ароматика для&nbsp;дома",
+    "href": "#",
+    "stub": true
+  }
+]

@@ -1,0 +1,50 @@
+<!--
+  «Каталог» — первый блок (сразу под ui/breadcrumbs): заголовок, табы «Категории / Коллекции», счётчик и вид
+  «сетка / список», карточки ui/catalog-card
+  Figma:  категории 1:1664 (мобилка 39:18193), список 1:1964, коллекции 1:1843 (мобилка 1:2781)
+  Табы — ui/tabs (data/catalog-tabs.json), карточки — ui/catalog-card (data/catalog-categories.json,
+  data/catalog-collections.json). Заголовок страницы — у каждой панели свой (data-title), строка «Показаны …» считает
+  видимые карточки активной панели (catalog-list.js). Коллекции — по 6 с кнопкой «Показать еще»
+  (тот же механизм, что в sections/products: data-products, products.js).
+  Вид «сетка / список» — общий компонент ui/view-switch (колонки — атрибуты data-view-* у сеток):
+  «сетка» — < 992 по 1, ≥ 992 по 2; «список» — по 1. Раскладку карточки (фото сверху / слева, строка
+  с чипами) карточка выбирает сама по своей ширине.
+-->
+<section class="ap-section ap-catalog-list pt-4 pb-5" aria-labelledby="catalog-title" data-catalog-list>
+  <div class="container px-3 px-sm-4 ap-catalog-list__inner d-flex flex-column gap-4">
+    <h1 class="ap-catalog-list__title ap-heading__title" id="catalog-title" data-catalog-title>Более 1000&nbsp;товаров в&nbsp;8&nbsp;категориях</h1>
+
+    <div class="ap-catalog-list__body d-flex flex-column gap-3">
+      <div class="d-flex flex-column gap-3">
+        <div class="ap-tabs d-flex gap-1 gap-md-2" role="tablist" aria-label="Разделы каталога" data-tabs>
+          @@loop('ui/tabs/tab.html', 'data/catalog-tabs.json')
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between gap-3">
+          <p class="ap-catalog-list__count" aria-live="polite" data-catalog-count>Показаны все 8&nbsp;категорий каталога</p>
+          @@include('ui/view-switch/view-switch.html', { "target": "[data-catalog-grid]" })
+        </div>
+      </div>
+
+      <div class="ap-catalog-list__panels">
+        <div class="ap-catalog-list__panel" role="tabpanel" id="catalog-panel-categories" aria-labelledby="catalog-tab-categories" tabindex="0" data-catalog-panel data-title="Более 1000&nbsp;товаров в&nbsp;8&nbsp;категориях" data-words="категория|категории|категорий">
+          <div class="row row-cols-1 row-cols-lg-2 g-3" data-catalog-grid data-view-grid="row-cols-1 row-cols-lg-2" data-view-list="row-cols-1">
+            @@loop('ui/catalog-card/catalog-card.html', 'data/catalog-categories.json')
+          </div>
+        </div>
+
+        <div class="ap-catalog-list__panel" role="tabpanel" id="catalog-panel-collections" aria-labelledby="catalog-tab-collections" tabindex="0" hidden data-catalog-panel data-title="Более 1000&nbsp;товаров в&nbsp;6&nbsp;коллекциях" data-words="коллекция|коллекции|коллекций" data-products="6">
+          <div class="ap-catalog-list__collections d-flex flex-column gap-4">
+            <div class="row row-cols-1 row-cols-lg-2 g-3" data-catalog-grid data-view-grid="row-cols-1 row-cols-lg-2" data-view-list="row-cols-1" data-products-list>
+              @@loop('ui/catalog-card/catalog-card.html', 'data/catalog-collections.json')
+            </div>
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-md-between gap-3">
+              <button class="ap-btn ap-btn--primary" type="button" hidden data-products-more>Показать еще</button>
+              <a class="ap-link ms-md-auto" href="#" data-stub>Все коллекции&nbsp;→</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

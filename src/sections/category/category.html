@@ -1,0 +1,70 @@
+<!--
+  Категория каталога — общая секция-шаблон страницы категории (одна для всех категорий)
+  Figma:  десктоп 1:2109 (страница 1:2107), мобилка 1:2997 / 1:3530 (крупная сетка) / 1:3080 (список), фильтры 1:4217
+  Параметры: title, text, nav — JSON соседних категорий в data/ (ui/line-tabs, вид --nav), data — JSON товаров
+  (ui/product-card), found — строка «Показано <span>142</span> товара из&nbsp;142» (HTML), total — всего товаров.
+  Фильтры — ui/filters с группами из data/category-filters.json (в шаблоне CMS — умный фильтр категории).
+  Панель над товарами: < 768 — сортировка и «Фильтр» (+ «Сбросить фильтр», когда что-то выбрано), ниже — счётчик
+  и вид; ≥ 768 — счётчик слева, справа сортировка, вид, фильтр. Сортировка — ui/form .ap-select--toolbar
+  (радиокнопки), вид — ui/view-switch (плотная / крупная сетка / список, модификаторы ui/product-card),
+  фильтры — ui/filters (Offcanvas, разметка — после секции).
+  Товары — по 12 с кнопкой «Показать ещё товары» (механизм sections/products: data-products, products.js),
+  строка «Показано 12 из 142 товаров» считает видимые карточки (sections/category/category.js).
+-->
+<section class="ap-section ap-category pt-4 pb-5" aria-labelledby="category-title" data-products="12" data-category data-total="@@total">
+  <div class="container px-3 px-sm-4 ap-category__inner d-flex flex-column gap-4">
+    <nav class="ap-line-tabs ap-line-tabs--nav" aria-label="Категории каталога">
+      <ul class="ap-line-tabs__list d-flex gap-3">
+        @@loop('ui/line-tabs/line-nav-item.html', 'data/@@nav.json')
+      </ul>
+    </nav>
+
+    <div class="ap-heading ap-category__head gap-3 gap-xl-4">
+      <h1 class="ap-heading__title ap-heading__title--page-compact" id="category-title">@@title</h1>
+      <p class="ap-heading__text">@@text</p>
+    </div>
+
+    <div class="ap-category__body d-flex flex-column gap-3">
+      <div class="ap-category__toolbar">
+        <p class="ap-category__count ap-category__count--found">@@found</p>
+
+        <div class="ap-category__sort ap-select ap-select--toolbar" data-select data-category-sort>
+          <button class="ap-input ap-select__toggle d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#category-sort-list" aria-expanded="false" aria-controls="category-sort-list" aria-label="Сортировка">
+            <span class="ap-select__value" data-select-value>Популярное</span>
+            <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#chevron-down"></use></svg>
+          </button>
+          <div class="ap-select__panel collapse" id="category-sort-list">
+            <div class="ap-select__list d-flex flex-column gap-2">
+              <label class="ap-check"><input type="radio" name="sort" value="Популярное" checked><span>Популярное</span></label>
+              <label class="ap-check"><input type="radio" name="sort" value="Сначала дешевле"><span>Сначала дешевле</span></label>
+              <label class="ap-check"><input type="radio" name="sort" value="Сначала дороже"><span>Сначала дороже</span></label>
+              <label class="ap-check"><input type="radio" name="sort" value="Новинки"><span>Новинки</span></label>
+              <label class="ap-check"><input type="radio" name="sort" value="По&nbsp;рейтингу"><span>По&nbsp;рейтингу</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="ap-category__views">
+          @@include('ui/view-switch/view-switch.html', { "target": "#category-grid", "large": true })
+        </div>
+
+        <div class="ap-category__actions d-flex gap-1 gap-md-2">
+          <button class="ap-btn ap-btn--primary ap-category__reset" type="button" hidden data-filters-reset="#category-filters-form">Сбросить фильтр</button>
+          <button class="ap-category__filter d-flex align-items-center justify-content-center gap-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#category-filters" aria-controls="category-filters" aria-label="Фильтр">
+            <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#filter"></use></svg><span class="d-none d-md-inline" aria-hidden="true">Фильтр</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-2 g-xl-3" id="category-grid" data-products-list data-view-grid="row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4" data-view-large="row-cols-2" data-view-large-item="ap-product-card--large" data-view-list="row-cols-1" data-view-list-item="ap-product-card--row">
+        @@loop('ui/product-card/product-card.html', 'data/@@data.json')
+      </div>
+    </div>
+
+    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-md-between gap-3">
+      <p class="ap-category__count" aria-live="polite" data-category-shown>Показано <span>12</span> из&nbsp;@@total&nbsp;товаров</p>
+      <button class="ap-btn ap-btn--primary" type="button" hidden data-products-more>Показать ещё товары&nbsp;→</button>
+    </div>
+  </div>
+</section>
+@@include('ui/filters/filters.html', { "id": "category-filters", "data": "category-filters", "priceMin": "0", "priceMax": "20000" })

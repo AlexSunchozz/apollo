@@ -1,0 +1,221 @@
+// =============================================================================
+// Меню каталога (layout/catalog-menu.html) — Figma: десктоп 2:18014, мобилка 2:18199
+// Bootstrap Offcanvas: < 1200 — на весь экран справа; ≥ 1200 — панель под шапкой (верх — --ap-catalog-top, JS).
+//
+// Раскладка и отступы из шкалы — классами в разметке. Здесь: сетка групп на мобилке, ширины колонок,
+// типографика, состояние «наведение» (Figma: «Поварские ножи»), поведение Offcanvas на десктопе.
+// =============================================================================
+
+.ap-catalog {
+  --bs-offcanvas-width: 100%;
+  --bs-offcanvas-bg: #{$c-bg};
+  --bs-offcanvas-border-width: 0;
+
+  // Подчёркивание ссылок из Reboot убрано у каждого элемента отдельно (__title, __link, __contact, __markets a):
+  // общее правило «.ap-catalog a» весомее, чем .ap-catalog__link, и перебивало бы подчёркивание при наведении.
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__body {
+    flex-grow: 1;
+    padding-top: 40px; // мобилка: контент с 40, над ним — крестик
+    overflow-y: auto;
+  }
+
+  // Крестик (мобилка): 24 × 24, 16 от верха и правого края
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 1;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    line-height: 0;
+    cursor: pointer;
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  // < 1200: группы переносятся сеткой — < 768 по 2 колонки (168 + остаток, как в макете), 768–1199 по 3.
+  // Ряды через 32, колонки через 8. Колонки десктопа здесь «растворяются» (display: contents) —
+  // группы идут подряд в том же порядке.
+  &__groups {
+    display: grid;
+    grid-template-columns: 168px minmax(0, 1fr);
+    gap: 32px 8px;
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__column {
+    display: contents;
+  }
+
+  // Заголовок группы: мобилка «Текст/16», ≥ 1200 — 18 / 1.1
+  &__title {
+    display: block;
+    margin: 0;
+    color: $c-main;
+    @include text('text-16');
+    text-decoration: none;
+  }
+
+  // Ссылки: «Текст/14», серые; наведение (Figma: «Поварские ножи») — фирменный цвет,
+  // на десктопе ещё подчёркивание; всё плавно ($transition)
+  &__link {
+    color: $c-text-secondary;
+    @include text('text-14');
+    text-decoration: none;
+    transition: color $transition, text-decoration-color $transition;
+
+    &:hover,
+    &:focus-visible {
+      color: $c-main;
+    }
+  }
+
+  &__markets {
+    gap: 12px;
+
+    a {
+      display: block;
+      text-decoration: none;
+      transition: opacity $transition;
+
+      &:hover {
+        opacity: .7;
+      }
+    }
+
+    img {
+      display: block;
+    }
+  }
+
+  // Контакты: иконка 18, текст 16 / 1, фирменный цвет
+  &__contact {
+    color: $c-main;
+    @include text('text-16');
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: opacity $transition;
+
+    &:hover {
+      color: $c-main;
+      opacity: .7;
+    }
+
+    .ap-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    // Адрес бывает длинным — переносится (телефон и почта короткие — в одну строку)
+    &--address {
+      white-space: normal;
+    }
+  }
+
+  :is(&__close, &__title, &__link, &__contact, &__markets a):focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 2px;
+  }
+
+  // --- Десктоп: панель под шапкой ---------------------------------------------------------
+  @include media-breakpoint-up(xl) {
+    &.offcanvas {
+      top: var(--ap-catalog-top, 110px);
+      bottom: auto;
+      height: auto;
+      max-height: calc(100vh - var(--ap-catalog-top, 110px));
+      transform: none;
+      opacity: 0;
+      transition: opacity .2s, visibility .2s;
+    }
+
+    &.offcanvas.showing,
+    &.offcanvas.show:not(.hiding) {
+      opacity: 1;
+    }
+
+    &__body {
+      padding-top: 0;
+    }
+
+    // Ширины колонок из макета (200 / 211 / 200). Явная width, а не flex-basis: контейнер групп
+    // считает свою ширину по содержимому. Если не помещаются (1200–1300) — сжимаются поровну.
+    &__groups {
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+
+    &__column {
+      width: 200px;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    &__title {
+      @include text('nav-18');
+      line-height: 1.1;
+    }
+
+    &__link {
+      font-family: $font-inter;
+      letter-spacing: -.14px;
+      // Подчёркивание есть всегда, но прозрачное — при наведении плавно окрашивается вместе с текстом.
+      // Толщина и положение — из шрифта (Figma: decoration-from-font).
+      text-decoration-line: underline;
+      text-decoration-color: transparent;
+      text-decoration-thickness: from-font;
+
+      &:hover,
+      &:focus-visible {
+        text-decoration-color: $c-main;
+      }
+    }
+
+    &__buy {
+      width: 211px;
+      flex: 0 1 auto;
+    }
+
+    &__markets {
+      gap: 8px;
+    }
+
+    &__info {
+      width: 200px;
+      flex: 0 1 auto;
+    }
+
+    &__contact--address {
+      max-width: 191px; // иконка 18 + 16 + текст 157 — адрес в 2 строки, как в макете
+    }
+  }
+}
+
+// Десктоп: затемнение под меню не показываем — в макете страница под панелью видна как есть.
+// Шапка — над подложкой Offcanvas (1040) и панелью (1045): иначе прозрачная подложка перекрывает её,
+// и у «Меню» (крестика) нет курсора-руки, а клик попадает в подложку, а не в кнопку.
+@include media-breakpoint-up(xl) {
+  .is-catalog-open .offcanvas-backdrop {
+    opacity: 0 !important;
+  }
+
+  .is-catalog-open .ap-header {
+    z-index: 1046;
+  }
+}

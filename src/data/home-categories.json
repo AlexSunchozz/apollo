@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Хиты",
+    "img": "home-categories/hits.webp",
+    "imgMobile": "home-categories/hits-mobile.webp",
+    "href": "#",
+    "stub": true
+  },
+  {
+    "title": "Акции",
+    "img": "home-categories/sale.webp",
+    "imgMobile": "home-categories/sale-mobile.webp",
+    "href": "#",
+    "stub": true
+  },
+  {
+    "title": "Новинки",
+    "img": "home-categories/new.webp",
+    "imgMobile": "home-categories/new-mobile.webp",
+    "href": "#",
+    "stub": true
+  },
+  {
+    "title": "Идеи для&nbsp;подарков",
+    "img": "home-categories/gifts.webp",
+    "imgMobile": "home-categories/gifts-mobile.webp",
+    "href": "#",
+    "stub": true
+  }
+]

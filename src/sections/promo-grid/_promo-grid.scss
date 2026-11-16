@@ -1,0 +1,50 @@
+// =============================================================================
+// Заголовок + промо-карточки по 2 в ряд (sections/promo-grid) — общая секция — Figma «APOLLO» 1:4711 / 1:5116
+//
+// Подключение (карточки — свои для каждой страницы, в своём JSON):
+//   @@include('sections/promo-grid/promo-grid.html', { "id": "series", "eyebrow": "Серии APOLLO",
+//     "title": "Bonito и Ribb&nbsp;— основа линейки", "text": "…", "data": "apollo-series" })
+// Шапка — классы общего компонента ui/heading (--aside, --lead); карточки — ui/promo-card.
+// Сетка — CSS grid (у промо-карточки фото на весь фон, поля колонок Bootstrap попадали бы под фото).
+// =============================================================================
+
+.ap-promo-grid {
+  &__title {
+    max-width: 454px;
+
+    &--wide {
+      max-width: 640px;
+    }
+
+    @include media-breakpoint-down(lg) {
+      max-width: 100%;
+    }
+  }
+
+  &__text {
+    max-width: 412px;
+
+    @include media-breakpoint-down(lg) {
+      max-width: 100%;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @include media-breakpoint-up(xl) {
+      gap: 16px;
+    }
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — pt-5 ------------------------------------
+.ap-promo-grid {
+  @include desktop(padding-top, 100px);
+}

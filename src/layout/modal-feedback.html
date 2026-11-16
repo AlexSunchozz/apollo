@@ -1,0 +1,44 @@
+<!--
+  Окно «Написать нам» — «Поможем найти нужный товар» (Bootstrap Modal #feedback-modal)
+  Figma:  десктоп 1:2582, мобилка 1:4197
+  Открывается кнопкой с data-bs-target="#feedback-modal" (блок «Не нашли нужную категорию?» в каталоге).
+  Поля — общие компоненты ui/form, .ap-field--inset: < 576 подпись над полем (мобильный макет), ≥ 576 — внутри поля.
+  Окно — по центру экрана (modal-dialog-centered).
+  Проверка при отправке: телефон (10–15 цифр) и согласие (ui/form/form.js); отправку на сервер подключает
+  интегратор — action формы + событие ap:form-submit.
+-->
+<div class="modal fade ap-modal ap-modal--form" id="feedback-modal" tabindex="-1" aria-labelledby="feedback-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form class="d-flex flex-column gap-3" action="#" method="post" novalidate data-form>
+        <div class="d-flex justify-content-between align-items-start gap-3">
+          <h2 class="ap-modal__title" id="feedback-modal-title">Поможем найти нужный товар</h2>
+          <button class="ap-modal__close" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close-sm"></use></svg></button>
+        </div>
+        <p class="ap-modal__lead">Расскажите, что&nbsp;ищете. Подскажем категорию или&nbsp;подберем товары под&nbsp;задачу.</p>
+
+        <div class="ap-field ap-field--inset d-flex flex-column-reverse gap-2">
+          <input class="ap-input" type="text" id="feedback-name" name="name" autocomplete="name" placeholder=" ">
+          <label class="ap-field__label" for="feedback-name">Имя</label>
+        </div>
+
+        <div class="ap-field ap-field--inset d-flex flex-column-reverse gap-2">
+          <input class="ap-input" type="tel" id="feedback-phone" name="phone" autocomplete="tel" inputmode="tel" required data-phone placeholder=" ">
+          <label class="ap-field__label" for="feedback-phone">Телефон*</label>
+        </div>
+
+        <div class="ap-field ap-field--inset d-flex flex-column-reverse gap-2">
+          <textarea class="ap-input ap-textarea ap-textarea--sm" id="feedback-message" name="message" placeholder="Например, набор посуды в подарок или чашки для кофейни"></textarea>
+          <label class="ap-field__label" for="feedback-message">Что&nbsp;ищете?</label>
+        </div>
+
+        <label class="ap-check ap-check--consent">
+          <input type="checkbox" name="consent" value="Y" required>
+          <span>Даю согласие на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="/privacy">политикой конфиденциальности</a></span>
+        </label>
+
+        <button class="ap-btn ap-btn--primary" type="submit">Отправить запрос&nbsp;→</button>
+      </form>
+    </div>
+  </div>
+</div>

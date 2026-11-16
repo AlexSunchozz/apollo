@@ -1,0 +1,94 @@
+// =============================================================================
+// UI: карточка маркетплейса — Figma 1:13060 (десктоп), 1:13171 (мобилка); ховер — карточка «Ozon» в макете
+// Ссылка на магазин бренда: логотип справа сверху, название внизу. Используется на разных страницах.
+//
+//   обычная   прозрачная, рамка #E4E4E2, текст и логотип фирменные
+//   ховер     фирменная заливка, белый текст, логотип — светлая версия (белый квадрат)
+//
+// Разметка (ui/market-card/market-card.html), данные — data/markets.json: title, logo — имя файла в img/markets/
+// без .svg (нужны два файла: <logo>.svg и <logo>-light.svg для ховера), href, stub (заглушка ссылки).
+// Вывод: @@loop('ui/market-card/market-card.html', 'data/markets.json').
+// Сетка — у родителя без отступов (gap: 0): соседние рамки сливаются в одну линию (рамка — box-shadow, по 1px
+// внутрь слева/сверху и наружу справа/снизу), поэтому карточки ставятся в любую сетку с любым числом колонок.
+// Мобилка: поля 16, логотип 24, название 18, высота по содержимому; ≥ 768 — поля 24, логотип 48, высота 300; название 22 — с 992.
+// =============================================================================
+
+.ap-market-card {
+  --ap-market-line: #{$c-border};
+
+  position: relative;
+  gap: 32px;
+  min-width: 0;
+  padding: 16px;
+  background: transparent;
+  color: $c-main;
+  text-decoration: none;
+  box-shadow:
+    1px 0 0 0 var(--ap-market-line),
+    0 1px 0 0 var(--ap-market-line),
+    1px 1px 0 0 var(--ap-market-line),
+    inset 1px 0 0 0 var(--ap-market-line),
+    inset 0 1px 0 0 var(--ap-market-line);
+  transition: background-color $transition, color $transition;
+
+  @include media-breakpoint-up(md) {
+    min-height: 300px;
+    padding: 24px;
+  }
+
+  // Два логотипа друг на друге: обычный и светлый (для ховера), переключаются прозрачностью
+  &__logo {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 24px;
+
+    @include media-breakpoint-up(md) {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  &__logo-img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transition: opacity $transition;
+
+    &--hover {
+      opacity: 0;
+    }
+  }
+
+  // Название не рвётся по буквам («Яндекс.Маркет»): переносится только между словами.
+  // 22 — с 992; ниже 18 (на 768–991 карточки по 4 в ряд узкие, 22 не помещается в одну строку)
+  &__title {
+    overflow-wrap: normal;
+    @include text('price-22');
+
+    @include media-breakpoint-down(lg) {
+      font-size: 18px;
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    --ap-market-line: #{$c-main};
+
+    z-index: 1;
+    background: $c-main;
+    color: $c-white;
+  }
+
+  &:hover &__logo-img--hover,
+  &:focus-visible &__logo-img--hover {
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 2px;
+  }
+}

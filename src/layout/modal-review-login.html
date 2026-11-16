@@ -1,0 +1,24 @@
+<!--
+  Окно «Войдите, чтобы оставить отзыв» (Bootstrap Modal #review-login-modal, вид ui/modal --compact)
+  Figma:  десктоп 1:2604, мобилка 1:4430
+  Открывается кнопкой «Оставить отзыв», когда пользователь не вошёл (sections/product-reviews/product-reviews.js).
+  «Войти» — страница входа (заглушка, адрес подставит интегратор), «Продолжить покупки» — закрывает окно.
+  Кнопки: < 576 — столбиком во всю ширину, ≥ 576 — в ряд.
+-->
+<div class="modal fade ap-modal ap-modal--compact" id="review-login-modal" tabindex="-1" aria-labelledby="review-login-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="d-flex flex-column align-items-center gap-3 text-center">
+        <div class="d-flex flex-column align-items-center align-self-stretch gap-2">
+          <button class="ap-modal__close align-self-end" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close-sm"></use></svg></button>
+          <h2 class="ap-modal__title" id="review-login-modal-title">Войдите, чтобы оставить отзыв</h2>
+          <p class="ap-modal__lead">Поделитесь впечатлениями о&nbsp;товаре. Для&nbsp;этого войдите в&nbsp;аккаунт или&nbsp;зарегистрируйтесь.</p>
+        </div>
+        <div class="ap-modal__actions d-flex flex-column flex-sm-row align-self-stretch gap-2">
+          <a class="ap-btn ap-btn--outline flex-sm-grow-1" href="#" data-stub>Войти</a>
+          <button class="ap-btn ap-btn--primary" type="button" data-bs-dismiss="modal">Продолжить покупки</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

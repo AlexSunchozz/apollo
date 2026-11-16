@@ -1,0 +1,21 @@
+@@include('layout/head.html', {
+  "title": "Кухонные ножи APOLLO — купить ножи и наборы с доставкой по России",
+  "description": "Кухонные ножи APOLLO для мяса, хлеба, овощей и других задач. Поварские ножи, сантоку и наборы из нержавеющей стали. Три линейки, разные материалы и размеры. Доставка по России."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "items": [{ "title": "Каталог", "href": "/catalog" }], "current": "Ножи" })
+  @@include('sections/category/category.html', {
+    "title": "Ножи Apollo",
+    "text": "Поварские, для&nbsp;хлеба, для&nbsp;овощей и&nbsp;наборы&nbsp;— во&nbsp;всех трех линейках Apollo. Нержавеющая и&nbsp;кованая сталь, рукояти под&nbsp;любой хват, актуальные сертификаты на&nbsp;каждую серию.",
+    "nav": "category-nav",
+    "data": "category-products",
+    "found": "Показано <span>142</span> товара из&nbsp;142",
+    "total": "142"
+  })
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

@@ -1,0 +1,44 @@
+// =============================================================================
+// «Каталог» — категории и коллекции (pages/catalog/catalog-list) — Figma: 1:1664, список 1:1964, коллекции 1:1843,
+// мобилка 39:18193 / 1:2781
+// Раскладка и отступы из шкалы — классами; здесь — ширина заголовка, счётчик и десктопные
+// отступы вне шкалы. Заголовок — классы ui/heading (H2: 48 / мобилка 28), табы — ui/tabs, вид — ui/view-switch, карточки — ui/catalog-card.
+// =============================================================================
+
+.ap-catalog-list {
+  &__title {
+    max-width: 260px; // макет: «Более 1000 товаров / в 8 категориях» в две строки
+    margin: 0;
+
+    @include media-breakpoint-up(sm) {
+      max-width: 444px;
+    }
+  }
+
+  // «Показаны все 8 категорий каталога»: мобилка — «Текст/12 мелкий», ≥ 576 — «Текст/14 вторичный»
+  &__count {
+    min-width: 0;
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-12');
+
+    @include media-breakpoint-up(sm) {
+      @include text('text-14-secondary');
+    }
+  }
+
+  &__panel:focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 4px;
+  }
+}
+
+// --- Отступы: десктоп (≥ 1200) — из макета; адаптив — классами в catalog-list.html ------------
+.ap-catalog-list {
+  @include desktop(padding-top, 32px);
+  @include desktop(padding-bottom, 100px);
+
+  &__inner       { @include desktop(gap, 32px); }
+  &__body        { @include desktop(gap, 24px); }
+  &__collections { @include desktop(gap, 32px); }
+}

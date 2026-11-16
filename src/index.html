@@ -1,0 +1,19 @@
+@@include('layout/head.html', {
+  "title": "APOLLO — посуда, ножи и кухонные принадлежности",
+  "description": "Посуда и кухонные принадлежности APOLLO для готовки и сервировки. Ножи, столовые приборы, кастрюли, сковороды и чайники. На российском рынке с 2001 года."
+})
+@@include('layout/header.html', { "overlay": true })
+
+<main class="ap-main">
+  @@include('pages/index/home-hero/home-hero.html')
+  @@include('pages/index/home-categories/home-categories.html')
+  @@include('pages/index/home-products/home-products.html')
+  @@include('pages/index/home-solutions/home-solutions.html')
+  @@include('sections/subscribe/subscribe.html')
+</main>
+
+@@include('layout/footer.html')
+
+<!-- Модальные окна страницы -->
+@@include('layout/modal-project.html')
+@@include('layout/scripts.html')

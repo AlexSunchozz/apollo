@@ -1,0 +1,4 @@
+<fieldset class="ap-filters__group@@if (context.mod) { ap-filters__group--@@mod}">
+  <legend class="ap-filters__legend">@@title</legend>
+  <div class="ap-filters__options">@@for (var i = 0; i < items.length; i++) {<label class="ap-check"><input type="checkbox" name="`+name+`[]" value="`+items[i]+`"><span>`+items[i]+`</span></label>}</div>
+</fieldset>

@@ -1,0 +1,36 @@
+<!--
+  «Контакты» — первый блок (сразу под ui/breadcrumbs): заголовок и текст + телефон, почта, часы работы, соцсети
+  Figma:  десктоп 26:18194, мобилка 26:18195
+  < 992:  всё в колонку.
+  ≥ 992:  слева заголовок (сверху) и текст (снизу), справа контакты (391); соцсети — общий компонент ui/socials.
+-->
+<section class="ap-section ap-contacts-intro pt-4 pb-5" aria-labelledby="contacts-title">
+  <div class="container px-3 px-sm-4">
+    <div class="ap-contacts-intro__inner d-flex flex-column flex-md-row gap-4">
+      @@include('ui/heading/heading.html', {
+        "id": "contacts-title",
+        "h1": true,
+        "compact": true,
+        "class": "ap-contacts-intro__head justify-content-between",
+        "title": "Контакты",
+        "text": "Есть вопрос о&nbsp;товарах или&nbsp;заказе?<br>Позвоните или&nbsp;напишите&nbsp;— поможем разобраться."
+      })
+
+      <div class="ap-contacts-intro__list d-flex flex-column gap-3">
+        <div class="d-flex flex-column gap-2">
+          <a class="ap-contacts-intro__value d-flex align-items-center gap-3" href="tel:+78123241151"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#phone"></use></svg>+7&nbsp;(812)&nbsp;324-11-51</a>
+          <p class="ap-contacts-intro__caption">Связаться с&nbsp;нами</p>
+        </div>
+        <div class="d-flex flex-column gap-2">
+          <a class="ap-contacts-intro__value d-flex align-items-center gap-3" href="mailto:info@globalapollo.ru"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#mail"></use></svg>info@globalapollo.ru</a>
+          <p class="ap-contacts-intro__caption">По&nbsp;вопросам заказов и&nbsp;сотрудничества</p>
+        </div>
+        <div class="d-flex flex-column gap-2">
+          <p class="ap-contacts-intro__value d-flex align-items-center gap-3"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#clock"></use></svg>10:00&nbsp;-&nbsp;18:00</p>
+          <p class="ap-contacts-intro__caption">Часы работы службы поддержки</p>
+        </div>
+        @@include('ui/socials/socials.html')
+      </div>
+    </div>
+  </div>
+</section>

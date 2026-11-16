@@ -1,0 +1,51 @@
+// =============================================================================
+// UI: характеристики «название — значение» — Figma карточка товара: кратко 1:2242, полностью 1:2337
+//
+//   <dl class="ap-specs"> loop 'ui/specs/spec-row.html' по JSON [{ "name", "value" }] </dl>
+//   название — 16 / 1.2 фирменный слева, значение — «Текст/14 вторичный» справа; длинные переносятся
+//   .ap-specs           строки через 8 (кратко, у описания товара)
+//   .ap-specs--lined    строки через 16, под каждой линия, поля 8; ≥ 768 — в 2 колонки через 16 (все характеристики)
+// =============================================================================
+
+.ap-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+
+  &__row {
+    min-width: 0;
+  }
+
+  dt {
+    min-width: 0;
+    color: $c-main;
+    @include text('text-16');
+    font-weight: $fw-regular;
+    letter-spacing: 0;
+  }
+
+  dd {
+    min-width: 0;
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+    text-align: right;
+  }
+
+  &--lined {
+    display: block;
+    column-gap: 16px;
+
+    @include media-breakpoint-up(md) {
+      columns: 2;
+    }
+
+    .ap-specs__row {
+      margin-bottom: 16px;
+      padding: 0 8px 16px;
+      border-bottom: 1px solid $c-border;
+      break-inside: avoid;
+    }
+  }
+}
