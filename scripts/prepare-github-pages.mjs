@@ -95,7 +95,7 @@ function rewriteUrl(value, sourceFile) {
 
 function rewriteHtml(html, sourceFile) {
     return html.replace(
-        /\b(href|src|poster|srcset)\s*=\s*(["'])(.*?)\2/gi,
+        /\b(href|src|poster|srcset|data-gallery-thumb)\s*=\s*(["'])(.*?)\2/gi,
         (attribute, name, quote, value) => {
             let rewritten;
 
