@@ -22,6 +22,7 @@ import initCatalogList from '../pages/catalog/catalog-list/catalog-list.js';
 import initBlogList from '../pages/blog/blog-list/blog-list.js';
 import initHomeHero from '../pages/index/home-hero/home-hero.js';
 import initHomeProducts from '../pages/index/home-products/home-products.js';
+import initMaintenancePage from '../pages/maintenance/maintenance-page/maintenance-page.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initCore();
@@ -37,4 +38,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initCatalogList();
   initHomeHero();
   initHomeProducts();
+  initMaintenancePage();
 });

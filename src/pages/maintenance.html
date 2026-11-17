@@ -1,0 +1,12 @@
+@@include('layout/head.html', {
+  "title": "Технические работы — Apollo",
+  "description": "Сайт Apollo временно недоступен: идут технические работы. Скоро вернёмся!"
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('pages/maintenance/maintenance-page/maintenance-page.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')
