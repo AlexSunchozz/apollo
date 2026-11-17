@@ -66,24 +66,8 @@
     }
   }
 
-  // Нижняя панель: обёртка .ap-tabbar__menu стоит над панелью и обрезает меню — оно выезжает из-под панели
+  // Нижняя панель: во всю ширину, рамка только сверху (выезжает — обёртка .ap-tabbar__menu)
   &--bottom {
     border-width: 1px 0 0;
-    transform: translateY(100%);
-    visibility: hidden;
-    transition: transform $transition, visibility 0s .3s;
-
-    &.is-open {
-      transform: translateY(0);
-      visibility: visible;
-      transition: transform $transition, visibility 0s;
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ap-account-menu--bottom,
-  .ap-account-menu--bottom.is-open {
-    transition: none;
   }
 }

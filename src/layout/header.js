@@ -120,59 +120,29 @@ export default function initCounters() {
   });
 }
 
-// --- Поиск в шапке: крестик «Очистить» (Figma 43:18464) ------------------------------------------
-// [data-search-clear] виден, когда в поле [data-search-input] есть хотя бы один символ; клик — очищает поле
-// и возвращает в него фокус. Сам поиск (подсказки, отправку) подключает интегратор.
-export function initSearch() {
-  document.querySelectorAll('[data-search]').forEach((form) => {
-    const input = form.querySelector('[data-search-input]');
-    const clear = form.querySelector('[data-search-clear]');
-    if (!input || !clear) return;
-
-    const update = () => {
-      clear.hidden = input.value.length === 0;
-    };
-
-    input.addEventListener('input', update);
-    clear.addEventListener('click', () => {
-      input.value = '';
-      update();
-      input.focus();
-      input.dispatchEvent(new Event('input', { bubbles: true }));
-    });
-    update(); // браузер может восстановить текст в поле при возврате на страницу
-  });
-}
-
-// --- Личный кабинет (layout/header-account.html — шапка, layout/tabbar.html — нижняя панель) -------------
-// Гость — иконка открывает окно входа (data-bs-toggle="modal"). Вошёл (data-authorized="true" у [data-account] —
-// ставит сервер; для проверки — ?auth в адресе) — иконка открывает меню layout/account-menu.html (.is-open):
-// в шапке — под иконкой, в нижней панели — над ней во всю ширину. Меню закрывается повторным кликом, кликом мимо,
-// по Esc, при выборе пункта; в нижней панели — и когда панель уезжает (прокрутка вверх).
-function initAccountMenu(root) {
-  const toggle = root.querySelector('[data-account-toggle]');
-  const menu = root.querySelector('[data-account-menu]');
-  if (!toggle || !menu) return;
-
-  toggle.removeAttribute('data-bs-toggle');
-  toggle.setAttribute('role', 'button');
-  toggle.setAttribute('aria-haspopup', 'true');
-  toggle.setAttribute('aria-controls', menu.id);
+// --- Всплывающие панели по кнопке (меню личного кабинета, лист поиска на мобилке) ----------------------------
+// .is-open у панели, aria-expanded у кнопки. Закрывается повторным кликом, кликом мимо, по Esc, при выборе пункта
+// (closeOn — селектор пунктов, '' — не закрывать); в нижней панели — и когда панель уезжает (прокрутка вверх).
+function bindPopup(root, toggle, panel, { closeOn = 'a, button', onOpen } = {}) {
+  toggle.setAttribute('aria-controls', panel.id);
   toggle.setAttribute('aria-expanded', 'false');
 
-  const isOpen = () => menu.classList.contains('is-open');
+  const isOpen = () => panel.classList.contains('is-open');
   const setOpen = (open) => {
-    menu.classList.toggle('is-open', open);
+    panel.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    if (open && onOpen) onOpen();
   };
 
   toggle.addEventListener('click', (event) => {
     event.preventDefault();
     setOpen(!isOpen());
   });
-  menu.addEventListener('click', (event) => {
-    if (event.target.closest('a, button')) setOpen(false);
-  });
+  if (closeOn) {
+    panel.addEventListener('click', (event) => {
+      if (event.target.closest(closeOn)) setOpen(false);
+    });
+  }
   document.addEventListener('click', (event) => {
     if (isOpen() && !root.contains(event.target)) setOpen(false);
   });
@@ -194,10 +164,35 @@ function initAccountMenu(root) {
   }
 }
 
+// --- Личный кабинет (layout/header-account.html — шапка, layout/tabbar.html — нижняя панель) -------------
+// Гость — иконка открывает окно входа (data-bs-toggle="modal"). Вошёл (data-authorized="true" у [data-account] —
+// ставит сервер; для проверки — ?auth в адресе) — иконка открывает меню layout/account-menu.html:
+// в шапке — под иконкой, в нижней панели — над ней во всю ширину.
 export function initAccount() {
   const demo = new URLSearchParams(window.location.search).has('auth');
   document.querySelectorAll('[data-account]').forEach((root) => {
     if (demo) root.dataset.authorized = 'true';
-    if (root.dataset.authorized === 'true') initAccountMenu(root);
+    if (root.dataset.authorized !== 'true') return;
+    const toggle = root.querySelector('[data-account-toggle]');
+    const menu = root.querySelector('[data-account-menu]');
+    if (!toggle || !menu) return;
+    toggle.removeAttribute('data-bs-toggle');
+    toggle.setAttribute('role', 'button');
+    toggle.setAttribute('aria-haspopup', 'true');
+    bindPopup(root, toggle, menu);
+  });
+}
+
+// --- Листы над нижней панелью ([data-tabbar-sheet]: кнопка [data-tabbar-sheet-toggle] + лист [data-tabbar-sheet-panel]) ---
+// Поиск на мобилке: лист с полем и подсказками ui/search; при открытии фокус — в поле.
+export function initTabbarSheets() {
+  document.querySelectorAll('[data-tabbar-sheet]').forEach((root) => {
+    const toggle = root.querySelector('[data-tabbar-sheet-toggle]');
+    const panel = root.querySelector('[data-tabbar-sheet-panel]');
+    if (!toggle || !panel) return;
+    bindPopup(root, toggle, panel, {
+      closeOn: '',
+      onOpen: () => panel.querySelector('input')?.focus(),
+    });
   });
 }

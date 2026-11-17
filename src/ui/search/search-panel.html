@@ -1,0 +1,19 @@
+<div class="ap-search-panel@@if (context.mod) { ap-search-panel--@@mod}" id="@@id" hidden data-search-panel data-search-demo>
+  <div class="ap-search-panel__found" data-search-found>
+    <div class="ap-search-panel__lists" data-search-lists>
+      <ul class="ap-search-panel__list ap-search-panel__list--cats" data-search-list>
+        @@loop('ui/search/search-category.html', 'data/search-categories.json')
+      </ul>
+      <ul class="ap-search-panel__list ap-search-panel__list--products" data-search-list>
+        @@loop('ui/search/search-product.html', 'data/search-products.json')
+      </ul>
+    </div>
+    <a class="ap-btn ap-btn--primary" href="/search" data-search-all>Показать все результаты&nbsp;→</a>
+  </div>
+  <div class="ap-search-panel__empty text-center" hidden data-search-empty>
+    <svg class="ap-icon ap-search-panel__empty-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#search"></use></svg>
+    <p class="ap-search-panel__empty-title">Ничего не&nbsp;найдено</p>
+    <p class="ap-search-panel__empty-text">Попробуйте изменить запрос или&nbsp;проверьте написание</p>
+    <a class="ap-link" href="/catalog">Перейти в&nbsp;каталог&nbsp;→</a>
+  </div>
+</div>

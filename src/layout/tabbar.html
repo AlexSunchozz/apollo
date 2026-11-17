@@ -1,14 +1,22 @@
 <!--
   Нижняя панель (< 768) — фиксирована внизу экрана, выезжает после 500px прокрутки (layout/header.js)
   Figma:  2:18169
-  Поиск — заглушка (логику подключает интегратор). 5-я иконка открывает меню каталога (#catalog-menu).
+  Поиск — лист над панелью: поле и подсказки ui/search (открывает layout/header.js, initTabbarSheets). 5-я иконка открывает меню каталога (#catalog-menu).
   Счётчики — те же data-counter, что в шапке: обновляются вместе (layout/header.js).
   «Личный кабинет»: гость — окно входа #auth-modal; вошёл — меню (layout/account-menu.html) во всю ширину над панелью,
   выезжает из-под неё (layout/header.js, initAccount).
 -->
 <nav class="ap-tabbar fixed-bottom d-md-none" aria-label="Быстрое меню" data-tabbar>
   <ul class="ap-tabbar__list d-flex justify-content-between align-items-center px-3 py-2">
-    @@include('layout/tabbar-item.html', { "icon": "tab-search", "label": "Поиск", "href": "#" })
+    <li data-search-root data-tabbar-sheet>
+      <button class="ap-tabbar__item" type="button" aria-label="Поиск" data-tabbar-sheet-toggle><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#tab-search"></use></svg></button>
+      <div class="ap-tabbar__menu">
+        <div class="ap-tabbar__search" id="search-sheet" data-tabbar-sheet-panel>
+          @@include('ui/search/search.html', { "panel": "search-panel-mobile" })
+          @@include('ui/search/search-panel.html', { "id": "search-panel-mobile", "mod": "inline" })
+        </div>
+      </div>
+    </li>
     @@include('layout/tabbar-item.html', { "icon": "tab-compare", "label": "Сравнение", "href": "#", "counter": "compare", "mod": "wide" })
     @@include('layout/tabbar-item.html', { "icon": "tab-heart", "label": "Избранное", "href": "#", "counter": "favorites", "mod": "wide" })
     @@include('layout/tabbar-item.html', { "icon": "tab-cart", "label": "Корзина", "href": "#", "counter": "cart" })

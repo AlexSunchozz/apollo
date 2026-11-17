@@ -7,7 +7,7 @@
   < 768:    только логотип по центру (как «Хедер (моб.)»); меню, иконки — в нижней панели (layout/tabbar.html).
   overlay: true (параметр подключения шапки) — < 768 шапка лежит поверх первого экрана: прозрачная, логотип белый (главная, Figma 2:18373).
   «Меню» открывает меню каталога (layout/catalog-menu.html), в открытом состоянии иконка — крестик.
-  Поиск — только разметка формы, логику подключает интегратор.
+  Поиск — ui/search: поле + подсказки под ним (данные подсказок и страницу /search подключает интегратор).
   «Личный кабинет» (layout/header-account.html, Figma 1:6978): гость — окно входа #auth-modal (layout/modal-auth.html);
   вошёл (data-authorized="true" у каждого [data-account] — в шапке и нижней панели, ставит сервер; для проверки — ?auth
   в адресе) — меню layout/account-menu.html: «Мои заказы», «Личные данные», «Выйти» (окно #logout-modal);
@@ -30,15 +30,10 @@
           </button>
         </div>
 
-        <form class="ap-header__search d-none d-md-flex align-items-center gap-3" action="#" method="get" role="search" data-search>
-          <input class="ap-header__search-input" type="search" name="q" placeholder="Найти нож, тарелку, чайник или серию..." aria-label="Поиск по каталогу" data-search-input>
-          <button class="ap-header__search-btn ap-header__search-clear align-items-center justify-content-center" type="button" aria-label="Очистить поиск" hidden data-search-clear>
-            <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close-sm"></use></svg>
-          </button>
-          <button class="ap-header__search-btn d-flex align-items-center justify-content-center" type="submit" aria-label="Найти">
-            <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#search"></use></svg>
-          </button>
-        </form>
+        <div class="ap-header__search d-none d-md-block" data-search-root>
+          @@include('ui/search/search.html', { "panel": "search-panel" })
+          @@include('ui/search/search-panel.html', { "id": "search-panel", "mod": "drop" })
+        </div>
 
         <ul class="ap-header__actions d-none d-md-flex align-items-center">
           @@include('layout/header-action.html', { "icon": "compare", "label": "Сравнение", "href": "#", "counter": "compare", "mod": "wide" })

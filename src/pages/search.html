@@ -1,0 +1,44 @@
+@@include('layout/head.html', {
+  "title": "Поиск — Apollo",
+  "description": "Поиск по каталогу Apollo: ножи, посуда, столовые приборы и кухонные принадлежности."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<!--
+  Поиск (адрес /search?q=<запрос>): найденные товары — блок каталога sections/category (без навигации и описания),
+  ничего не нашлось — sections/empty-state. На сайте сервер выводит один из двух блоков; здесь оба, лишний скрыт:
+  [data-search-results] / [data-search-nothing] (ui/search/search.js, initSearchPage). Запрос подставляется в
+  [data-search-query] и в поле поиска. data-search-demo — статичная вёрстка: «ничего не нашлось», если запрос
+  не встречается в названиях карточек (проверка: /search?q=нож и /search?q=лук); интегратор атрибут убирает.
+-->
+<main class="ap-main" data-search-page data-search-demo>
+  <div data-search-results>
+    @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Поиск" })
+    @@include('sections/category/category.html', {
+      "title": "Результаты по&nbsp;запросу «<span data-search-query>нож</span>»",
+      "text": "",
+      "nav": "",
+      "data": "category-products",
+      "found": "Найдено <span>142</span> товара",
+      "total": "142"
+    })
+  </div>
+
+  <div hidden data-search-nothing>
+    @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Поиск", "center": true })
+    @@include('sections/empty-state/empty-state.html', {
+      "id": "search-title",
+      "icon": "search-lg",
+      "title": "Пока ничего не&nbsp;нашлось",
+      "text": "Попробуйте изменить запрос или&nbsp;сократить его&nbsp;до&nbsp;одного-двух слов",
+      "btnText": "Перейти в&nbsp;каталог&nbsp;→",
+      "btnHref": "/catalog",
+      "reload": false,
+      "note": "",
+      "mod": ""
+    })
+  </div>
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

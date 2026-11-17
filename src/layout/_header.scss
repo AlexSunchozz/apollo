@@ -82,76 +82,11 @@
     display: inline-block;
   }
 
-  // --- Поиск: рамка 1px, поля 3 / 5 / 3 / 16, кнопка 32 с иконкой 20 -----------------------
+  // --- Поиск (ui/search): место в строке — до 848, сужается; подсказки — от правого края поля --------
   &__search {
+    position: relative;
     flex: 0 1 $header-search-max;
     min-width: 0;
-    padding: 3px 5px 3px 16px;
-    border: 1px solid $c-border;
-    background: $c-bg;
-    transition: border-color $transition;
-
-    &:focus-within {
-      border-color: $c-main;
-    }
-  }
-
-  &__search-input {
-    flex: 1 1 auto;
-    min-width: 0;
-    height: 32px;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    background: transparent;
-    color: $c-text;
-    @include text('text-14');
-    text-overflow: ellipsis; // на 768–1023 плейсхолдер не помещается целиком — многоточие вместо обрезки
-
-    &::placeholder {
-      color: $c-text-secondary;
-      opacity: 1;
-    }
-
-    // Крестик очистки у type="search" в WebKit — в макете его нет
-    &::-webkit-search-cancel-button {
-      -webkit-appearance: none;
-    }
-  }
-
-  &__search-btn {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: $c-main;
-    cursor: pointer;
-    transition: opacity $transition;
-
-    .ap-icon {
-      width: 20px;
-      height: 20px;
-    }
-
-    &:hover {
-      opacity: .7;
-    }
-  }
-
-  // Очистить поиск (Figma 43:18464): крестик 14 в зоне 32, слева от лупы; виден, когда в поле есть текст
-  &__search-clear {
-    margin-right: -16px; // вплотную к лупе (у формы зазор 16 между полем и кнопками)
-
-    &:not([hidden]) {
-      display: flex;
-    }
-
-    .ap-icon {
-      width: 28px;
-      height: 28px;
-    }
   }
 
   // --- Иконки: сравнение (28), избранное, кабинет, корзина (24); зазор 10 ------------------
@@ -235,7 +170,7 @@
     }
   }
 
-  :is(&__menu-btn, &__search-btn, &__action, &__menu-link, &__logo):focus-visible {
+  :is(&__menu-btn, &__action, &__menu-link, &__logo):focus-visible {
     outline: 2px solid $c-main;
     outline-offset: 2px;
   }

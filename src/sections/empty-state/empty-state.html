@@ -1,0 +1,26 @@
+<!--
+  Пустое состояние страницы: иконка 100, заголовок (h1, вид H2), текст, кнопка, необязательно подпись под кнопкой
+  Figma:  поиск без результатов — десктоп 1:6557, мобилка 1:6720; технические работы — десктоп 1:6891, мобилка 1:6909
+  Параметры: id, icon (иконка спрайта), title, text, btnText, btnHref, note ("" — без подписи), reload (true —
+  кнопка перезагружает страницу: empty-state.js), mod ("" или "page").
+  Без mod — после хлебных крошек: сверху 48, заголовок до 390, текст до 302 (поиск).
+  mod "page" — страница без крошек: сверху 24 (мобилка 48), снизу 60 и линия, заголовок до 544, текст до 434 (тех. работы).
+  Между текстом и кнопкой: мобилка 24, ≥ 768 — 48.
+-->
+<section class="ap-section ap-empty-state@@if (context.mod) { ap-empty-state--@@mod}" aria-labelledby="@@id">
+  <div class="container px-3 px-sm-4">
+    <div class="ap-empty-state__inner d-flex flex-column align-items-center gap-4 gap-md-5 text-center">
+      <div class="d-flex flex-column align-items-center gap-4">
+        <svg class="ap-icon ap-empty-state__icon" aria-hidden="true"><use href="@@root/img/sprite.svg#@@icon"></use></svg>
+        <div class="ap-heading align-items-center gap-4">
+          <h1 class="ap-heading__title ap-empty-state__title" id="@@id">@@title</h1>
+          <p class="ap-heading__text ap-empty-state__text">@@text</p>
+        </div>
+      </div>
+      <div class="d-flex flex-column align-items-center gap-2">
+        <a class="ap-btn ap-btn--primary" href="@@btnHref"@@if (context.reload) { data-empty-reload}>@@btnText</a>
+        @@if (context.note) {<p class="ap-empty-state__note">@@note</p>}
+      </div>
+    </div>
+  </div>
+</section>

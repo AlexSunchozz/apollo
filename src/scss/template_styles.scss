@@ -12,6 +12,7 @@
 @import '../sections/article/article';
 @import '../sections/articles/articles';
 @import '../sections/category/category';
+@import '../sections/empty-state/empty-state';
 @import '../sections/features/features';
 @import '../sections/markets/markets';
 @import '../sections/page-hero/page-hero';
@@ -41,6 +42,3 @@
 @import '../pages/blog/blog-list/blog-list';
 // 404
 @import '../pages/404/error-page/error-page';
-
-// Технические работы
-@import '../pages/maintenance/maintenance-page/maintenance-page';

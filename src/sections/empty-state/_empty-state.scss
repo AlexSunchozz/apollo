@@ -1,0 +1,61 @@
+// =============================================================================
+// Пустое состояние страницы (sections/empty-state) — поиск без результатов (Figma 1:6557 / 1:6720),
+// технические работы (1:6891 / 1:6909). Заголовок и текст — классы ui/heading (заголовок — H2: 48, мобилка 28);
+// кнопка — ui/button. Здесь — отступы, иконка 100, ширины заголовка и текста, подпись под кнопкой.
+//
+//   без модификатора  после хлебных крошек: сверху 48, снизу 60 (≥ 768); заголовок до 390, текст до 302
+//   --page            страница без крошек (тех. работы): сверху 24 (мобилка 48), снизу 60 и линия (≥ 768);
+//                     заголовок до 544, текст до 434
+// =============================================================================
+
+.ap-empty-state {
+  &__inner {
+    padding-top: 48px;
+
+    @include media-breakpoint-up(md) {
+      padding-bottom: 60px;
+    }
+  }
+
+  &__icon {
+    width: 100px;
+    height: 100px;
+    color: $c-main;
+  }
+
+  &__title {
+    max-width: 390px; // десктоп — в две строки, как в макете
+  }
+
+  &__text {
+    max-width: 302px;
+    margin: 0;
+  }
+
+  &__note {
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-12');
+
+    @include media-breakpoint-up(sm) {
+      @include text('text-14-secondary');
+    }
+  }
+
+  &--page {
+    .ap-empty-state__inner {
+      @include media-breakpoint-up(md) {
+        padding-top: 24px;
+        border-bottom: 1px solid $c-border;
+      }
+    }
+
+    .ap-empty-state__title {
+      max-width: 544px;
+    }
+
+    .ap-empty-state__text {
+      max-width: 434px;
+    }
+  }
+}

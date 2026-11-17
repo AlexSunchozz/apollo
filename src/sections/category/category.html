@@ -1,7 +1,8 @@
 <!--
   Категория каталога — общая секция-шаблон страницы категории (одна для всех категорий)
   Figma:  десктоп 1:2109 (страница 1:2107), мобилка 1:2997 / 1:3530 (крупная сетка) / 1:3080 (список), фильтры 1:4217
-  Параметры: title, text, nav — JSON соседних категорий в data/ (ui/line-tabs, вид --nav), data — JSON товаров
+  Параметры: title, text, nav — JSON соседних категорий в data/ (ui/line-tabs, вид --nav; text и nav необязательны — "",
+  без них — результаты поиска, pages/search.html), data — JSON товаров
   (ui/product-card), found — строка «Показано <span>142</span> товара из&nbsp;142» (HTML), total — всего товаров.
   Фильтры — ui/filters с группами из data/category-filters.json (в шаблоне CMS — умный фильтр категории).
   Панель над товарами: < 768 — сортировка и «Фильтр» (+ «Сбросить фильтр», когда что-то выбрано), ниже — счётчик
@@ -13,15 +14,15 @@
 -->
 <section class="ap-section ap-category pt-4 pb-5" aria-labelledby="category-title" data-products="12" data-category data-total="@@total">
   <div class="container px-3 px-sm-4 ap-category__inner d-flex flex-column gap-4">
-    <nav class="ap-line-tabs ap-line-tabs--nav" aria-label="Категории каталога">
+    @@if (context.nav) {<nav class="ap-line-tabs ap-line-tabs--nav" aria-label="Категории каталога">
       <ul class="ap-line-tabs__list d-flex gap-3">
         @@loop('ui/line-tabs/line-nav-item.html', 'data/@@nav.json')
       </ul>
-    </nav>
+    </nav>}
 
     <div class="ap-heading ap-category__head gap-3 gap-xl-4">
       <h1 class="ap-heading__title ap-heading__title--page-compact" id="category-title">@@title</h1>
-      <p class="ap-heading__text">@@text</p>
+      @@if (context.text) {<p class="ap-heading__text">@@text</p>}
     </div>
 
     <div class="ap-category__body d-flex flex-column gap-3">

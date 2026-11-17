@@ -8,6 +8,7 @@ import initCore from './core.js';
 // Общие секции (по алфавиту):
 import initArticle from '../sections/article/article.js';
 import initCategory from '../sections/category/category.js';
+import initEmptyState from '../sections/empty-state/empty-state.js';
 import initProduct from '../sections/product/product.js';
 import initProductReviews from '../sections/product-reviews/product-reviews.js';
 import initProducts from '../sections/products/products.js';
@@ -22,7 +23,6 @@ import initCatalogList from '../pages/catalog/catalog-list/catalog-list.js';
 import initBlogList from '../pages/blog/blog-list/blog-list.js';
 import initHomeHero from '../pages/index/home-hero/home-hero.js';
 import initHomeProducts from '../pages/index/home-products/home-products.js';
-import initMaintenancePage from '../pages/maintenance/maintenance-page/maintenance-page.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initCore();
@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initViewSwitch();
   initFilters();
   initCategory();
+  initEmptyState();
   initBlogList();
   initCatalogList();
   initHomeHero();
   initHomeProducts();
-  initMaintenancePage();
 });

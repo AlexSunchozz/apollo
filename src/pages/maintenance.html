@@ -5,7 +5,17 @@
 @@include('layout/header.html', { "overlay": false })
 
 <main class="ap-main">
-  @@include('pages/maintenance/maintenance-page/maintenance-page.html')
+  @@include('sections/empty-state/empty-state.html', {
+    "id": "maintenance-title",
+    "icon": "maintenance",
+    "title": "Сайт временно недоступен",
+    "text": "Мы&nbsp;обновляем сайт, чтобы ваши покупки стали ещё удобнее. Скоро вернёмся!",
+    "btnText": "Обновить страницу&nbsp;→",
+    "btnHref": "",
+    "reload": true,
+    "note": "Спасибо за&nbsp;терпение!",
+    "mod": "page"
+  })
 </main>
 
 @@include('layout/footer.html')

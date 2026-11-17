@@ -53,8 +53,8 @@ $tabbar-height: 59px; // 8 + 42 + 8 + рамка 1
     }
   }
 
-  // Меню личного кабинета (layout/account-menu.html --bottom): над панелью во всю ширину; обёртка обрезает
-  // меню — оно выезжает из-под панели. Клики проходят сквозь пустую обёртку.
+  // Листы над панелью (меню личного кабинета, поиск): во всю ширину над панелью; обёртка обрезает лист —
+  // он выезжает из-под панели (.is-open — layout/header.js). Клики проходят сквозь пустую обёртку.
   &__menu {
     position: absolute;
     right: 0;
@@ -63,9 +63,28 @@ $tabbar-height: 59px; // 8 + 42 + 8 + рамка 1
     overflow: hidden;
     pointer-events: none;
 
-    .is-open {
-      pointer-events: auto;
+    > * {
+      transform: translateY(100%);
+      visibility: hidden;
+      transition: transform $transition, visibility 0s .3s;
     }
+
+    > .is-open {
+      transform: translateY(0);
+      visibility: visible;
+      pointer-events: auto;
+      transition: transform $transition, visibility 0s;
+    }
+  }
+
+  // Лист поиска: поле и подсказки, поля 16, рамка сверху
+  &__search {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    border-top: 1px solid $c-border;
+    background: $c-white;
   }
 
   // Счётчик (ui/counter): над правым верхним углом рамки иконки
@@ -77,7 +96,8 @@ $tabbar-height: 59px; // 8 + 42 + 8 + рамка 1
 
 @media (prefers-reduced-motion: reduce) {
   .ap-tabbar,
-  .ap-tabbar.is-visible {
+  .ap-tabbar.is-visible,
+  .ap-tabbar__menu > * {
     transition: none;
   }
 }
