@@ -54,6 +54,8 @@ dist/                      готовая статика: index.html, pages/, cs
 | `/catalog` | `pages/catalog.html` | каталог: категории и коллекции |
 | `/catalog/<код>` | `pages/catalog/<код>.html` | категория — шаблон `sections/category` (пример — `nozhi`) |
 | `/catalog/<категория>/<подкатегория>/<код>` | `pages/catalog/<категория>/<подкатегория>/<код>.html` | карточка товара — шаблон `sections/product*` (пример — `/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift`) |
+| `/search?q=<запрос>` | `pages/search.html` | результаты поиска — блок каталога `sections/category` или «Пока ничего не нашлось» (см. «Поиск») |
+| `/maintenance` | `pages/maintenance.html` | технические работы (см. «Технические работы») |
 | любой несуществующий | `pages/404.html` | страница 404 |
 
 Папка страницы в `src/pages/` повторяется в `dist/pages/`. Страница отличается от секции тем, что подключает `layout/head.html`.
@@ -88,7 +90,9 @@ http://127.0.0.1:3000/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swif
 `data-authorized="true"`: кнопки «Оставить отзыв» (в блоке оценки и в приглашении) открывают форму `#review-modal`.
 Это только для просмотра вёрстки: на сайте признак ставит сервер (`data-authorized="true"` для вошедших), а проверку
 `?auth` в скрипте интегратор может удалить.
-Поиск в шапке: крестик «Очистить» появляется, когда в поле есть текст.
+
+`?auth` действует и в шапке: иконка «Личный кабинет» открывает меню «Мои заказы / Личные данные / Выйти»
+(см. «Вход, регистрация и личный кабинет»).
 
 Остальное поведение — в вёрстке, без сервера: вид списка «сетка / крупная сетка / список» (`ui/view-switch`),
 «Показать ещё» (открывает уже выведенные скрытые карточки — на сайте заменяется подгрузкой), пагинация блога,
@@ -106,6 +110,115 @@ http://127.0.0.1:3000/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swif
 | `ap:sort-change` | сортировка категории и отзывов товара | `{ value }` |
 | `ap:quantity-change` | выбор количества на карточке товара | `{ value }` |
 | `ap:view-change` | вид списка (`ui/view-switch`) | `{ view, targets }` |
-| `ap:form-submit` | формы (подписка, «Подобрать для проекта», «Написать нам») после проверки | `{ form, data: FormData }` |
+| `ap:form-submit` | формы (подписка, «Подобрать для проекта», «Написать нам», окна входа) после проверки | `{ form, data: FormData }` |
+| `ap:search-query` | поиск — введено 2+ символа (пауза 200 мс) | `{ query, form, panel }` |
+| `ap:search-update` | поиск — интегратор вывел подсказки (отправляет **на панель**) | — |
+| `ap:auth-email` | вход по почте — ответ сервера: почта зарегистрирована или нет (отправляет интегратор) | `{ form, registered }` |
+| `ap:auth-error` | неверный код / неверный пароль (отправляет интегратор) | `{ form }` |
+| `ap:auth-resend` | «Отправить новый код» | `{ form }` |
+| `ap:auth-logout` | «Выйти» в окне «Выйти из профиля?» (можно отменить `preventDefault()`) | — |
+
+## Поиск
+
+Поле поиска — общий компонент `ui/search`: в шапке (≥ 768) подсказки открываются под полем, на мобилке лупа
+в нижней панели открывает лист с полем и подсказками над панелью. Подсказки — с 2 символов: категории (лупа,
+название, стрелка), товары (фото, название, цена), «Показать все результаты →»; если ничего нет — «Ничего не найдено».
+Enter и «Показать все результаты» ведут на страницу `/search?q=<запрос>`.
+
+**Как посмотреть в статике.** Подсказки сейчас — пример из `data/search-categories.json` и `data/search-products.json`,
+их фильтрует JS по тексту (атрибут `data-search-demo` у панели). Введите «нож» — подсказки, «лук» — «Ничего не найдено».
+Страница результатов: `http://127.0.0.1:3000/search?q=нож` — найденные товары, `…/search?q=лук` — «Пока ничего не нашлось».
+
+### Подсказки: подключение к серверу
+
+У панели подсказок (`.ap-search-panel` в `ui/search/search-panel.html`; на странице их две — в шапке и в нижней
+панели) убрать `data-search-demo` и выбрать один из способов.
+
+**1. Адрес обработчика — `data-search-url` (рекомендуется, свой JS не нужен):**
+
+```html
+<div class="ap-search-panel ap-search-panel--drop" id="search-panel" hidden data-search-panel data-search-url="/ajax/search.php">
+```
+
+Скрипт сам отправляет `GET /ajax/search.php?q=<запрос>` (с заголовком `X-Requested-With: XMLHttpRequest`),
+отменяет устаревшие запросы, пока пользователь печатает, и вставляет ответ в `[data-search-lists]`.
+Ответ — HTML двух списков в разметке вёрстки (пустой список или пустой ответ — блок скрывается; ничего нет —
+«Ничего не найдено»; ошибка сервера — панель закрывается):
+
+```html
+<ul class="ap-search-panel__list ap-search-panel__list--cats" data-search-list>
+  <li data-search-item><a class="ap-search-panel__cat d-flex align-items-center justify-content-between gap-3" href="/catalog/nozhi"><span class="d-flex align-items-center gap-2"><svg class="ap-icon" aria-hidden="true"><use href="/img/sprite.svg#search"></use></svg>Ножи</span><svg class="ap-icon ap-search-panel__arrow" aria-hidden="true"><use href="/img/sprite.svg#arrow-long"></use></svg></a></li>
+</ul>
+<ul class="ap-search-panel__list ap-search-panel__list--products" data-search-list>
+  <li data-search-item><a class="ap-search-panel__product d-flex align-items-center gap-2" href="/catalog/…"><img class="ap-search-panel__img" src="/upload/…" width="96" height="96" alt="" loading="lazy"><span class="ap-search-panel__name">Нож поварской Genio Loft, 20&nbsp;см</span><span class="ap-search-panel__price">1&nbsp;490&nbsp;₽</span></a></li>
+</ul>
+```
+
+Разметка пунктов — те же партиалы `ui/search/search-category.html` и `ui/search/search-product.html`
+(в Битриксе — например, шаблон компонента `bitrix:search.title` или свой AJAX-обработчик по каталогу).
+
+**2. Свой JS — события.** Без `data-search-url` скрипт только отправляет `ap:search-query` и ждёт, пока интегратор
+выведет пункты в списки `[data-search-list]` и сообщит панели `ap:search-update` — до этого панель не открывается:
+
+```js
+document.addEventListener('ap:search-query', async ({ detail: { query, panel } }) => {
+  const html = await (await fetch(`/ajax/search.php?q=${encodeURIComponent(query)}`)).text();
+  panel.querySelector('[data-search-lists]').innerHTML = html;
+  panel.dispatchEvent(new CustomEvent('ap:search-update'));
+});
+```
+
+### Страница результатов `/search?q=<запрос>`
+
+Собирает сервер, без AJAX. В `pages/search.html` — оба варианта, лишний скрыт атрибутом `hidden`:
+
+- `[data-search-results]` — найдено: крошки + блок каталога `sections/category` (без навигации и описания)
+  с найденными товарами; заголовок «Результаты по запросу «…»» (`[data-search-query]`). Сортировка, вид, фильтр,
+  «Показать ещё» — как на странице категории (те же события);
+- `[data-search-nothing]` — ничего не найдено: крошки по центру + `sections/empty-state`.
+
+Сервер выводит только нужный блок (без `hidden`), атрибут `data-search-demo` у `<main>` убирается — тогда скрипт
+только подставляет запрос из адреса в заголовок и в поле поиска.
+
+## Технические работы
+
+Страница `pages/maintenance.html` (`sections/empty-state`, вид `page`): «Сайт временно недоступен», «Обновить страницу →»,
+«Спасибо за терпение!».
+
+**Как посмотреть:** `npm run dev` → `http://127.0.0.1:3000/maintenance` (или `npm run preview`;
+в `dist/` — файл `pages/maintenance.html`).
+
+**Как подключить на сайте.** На время работ сервер отдаёт эту страницу **на том адресе, который запросил
+пользователь** (код ответа `503 Service Unavailable`, желательно с заголовком `Retry-After`; адрес в браузере не меняется).
+Тогда «Обновить страницу» просто перезагружает этот адрес — пользователь вернётся туда, где был.
+У кнопки `href=""` — это текущий адрес, поэтому она работает даже без JS.
+
+Если вместо этого сервер **перенаправляет** на отдельный адрес, исходный путь нужно передать в `?back=`:
+`/maintenance?back=/catalog/nozhi` — кнопка поведёт на `/catalog/nozhi`. Принимаются только пути этого же сайта
+(начинаются с `/`), внешние ссылки игнорируются (`sections/empty-state/empty-state.js`).
+
+## Вход, регистрация и личный кабинет
+
+Окна — `layout/modal-auth.html` и `layout/modal-auth-code.html` (подключены после подвала, есть на всех страницах),
+логика — `layout/auth.js`.
+
+- Иконка «Личный кабинет» (шапка, нижняя панель) у гостя открывает «Вход или регистрация»: табы «По телефону /
+  По почте», «Получить код» → окно «Введите код». Код отправляется сам, когда введены 4 цифры.
+- «Войти по почте / по телефону» — окно входа с паролем (вид меняется: заголовок, поле, текст ошибки).
+- Почта: если она уже зарегистрирована — окно входа с паролем, иначе — регистрация через код. Решает сервер:
+  `document.dispatchEvent(new CustomEvent('ap:auth-email', { detail: { form, registered: true } }))`.
+- Неверный код / пароль — `ap:auth-error` (`detail: { form }`): «Неверный код» в окне кода, красные поля и текст
+  ошибки в окне входа.
+- Вошедший пользователь (`data-authorized="true"` у `[data-account]` в шапке и нижней панели — ставит сервер):
+  иконка открывает меню «Мои заказы / Личные данные / Выйти»; «Выйти» → окно «Выйти из профиля?».
+
+**Как посмотреть в статике** (ответ сервера имитируется, пока у форм `action="#"`):
+
+| Адрес | Что видно |
+|---|---|
+| любая страница | гость: иконка кабинета → «Вход или регистрация»; любой код из 4 цифр → «Спасибо за регистрацию!» |
+| `?auth-registered` | «Получить код» по почте → окно входа с паролем (почта зарегистрирована) |
+| `?auth-error` | любой код → «Неверный код», вход по паролю → ошибка |
+| `?auth` | вошедший пользователь: меню кабинета; «Выйти» в окне перезагружает страницу без `?auth` |
 
 Открытые задачи по вёрстке — в [`TODO.md`](TODO.md).
