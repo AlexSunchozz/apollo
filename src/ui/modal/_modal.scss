@@ -169,3 +169,41 @@
     width: auto;
   }
 }
+// --- Окна входа и регистрации (Figma 1:6255, мобилка 1:6412) — вид --form ---------------------------------
+//   __text              текст фирменного цвета под заголовком: «Отправили код…», «Попробуйте ещё раз» (16 → мобилка 14)
+//   __error             сообщение об ошибке: красное, 14 (мобилка 12 в одну строку)
+//   __actions--even     две кнопки ≥ 576 в ряд поровну («Выйти / Остаться»)
+//   --code              окно «Введите код»: текст под заголовком — не шире 252 (адрес / телефон — второй строкой)
+.ap-modal {
+  &__text {
+    margin: 0;
+    color: $c-main;
+    @include text('lead');
+  }
+
+  &__error {
+    margin: 0;
+    color: $c-error;
+    @include text('text-12');
+
+    @include media-breakpoint-up(sm) {
+      @include text('text-14-secondary');
+    }
+  }
+
+  &__actions--even .ap-btn {
+    @include media-breakpoint-up(sm) {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+
+  &--code &__text {
+    max-width: 252px;
+  }
+}
+
+// Текст под заголовком окна «Выйти из профиля?» — не шире 330 (две строки, как в макете)
+.ap-modal__lead--narrow {
+  max-width: 330px;
+}

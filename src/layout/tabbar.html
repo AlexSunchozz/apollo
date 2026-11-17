@@ -3,6 +3,8 @@
   Figma:  2:18169
   Поиск — заглушка (логику подключает интегратор). 5-я иконка открывает меню каталога (#catalog-menu).
   Счётчики — те же data-counter, что в шапке: обновляются вместе (layout/header.js).
+  «Личный кабинет»: гость — окно входа #auth-modal; вошёл — меню (layout/account-menu.html) во всю ширину над панелью,
+  выезжает из-под неё (layout/header.js, initAccount).
 -->
 <nav class="ap-tabbar fixed-bottom d-md-none" aria-label="Быстрое меню" data-tabbar>
   <ul class="ap-tabbar__list d-flex justify-content-between align-items-center px-3 py-2">
@@ -15,6 +17,11 @@
         <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#tab-menu"></use></svg>
       </button>
     </li>
-    @@include('layout/tabbar-item.html', { "icon": "tab-user", "label": "Личный кабинет", "href": "#" })
+    <li data-account>
+      <a class="ap-tabbar__item" href="#auth-modal" aria-label="Личный кабинет" data-bs-toggle="modal" data-account-toggle><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#tab-user"></use></svg></a>
+      <div class="ap-tabbar__menu">
+        @@include('layout/account-menu.html', { "id": "account-menu-mobile", "mod": "bottom" })
+      </div>
+    </li>
   </ul>
 </nav>

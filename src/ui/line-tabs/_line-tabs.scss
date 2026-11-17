@@ -129,3 +129,37 @@
     }
   }
 }
+
+// --- Табы во всю ширину (окно «Вход или регистрация»: «По телефону / По почте», Figma 1:6263 / мобилка 1:6421) ---
+//   include 'ui/line-tabs/line-tabs.html' с параметрами { "label": "…", "data": "auth-tabs", "class": "ap-line-tabs--fill" }
+//   в данных у табов "compact": true — поле снизу 4 (как в макете)
+// Табы делят ширину поровну (зазор 16), у каждого своя линия (вторичный цвет), выбранный и ховер — фирменные;
+// без прокрутки и выхода за край (лента внутри окна); подпись по центру, длинная — переносится.
+.ap-line-tabs--fill {
+  margin-right: 0;
+  overflow: visible;
+
+  .ap-line-tabs__list {
+    width: auto;
+    min-width: 0;
+    padding-right: 0;
+    box-shadow: none;
+  }
+
+  .ap-line-tabs__tab {
+    flex: 1 1 0;
+    min-width: 0;
+    border-bottom-color: $c-text-secondary;
+    text-align: center;
+    white-space: normal;
+
+    @include media-breakpoint-up(sm) {
+      @include text('text-16');
+    }
+
+    &:hover,
+    &[aria-selected='true'] {
+      border-bottom-color: $c-main;
+    }
+  }
+}

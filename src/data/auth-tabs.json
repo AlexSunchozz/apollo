@@ -1,0 +1,4 @@
+[
+  { "tab": "auth-tab-phone", "panel": "auth-panel-phone", "label": "По&nbsp;телефону", "selected": true, "compact": true },
+  { "tab": "auth-tab-email", "panel": "auth-panel-email", "label": "По&nbsp;почте", "compact": true }
+]

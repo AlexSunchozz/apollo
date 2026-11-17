@@ -8,6 +8,10 @@
   overlay: true (параметр подключения шапки) — < 768 шапка лежит поверх первого экрана: прозрачная, логотип белый (главная, Figma 2:18373).
   «Меню» открывает меню каталога (layout/catalog-menu.html), в открытом состоянии иконка — крестик.
   Поиск — только разметка формы, логику подключает интегратор.
+  «Личный кабинет» (layout/header-account.html, Figma 1:6978): гость — окно входа #auth-modal (layout/modal-auth.html);
+  вошёл (data-authorized="true" у каждого [data-account] — в шапке и нижней панели, ставит сервер; для проверки — ?auth
+  в адресе) — меню layout/account-menu.html: «Мои заказы», «Личные данные», «Выйти» (окно #logout-modal);
+  открытое меню — линия под иконкой (layout/header.js, initAccount).
   Счётчики сравнения / избранного / корзины: пустой — скрыт; число выводит сервер в разметке
   или JS событием ap:counter (layout/header.js).
 -->
@@ -39,7 +43,7 @@
         <ul class="ap-header__actions d-none d-md-flex align-items-center">
           @@include('layout/header-action.html', { "icon": "compare", "label": "Сравнение", "href": "#", "counter": "compare", "mod": "wide" })
           @@include('layout/header-action.html', { "icon": "heart", "label": "Избранное", "href": "#", "counter": "favorites" })
-          @@include('layout/header-action.html', { "icon": "user", "label": "Личный кабинет", "href": "#" })
+          @@include('layout/header-account.html')
           @@include('layout/header-action.html', { "icon": "cart", "label": "Корзина", "href": "#", "counter": "cart" })
         </ul>
       </div>

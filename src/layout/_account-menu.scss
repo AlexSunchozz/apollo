@@ -1,0 +1,89 @@
+// =============================================================================
+// Меню личного кабинета (layout/account-menu.html) — Figma 1:6978. Одна разметка, подключается в шапке
+// (layout/header-account.html) и в нижней панели (layout/tabbar.html); открывает layout/header.js (initAccount, .is-open).
+//
+//   .ap-account-menu          белая панель с рамкой, поля 24; пункты — иконка 14 + «Текст/14 в одну строку»,
+//                             вторичный, ховер — фирменный; «Выйти» отделён линией (под ней 10)
+//   .ap-account-menu--drop    ≥ 768, шапка: ширина 209, на 24 ниже иконки, по правому краю иконок (корзины)
+//   .ap-account-menu--bottom  < 768, нижняя панель: во всю ширину экрана над панелью, выезжает из-под неё
+// =============================================================================
+
+.ap-account-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid $c-border;
+  background: $c-white;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 0 0 16px;
+    border-bottom: 1px solid $c-border;
+    list-style: none;
+  }
+
+  &__link {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-text-secondary;
+    @include text('text-14');
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color $transition;
+
+    .ap-icon {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+      color: $c-main;
+    }
+
+    &:hover {
+      color: $c-main;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  // Шапка: под иконкой (от .ap-header__actions — position: relative)
+  &--drop {
+    position: absolute;
+    top: calc(50% + 36px); // середина иконок + 12 (половина иконки) + 24
+    right: 0;
+    width: 209px;
+
+    &:not(.is-open) {
+      display: none;
+    }
+  }
+
+  // Нижняя панель: обёртка .ap-tabbar__menu стоит над панелью и обрезает меню — оно выезжает из-под панели
+  &--bottom {
+    border-width: 1px 0 0;
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform $transition, visibility 0s .3s;
+
+    &.is-open {
+      transform: translateY(0);
+      visibility: visible;
+      transition: transform $transition, visibility 0s;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-account-menu--bottom,
+  .ap-account-menu--bottom.is-open {
+    transition: none;
+  }
+}

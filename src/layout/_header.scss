@@ -156,6 +156,7 @@
 
   // --- Иконки: сравнение (28), избранное, кабинет, корзина (24); зазор 10 ------------------
   &__actions {
+    position: relative; // меню личного кабинета — от правого края иконок
     flex-shrink: 0;
     gap: 10px;
     margin: 0;
@@ -195,6 +196,20 @@
 
   &__action--wide &__count {
     top: -4px;
+  }
+
+  // --- Личный кабинет (вошёл; Figma 1:6978): открыто меню (layout/_account-menu.scss) — линия 20 × 1 на 4 ниже иконки
+  &__action[aria-expanded='true'] {
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      width: 20px;
+      height: 1px;
+      background: $c-main;
+      transform: translateX(-50%);
+    }
   }
 
   // --- Навигация: 14px, серый; снизу линия 1px на ширину контента --------------------------

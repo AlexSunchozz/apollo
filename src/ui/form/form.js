@@ -9,7 +9,7 @@
 //                    отмечены; ошибка — .is-invalid (красная обводка), снимается при вводе.
 //                    Если всё верно — событие ap:form-submit (detail: { form, data }) для интегратора;
 //                    пока action="#" — форма никуда не отправляется.
-//   [data-form-success="#id"] — после успешной проверки форма очищается и открывается окно #id
+//   [data-form-success="#id"] — после успешной проверки форма очищается и открывается окно #id (форма в окне — оно закрывается)
 //                    (Bootstrap Modal, например «Спасибо за подписку!»). Интегратор при AJAX-отправке может
 //                    убрать атрибут и открывать окно сам по ответу сервера.
 
@@ -107,7 +107,7 @@ const isFieldValid = (field) => {
 
 function initForm(form) {
   form.addEventListener('submit', (event) => {
-    const fields = [...form.querySelectorAll('[required], [data-phone], [type="email"]')];
+    const fields = [...form.querySelectorAll('[required], [data-phone], [type="email"]')].filter((field) => !field.disabled); // отключённые (скрытый вариант формы) не проверяются
     const invalid = fields.filter((field) => !isFieldValid(field));
     fields.forEach((field) => field.classList.toggle('is-invalid', invalid.includes(field)));
 
@@ -124,7 +124,15 @@ function initForm(form) {
     const success = form.dataset.formSuccess && document.querySelector(form.dataset.formSuccess);
     if (success && Modal) {
       form.reset();
-      Modal.getOrCreateInstance(success).show();
+      // Форма в окне — сначала закрыть его, следующее окно открыть после (без двух подложек)
+      const current = form.closest('.modal.show');
+      const show = () => Modal.getOrCreateInstance(success).show();
+      if (current) {
+        current.addEventListener('hidden.bs.modal', show, { once: true });
+        Modal.getOrCreateInstance(current).hide();
+      } else {
+        show();
+      }
     }
   });
 

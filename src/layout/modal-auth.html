@@ -1,0 +1,170 @@
+<!--
+  Окна входа и регистрации (Bootstrap Modal, вид ui/modal --form) — общие для всех страниц, подключены в layout/footer.html
+  Figma:  десктоп 1:6255 (по телефону 1:6256, по почте 1:6357, вход по паролю 1:6383, код 1:6299 / 1:6283,
+          неверный код 1:6341, «Спасибо за регистрацию» 1:6315, «Выйти из профиля?» 1:6328); мобилка 1:6412
+  #auth-modal          «Вход или регистрация»: табы «По телефону / По почте» (ui/line-tabs --fill) — две формы;
+                       открывается иконкой «Личный кабинет» в шапке и нижней панели, кнопкой «Войти» в окне отзыва
+  «Получить код» по почте: почта зарегистрирована → #auth-login-modal, нет → регистрация, #auth-code-email-modal
+  (решает сервер — событие ap:auth-email, layout/auth.js)
+  #auth-login-modal    вход с паролем (для зарегистрированных): два вида — «Вход по почте» и «Вход по телефону»
+                       (заголовок, поле, текст ошибки и ссылка внизу — [data-login-mode]); вид выбирают ссылки
+                       «Войти по почте / по телефону» — data-auth-login="email|phone" (layout/auth.js)
+  #auth-code-phone-modal / #auth-code-email-modal — «Введите код» (layout/modal-auth-code.html)
+  #auth-success-modal  «Спасибо за регистрацию!»
+  #logout-modal        «Выйти из профиля?» — открывает «Выйти» в меню личного кабинета; «Выйти» [data-auth-logout] —
+                       событие ap:auth-logout, пока статичная вёрстка — перезагрузка страницы без ?auth
+  Переходы между окнами и проверка кода — layout/auth.js; поля — ui/form (.ap-field--legend).
+-->
+<div class="modal fade ap-modal ap-modal--form" id="auth-modal" tabindex="-1" aria-labelledby="auth-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="d-flex flex-column gap-4">
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex flex-column gap-2 gap-sm-3">
+            <div class="d-flex justify-content-between align-items-end gap-3">
+              <h2 class="ap-modal__title" id="auth-modal-title">Вход или&nbsp;регистрация</h2>
+              <button class="ap-modal__close" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close"></use></svg></button>
+            </div>
+            <p class="ap-modal__lead">Выберите удобный способ</p>
+          </div>
+          @@include('ui/line-tabs/line-tabs.html', { "label": "Способ входа", "data": "auth-tabs", "class": "ap-line-tabs--fill" })
+        </div>
+
+        <div id="auth-panel-phone" role="tabpanel" aria-labelledby="auth-tab-phone">
+          <div class="d-flex flex-column align-items-center gap-4">
+          <form class="d-flex flex-column align-self-stretch gap-3" action="#" method="post" novalidate data-form data-form-success="#auth-code-phone-modal" data-auth-send>
+            <div class="ap-field ap-field--legend">
+              <input class="ap-input" type="tel" id="auth-phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required data-phone data-phone-mask>
+              <label class="ap-field__label" for="auth-phone">Телефон</label>
+              <button class="ap-field__action" type="button" aria-label="Очистить поле" data-field-clear><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#clear"></use></svg></button>
+            </div>
+            <label class="ap-check ap-check--consent">
+              <input type="checkbox" name="consent" value="Y" required>
+              <span>Даю согласие на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="/privacy">политикой конфиденциальности</a></span>
+            </label>
+            <button class="ap-btn ap-btn--primary" type="submit">Получить код&nbsp;→</button>
+          </form>
+          <a class="ap-link" href="#auth-login-modal" data-bs-toggle="modal" data-auth-login="email">Войти по&nbsp;почте</a>
+          </div>
+        </div>
+
+        <div id="auth-panel-email" role="tabpanel" aria-labelledby="auth-tab-email" hidden>
+          <div class="d-flex flex-column align-items-center gap-4">
+          <form class="d-flex flex-column align-self-stretch gap-3" action="#" method="post" novalidate data-form data-auth-email data-auth-next="#auth-code-email-modal" data-auth-registered="#auth-login-modal">
+            <div class="ap-field ap-field--legend">
+              <input class="ap-input" type="email" id="auth-email" name="email" autocomplete="email" inputmode="email" required>
+              <label class="ap-field__label" for="auth-email">Почта</label>
+              <button class="ap-field__action" type="button" aria-label="Очистить поле" data-field-clear><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#clear"></use></svg></button>
+            </div>
+            <label class="ap-check ap-check--consent">
+              <input type="checkbox" name="consent" value="Y" required>
+              <span>Даю согласие на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="/privacy">политикой конфиденциальности</a></span>
+            </label>
+            <button class="ap-btn ap-btn--primary" type="submit">Получить код&nbsp;→</button>
+          </form>
+          <a class="ap-link" href="#auth-login-modal" data-bs-toggle="modal" data-auth-login="phone">Войти по&nbsp;телефону</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade ap-modal ap-modal--form" id="auth-login-modal" tabindex="-1" aria-labelledby="auth-login-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="d-flex flex-column align-items-center gap-4">
+        <div class="d-flex flex-column align-self-stretch gap-2 gap-sm-3">
+          <div class="d-flex justify-content-between align-items-end gap-3">
+            <h2 class="ap-modal__title" id="auth-login-modal-title"><span data-login-mode="email">Вход по&nbsp;почте</span><span data-login-mode="phone" hidden>Вход по&nbsp;телефону</span></h2>
+            <button class="ap-modal__close" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close"></use></svg></button>
+          </div>
+          <p class="ap-modal__lead">Для&nbsp;зарегистрированных клиентов</p>
+        </div>
+
+        <form class="d-flex flex-column align-self-stretch gap-3" action="#" method="post" novalidate data-form data-auth-check>
+          <div class="ap-field ap-field--legend" data-login-mode="email">
+            <input class="ap-input" type="email" id="auth-login-email" name="email" autocomplete="email" inputmode="email" required>
+            <label class="ap-field__label" for="auth-login-email">Почта</label>
+            <button class="ap-field__action" type="button" aria-label="Очистить поле" data-field-clear><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#clear"></use></svg></button>
+          </div>
+          <div class="ap-field ap-field--legend" data-login-mode="phone" hidden>
+            <input class="ap-input" type="tel" id="auth-login-phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required data-phone data-phone-mask disabled>
+            <label class="ap-field__label" for="auth-login-phone">Телефон</label>
+            <button class="ap-field__action" type="button" aria-label="Очистить поле" data-field-clear><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#clear"></use></svg></button>
+          </div>
+          <div class="ap-field ap-field--legend">
+            <input class="ap-input" type="password" id="auth-login-password" name="password" autocomplete="current-password" required>
+            <label class="ap-field__label" for="auth-login-password">Пароль</label>
+            <button class="ap-field__action" type="button" aria-label="Показать пароль" aria-pressed="false" data-password-toggle><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#eye"></use></svg></button>
+          </div>
+          <p class="ap-modal__error" role="alert" data-auth-error hidden><span data-login-mode="email">Неверно указан адрес электронной почты или&nbsp;пароль.</span><span data-login-mode="phone" hidden>Неверно указан телефон или&nbsp;пароль.</span></p>
+          <label class="ap-check ap-check--consent">
+            <input type="checkbox" name="consent" value="Y" required>
+            <span>Даю согласие на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="/privacy">политикой конфиденциальности</a></span>
+          </label>
+          <button class="ap-btn ap-btn--primary" type="submit">Войти&nbsp;→</button>
+        </form>
+
+        <a class="ap-link" href="#auth-login-phone" data-auth-login="phone" data-login-mode="email">Войти по&nbsp;телефону</a>
+        <a class="ap-link" href="#auth-login-email" data-auth-login="email" data-login-mode="phone" hidden>Войти по&nbsp;почте</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+@@include('layout/modal-auth-code.html', {
+  "id": "auth-code-phone",
+  "sent": "на",
+  "target": "+7&nbsp;(ХХХ)-ХХХ-ХХ-ХХ",
+  "note": "Никому не&nbsp;сообщайте этот код!",
+  "after": "",
+  "linkText": "Войти по&nbsp;почте",
+  "login": "email"
+})
+
+@@include('layout/modal-auth-code.html', {
+  "id": "auth-code-email",
+  "sent": "на&nbsp;почту",
+  "target": "name@example.ru",
+  "note": "",
+  "after": "Если письма нет, проверьте папку «Спам»",
+  "linkText": "Войти по&nbsp;телефону",
+  "login": "phone"
+})
+
+<div class="modal fade ap-modal ap-modal--form" id="auth-success-modal" tabindex="-1" aria-labelledby="auth-success-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="d-flex flex-column align-items-center gap-3 text-center">
+        <div class="d-flex flex-column align-items-center align-self-stretch gap-2">
+          <button class="ap-modal__close align-self-end" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close"></use></svg></button>
+          <h2 class="ap-modal__title" id="auth-success-modal-title">Спасибо за&nbsp;регистрацию!</h2>
+          <p class="ap-modal__lead">Личный кабинет готов. В&nbsp;настройках профиля можно задать пароль и&nbsp;добавить телефон для&nbsp;восстановления доступа.</p>
+        </div>
+        <div class="d-flex flex-column align-self-stretch gap-2">
+          <button class="ap-btn ap-btn--primary" type="button" data-bs-dismiss="modal">Продолжить покупки&nbsp;→</button>
+          <a class="ap-btn ap-btn--outline" href="#" data-stub>Перейти в&nbsp;профиль&nbsp;→</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade ap-modal ap-modal--form" id="logout-modal" tabindex="-1" aria-labelledby="logout-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="d-flex flex-column align-items-center gap-3 text-center">
+        <div class="d-flex flex-column align-items-center align-self-stretch gap-2">
+          <button class="ap-modal__close align-self-end" type="button" data-bs-dismiss="modal" aria-label="Закрыть"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close"></use></svg></button>
+          <h2 class="ap-modal__title" id="logout-modal-title">Выйти из&nbsp;профиля?</h2>
+          <p class="ap-modal__lead ap-modal__lead--narrow">Для&nbsp;доступа к&nbsp;заказам и&nbsp;личным данным потребуется снова войти.</p>
+        </div>
+        <div class="ap-modal__actions ap-modal__actions--even d-flex flex-column flex-sm-row align-self-stretch gap-2">
+          <button class="ap-btn ap-btn--outline" type="button" data-auth-logout>Выйти</button>
+          <button class="ap-btn ap-btn--primary" type="button" data-bs-dismiss="modal">Остаться</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

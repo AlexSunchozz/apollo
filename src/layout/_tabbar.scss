@@ -53,6 +53,21 @@ $tabbar-height: 59px; // 8 + 42 + 8 + рамка 1
     }
   }
 
+  // Меню личного кабинета (layout/account-menu.html --bottom): над панелью во всю ширину; обёртка обрезает
+  // меню — оно выезжает из-под панели. Клики проходят сквозь пустую обёртку.
+  &__menu {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 1px); // над верхней рамкой панели — она остаётся разделителем
+    left: 0;
+    overflow: hidden;
+    pointer-events: none;
+
+    .is-open {
+      pointer-events: auto;
+    }
+  }
+
   // Счётчик (ui/counter): над правым верхним углом рамки иконки
   &__count {
     top: -3px;

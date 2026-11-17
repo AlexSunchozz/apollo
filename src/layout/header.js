@@ -143,3 +143,61 @@ export function initSearch() {
     update(); // браузер может восстановить текст в поле при возврате на страницу
   });
 }
+
+// --- Личный кабинет (layout/header-account.html — шапка, layout/tabbar.html — нижняя панель) -------------
+// Гость — иконка открывает окно входа (data-bs-toggle="modal"). Вошёл (data-authorized="true" у [data-account] —
+// ставит сервер; для проверки — ?auth в адресе) — иконка открывает меню layout/account-menu.html (.is-open):
+// в шапке — под иконкой, в нижней панели — над ней во всю ширину. Меню закрывается повторным кликом, кликом мимо,
+// по Esc, при выборе пункта; в нижней панели — и когда панель уезжает (прокрутка вверх).
+function initAccountMenu(root) {
+  const toggle = root.querySelector('[data-account-toggle]');
+  const menu = root.querySelector('[data-account-menu]');
+  if (!toggle || !menu) return;
+
+  toggle.removeAttribute('data-bs-toggle');
+  toggle.setAttribute('role', 'button');
+  toggle.setAttribute('aria-haspopup', 'true');
+  toggle.setAttribute('aria-controls', menu.id);
+  toggle.setAttribute('aria-expanded', 'false');
+
+  const isOpen = () => menu.classList.contains('is-open');
+  const setOpen = (open) => {
+    menu.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+  };
+
+  toggle.addEventListener('click', (event) => {
+    event.preventDefault();
+    setOpen(!isOpen());
+  });
+  menu.addEventListener('click', (event) => {
+    if (event.target.closest('a, button')) setOpen(false);
+  });
+  document.addEventListener('click', (event) => {
+    if (isOpen() && !root.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !isOpen()) return;
+    setOpen(false);
+    toggle.focus();
+  });
+
+  const tabbar = root.closest('[data-tabbar]');
+  if (tabbar) {
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (isOpen() && !tabbar.classList.contains('is-visible')) setOpen(false);
+      },
+      { passive: true },
+    );
+  }
+}
+
+export function initAccount() {
+  const demo = new URLSearchParams(window.location.search).has('auth');
+  document.querySelectorAll('[data-account]').forEach((root) => {
+    if (demo) root.dataset.authorized = 'true';
+    if (root.dataset.authorized === 'true') initAccountMenu(root);
+  });
+}

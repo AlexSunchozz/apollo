@@ -4,6 +4,8 @@
 //
 //   .ap-field             подпись + поле (подпись — .ap-field__label, «Текст/14 вторичный», фирменный)
 //   .ap-field--inset      < 576 подпись над полем, ≥ 576 — внутри рамки (окно «Написать нам»)
+//   .ap-field--legend     подпись на верхней рамке поля, кнопка в поле справа (.ap-field__action — «очистить»,
+//                         «показать пароль»); ошибка — красные рамка и подпись (окна входа и регистрации)
 //   .ap-input             поле: рамка 1px, поля 16; < 576 — 40px, ≥ 576 — 51px; текст «Текст/16»
 //   .ap-input--sm         компактное (бюджет «от / до»): поля 8, текст 14; < 576 — 40px, ≥ 576 — 35px
 //   .ap-textarea          многострочное, 100px; .ap-textarea--sm — 80px
@@ -77,6 +79,103 @@
       height: 76px;
       padding-top: 38px;
       padding-bottom: 15px;
+    }
+  }
+}
+
+// --- Подпись на рамке и кнопка в поле (окна входа и регистрации, Figma 1:6256 / мобилка 1:6413) ------
+// Разметка: поле, подпись, кнопка (порядок важен) —
+//   <div class="ap-field ap-field--legend"><input class="ap-input" …><label class="ap-field__label" for="…">Телефон</label>
+//     <button class="ap-field__action" type="button" aria-label="Очистить поле" data-field-clear>svg#clear</button></div>
+// Подпись — фирменная, на белой подложке поверх верхней рамки: «Текст/14 в одну строку» → «Текст/16» с 576.
+// Кнопка — по центру справа: «очистить» — серый кружок 16 → 19; «показать пароль» (aria-pressed) — фирменный глаз 19.
+// Ошибка (.is-invalid у поля) — рамка и подпись красные. Без подписи — только поле и кнопка.
+.ap-field--legend {
+  position: relative;
+
+  .ap-input {
+    padding-right: 40px; // 16 + кнопка 16 + 8
+
+    @include media-breakpoint-up(sm) {
+      padding-right: 43px; // 16 + кнопка 19 + 8
+    }
+
+    &::placeholder {
+      @include media-breakpoint-down(sm) {
+        font-size: 12px;
+      }
+    }
+
+  }
+
+  .ap-field__label {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    max-width: calc(100% - 20px);
+    padding: 0 5px;
+    overflow: hidden;
+    background: $c-white;
+    @include text('text-14');
+    white-space: nowrap; // подпись поля — короткая служебная строка
+    text-overflow: ellipsis;
+    transform: translateY(-50%);
+    pointer-events: none; // клик проходит в поле
+    transition: color $transition;
+
+    @include media-breakpoint-up(sm) {
+      @include text('text-16');
+    }
+  }
+
+  .ap-input.is-invalid ~ .ap-field__label {
+    color: $c-error;
+  }
+}
+
+.ap-field__action {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  display: flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $c-border;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: color $transition;
+
+  .ap-icon {
+    width: 16px;
+    height: 16px;
+
+    @include media-breakpoint-up(sm) {
+      width: 19px;
+      height: 19px;
+    }
+  }
+
+  &:hover {
+    color: $c-text-secondary;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 2px;
+  }
+
+  // «Показать пароль»: глаз 19 фирменного цвета
+  &[aria-pressed] {
+    color: $c-main;
+
+    .ap-icon {
+      width: 19px;
+      height: 19px;
+    }
+
+    &:hover {
+      opacity: .7;
     }
   }
 }
