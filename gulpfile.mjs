@@ -6,7 +6,7 @@
  *   npm run preview — чистая сборка + сервер без отслеживания (посмотреть ровно то, что будет передано)
  *
  * dist/ — финальная статическая вёрстка, которую получает интегратор (разбиение на шаблоны CMS — на его стороне):
- *   <page>.html               → готовые страницы (src/*.html, все @@include / @@loop раскрыты)
+ *   index.html, pages/**      → готовые страницы (папки — как в src/pages/, все @@include / @@loop раскрыты)
  *   css/template_styles.css   → наши стили: база, ui/*, layout, все секции — один файл на все страницы
  *                               (любой блок переносится на другую страницу вместе со стилями)
  *   css/vendor.css            → стили библиотек (Swiper; CSS Bootstrap — в template_styles.css), минифицированы
@@ -42,8 +42,9 @@ const isDev = !process.argv.includes('build') && !process.argv.includes('preview
 const paths = {
   src: 'src',
   dist: 'dist',
-  // Главная — src/index.html → dist/index.html; остальные страницы — src/pages/<page>.html → dist/pages/<page>.html
-  html: { pages: ['src/index.html', 'src/pages/*.html'], watch: 'src/**/*.{html,json}' },
+  // Главная — src/index.html → dist/index.html; остальные страницы — src/pages/**/<page>.html → dist/pages/**/<page>.html
+  // (папки страниц в dist повторяют src: src/pages/brands/apollo.html → dist/pages/brands/apollo.html; см. pageFiles)
+  html: { index: 'src/index.html', pages: 'src/pages', watch: 'src/**/*.{html,json}' },
   styles: { entry: 'src/scss/template_styles.scss', watch: 'src/**/*.scss' },
   scripts: { entry: 'src/js/main.js', watch: ['src/**/*.js', '!src/vendor/**'] },
   vendor: { js: 'src/vendor/vendor.js', css: 'src/vendor/vendor.css', watch: 'src/vendor/*' },
@@ -76,9 +77,12 @@ const postcssPlugins = () => [
   autoprefixer(),
 ];
 
-// Секции: общие (src/sections/<name>/) и уникальные секции страниц (src/pages/<page>/<name>/).
-// Секция — папка, в которой есть <name>.html. Возвращает [{ name, dir }].
+// Страницы и уникальные секции лежат вместе в src/pages/, с любой вложенностью папок:
+//   страница — HTML-файл с каркасом (подключает layout/head.html): src/pages/brands/apollo.html;
+//   секция — папка, в которой есть <name>.html без каркаса: src/pages/catalog/catalog-list/catalog-list.html
+//   (внутрь папок секций не заходим — там только их части).
 // Имя секции = БЭМ-блок .ap-<name>: две секции с одним именем конфликтовали бы стилями — сборка падает.
+// Адрес страницы = её путь от src/pages/ без .html: src/pages/brands/apollo.html → /brands/apollo.
 const subdirs = (dir) =>
   fs.existsSync(dir)
     ? fs
@@ -87,14 +91,33 @@ const subdirs = (dir) =>
         .map((d) => d.name)
     : [];
 
+const isPage = (file) => /@@include\(\s*['"]layout\/head\.html/.test(fs.readFileSync(file, 'utf8'));
+
+// Обход src/pages/ → { pages: [путь к .html], sections: [{ name, dir }] }
+const scanPages = () => {
+  const pages = [];
+  const sections = [];
+  const walk = (dir) => {
+    for (const d of fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true }) : []) {
+      const full = `${dir}/${d.name}`;
+      if (d.isFile() && d.name.endsWith('.html') && isPage(full)) pages.push(full);
+      if (!d.isDirectory()) continue;
+      const own = `${full}/${d.name}.html`;
+      if (fs.existsSync(own) && !isPage(own)) sections.push({ name: d.name, dir: full });
+      else walk(full);
+    }
+  };
+  walk(paths.html.pages);
+  return { pages, sections };
+};
+
 const sectionDirs = () => {
   const found = [
-    ...subdirs('src/sections').map((name) => ({ name, dir: `src/sections/${name}` })),
-    ...subdirs('src/pages').flatMap((page) =>
-      subdirs(`src/pages/${page}`).map((name) => ({ name, dir: `src/pages/${page}/${name}` })),
-    ),
-  ].filter(({ name, dir }) => fs.existsSync(`${dir}/${name}.html`));
-
+    ...subdirs('src/sections')
+      .map((name) => ({ name, dir: `src/sections/${name}` }))
+      .filter(({ name, dir }) => fs.existsSync(`${dir}/${name}.html`)),
+    ...scanPages().sections,
+  ];
   const seen = new Map();
   for (const { name, dir } of found) {
     if (seen.has(name)) {
@@ -108,6 +131,9 @@ const sectionDirs = () => {
   }
   return found;
 };
+
+// Главная + все страницы src/pages/**
+const pageFiles = () => [paths.html.index, ...scanPages().pages];
 
 export const checkSections = async () => {
   sectionDirs();
@@ -193,7 +219,7 @@ const checkHtml = () =>
     },
   });
 
-// @@root — путь от страницы до корня dist: «.» у index.html, «..» у pages/<page>.html.
+// @@root — путь от страницы до корня dist: «.» у index.html, «..» у pages/<page>.html, «../..» у pages/<папка>/<page>.html.
 // Все локальные ссылки в разметке пишутся от него: href="@@root/css/…", src="@@root/img/…", href="@@root/pages/about.html".
 // gulp-file-include оставляет неизвестный @@root как есть — подставляем после раскрытия, по месту файла в dist.
 const resolveRoot = () =>
@@ -209,8 +235,8 @@ const resolveRoot = () =>
 
 // HTML: главная + страницы из src/pages/, части подключаются через @@include / @@loop (пути — от src/)
 export const html = () =>
-  // base — абсолютный: от него gulp-file-include ищет JSON для @@loop ('data/…'), и он же сохраняет pages/ в dist
-  src(paths.html.pages, { base: path.resolve(paths.src) })
+  // base — абсолютный: от него gulp-file-include ищет JSON для @@loop ('data/…'), и он же сохраняет pages/<папки>/ в dist
+  src(pageFiles(), { base: path.resolve(paths.src) })
     .pipe(fileInclude({ prefix: '@@', basepath: paths.src, indent: true }))
     .pipe(resolveRoot())
     .pipe(noFigma())
@@ -299,37 +325,24 @@ export const fonts = () => src(paths.fonts, { encoding: false, allowEmpty: true 
 export const root = () => src(paths.root, { encoding: false, allowEmpty: true }).pipe(dest(paths.dist));
 
 // Только для dev/preview-сервера: адреса сайта без pages/ и .html (ссылки между страницами в вёрстке — такие же,
-// абсолютные, без слэша в конце). Файл страницы — по последнему сегменту адреса:
-//   /about → pages/about.html, /blog → pages/blog.html, /blog/kakie-nozhi-… → pages/kakie-nozhi-….html.
-// dist не меняется, маршрутизацию на сайте настраивает интегратор.
-// Относительные пути ресурсов страницы (../css, ../img) из адресов в 1–2 уровня указывают в корень; глубже —
-// сервер находит файл, отбрасывая лишние сегменты адреса слева.
+// абсолютные, без слэша в конце). Адрес повторяет папки страницы в src/pages/:
+//   /about → pages/about.html, /brands/apollo → pages/brands/apollo.html,
+//   /catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift → pages/catalog/nozhi/nozh-dlya-ovoshchey/….html.
+// Глубина адреса = глубина файла, поэтому относительные пути ресурсов (@@root) указывают в корень dist.
+// dist не меняется, маршрутизацию на сайте настраивает интегратор (адрес = путь файла от pages/ без .html).
 // Несуществующая страница (адрес без расширения или .html) — показываем pages/404.html с кодом 404, как на сайте.
 const prettyUrls = (req, res, next) => {
   const url = decodeURIComponent(req.url.split('?')[0]);
   const route = url.replace(/^\/|\/$/g, '');
-  const name = route.split('/').pop();
-  if (/^[\w-]+(\/[\w-]+)*$/.test(route) && fs.existsSync(path.join(paths.dist, 'pages', `${name}.html`))) {
-    req.url = `/pages/${name}.html`;
-  } else {
-    // Ресурс с относительным путём со страницы глубже 2 уровней (/catalog/nozhi/<товар> → ../css = /catalog/css):
-    // если по адресу файла нет — ищем его, отбрасывая сегменты слева (/catalog/css/x.css → /css/x.css)
-    if (path.extname(url) && !url.endsWith('.html') && !fs.existsSync(path.join(paths.dist, url))) {
-      const parts = url.split('/').filter(Boolean);
-      for (let i = 1; i < parts.length; i += 1) {
-        const candidate = `/${parts.slice(i).join('/')}`;
-        if (fs.existsSync(path.join(paths.dist, candidate))) {
-          req.url = candidate;
-          return next();
-        }
-      }
-    }
-    const file = path.join(paths.dist, url.endsWith('/') ? `${url}index.html` : url);
-    const isPage = !path.extname(url) || url.endsWith('.html');
-    if (isPage && !fs.existsSync(file) && fs.existsSync(path.join(paths.dist, 'pages', '404.html'))) {
-      req.url = '/pages/404.html';
-      res.statusCode = 404;
-    }
+  if (/^[\w-]+(\/[\w-]+)*$/.test(route) && fs.existsSync(path.join(paths.dist, 'pages', `${route}.html`))) {
+    req.url = `/pages/${route}.html`;
+    return next();
+  }
+  const file = path.join(paths.dist, url.endsWith('/') ? `${url}index.html` : url);
+  const isPage = !path.extname(url) || url.endsWith('.html');
+  if (isPage && !fs.existsSync(file) && fs.existsSync(path.join(paths.dist, 'pages', '404.html'))) {
+    req.url = '/pages/404.html';
+    res.statusCode = 404;
   }
   next();
 };

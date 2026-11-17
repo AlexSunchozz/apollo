@@ -4,54 +4,27 @@ import path from 'node:path';
 
 const DIST_DIR = path.resolve('dist');
 const OUTPUT_DIR = path.resolve('gh-pages');
-const BASE_PATH = '/apollo';
+// Адрес сайта на GitHub Pages: https://<user>.github.io/<репозиторий>/.
+// В GitHub Actions имя репозитория берётся из GITHUB_REPOSITORY, локально — 'apollo'.
+const REPO_NAME = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'apollo';
+const BASE_PATH = `/${REPO_NAME}`;
 
 if (!fs.existsSync(DIST_DIR)) {
     throw new Error('Папка dist не найдена. Сначала выполни npm run build.');
 }
 
 // Исходный HTML-файл -> адрес страницы на GitHub Pages.
+// Адрес повторяет папки страницы: dist/pages/brands/apollo.html -> /apollo/brands/apollo/,
+// dist/pages/catalog/nozhi.html -> /apollo/catalog/nozhi/. 404 — отдельно, в корень публикации.
 const pages = [
     ['index.html', ''],
-
-    ['pages/about.html', 'about'],
-    ['pages/apollo.html', 'apollo-web'],
-    ['pages/apollo-genio.html', 'apollo-genio'],
-    ['pages/apollo-premier.html', 'apollo-premier'],
-
-    ['pages/catalog.html', 'catalog'],
-    ['pages/nozhi.html', 'catalog/nozhi'],
-    [
-        'pages/nozh-dlya-ovoshchey-swift.html',
-        'catalog/nozhi/nozh-dlya-ovoshchey-swift',
-    ],
-
-    ['pages/blog.html', 'blog'],
-    [
-        'pages/kakie-nozhi-nuzhny-na-domashney-kukhne.html',
-        'blog/kakie-nozhi-nuzhny-na-domashney-kukhne',
-    ],
-
-    ['pages/contacts.html', 'contacts'],
-    ['pages/gde-kupit.html', 'gde-kupit'],
+    ...fs
+        .readdirSync(path.join(DIST_DIR, 'pages'), { recursive: true })
+        .map((file) => file.split(path.sep).join('/'))
+        .filter((file) => file.endsWith('.html') && file !== '404.html')
+        .sort()
+        .map((file) => [`pages/${file}`, file.replace(/\.html$/, '')]),
 ];
-
-const routeAliases = {
-    '/': `${BASE_PATH}/`,
-    '/about': `${BASE_PATH}/about/`,
-    '/apollo': `${BASE_PATH}/apollo-web/`,
-    '/apollo-genio': `${BASE_PATH}/apollo-genio/`,
-    '/apollo-premier': `${BASE_PATH}/apollo-premier/`,
-    '/catalog': `${BASE_PATH}/catalog/`,
-    '/catalog/nozhi': `${BASE_PATH}/catalog/nozhi/`,
-    '/catalog/nozhi/nozh-dlya-ovoshchey-swift':
-        `${BASE_PATH}/catalog/nozhi/nozh-dlya-ovoshchey-swift/`,
-    '/blog': `${BASE_PATH}/blog/`,
-    '/blog/kakie-nozhi-nuzhny-na-domashney-kukhne':
-        `${BASE_PATH}/blog/kakie-nozhi-nuzhny-na-domashney-kukhne/`,
-    '/contacts': `${BASE_PATH}/contacts/`,
-    '/gde-kupit': `${BASE_PATH}/gde-kupit/`,
-};
 
 function rewriteUrl(value, sourceFile) {
     if (
@@ -70,14 +43,11 @@ function rewriteUrl(value, sourceFile) {
 
     let [, urlPath, suffix = ''] = match;
 
-    // Абсолютные внутренние ссылки.
+    // Абсолютные внутренние ссылки: /catalog/nozhi -> /apollo/catalog/nozhi/ (папка с index.html).
     if (urlPath.startsWith('/')) {
-        const normalizedPath = urlPath.replace(/\/+$/, '') || '/';
-        const target =
-            routeAliases[normalizedPath] ??
-            `${BASE_PATH}${normalizedPath === '/' ? '/' : `${normalizedPath}/`}`;
+        const normalizedPath = urlPath.replace(/\/+$/, '');
 
-        return `${target}${suffix}`;
+        return `${BASE_PATH}${normalizedPath}/${suffix}`;
     }
 
     // Относительные пути к CSS, JS, изображениям и другим ресурсам.
@@ -96,7 +66,7 @@ function rewriteUrl(value, sourceFile) {
 function rewriteHtml(html, sourceFile) {
     return html.replace(
         /\b(href|src|poster|srcset|data-gallery-thumb)\s*=\s*(["'])(.*?)\2/gi,
-        (attribute, name, quote, value) => {
+        (_attribute, name, quote, value) => {
             let rewritten;
 
             if (name.toLowerCase() === 'srcset') {

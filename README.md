@@ -16,7 +16,7 @@ npm run preview  # сборка + просмотр dist без отслежив�
 ```
 src/
 ├── index.html             главная                         → dist/index.html
-├── pages/<page>.html      остальные страницы              → dist/pages/<page>.html
+├── pages/**/<page>.html   остальные страницы (папки любые) → dist/pages/**/<page>.html (те же папки)
 ├── pages/<page>/<name>/   уникальные секции страницы
 ├── sections/<name>/       общие секции (на нескольких страницах)
 ├── ui/<name>/             общие компоненты (карточки, кнопки, табы…)
@@ -32,7 +32,7 @@ dist/                      готовая статика: index.html, pages/, cs
 ## Принципы
 
 - Один блок — одна реализация: HTML-партиал + `_<name>.scss` (+ `<name>.js`) в одной папке; контент — параметрами `@@include` и данными `@@loop`, различия — модификаторами `--<mod>`.
-- Ссылки между страницами — абсолютные адреса сайта без слэша в конце (`/`, `/catalog`, `/blog/<slug>`); dev/preview-сервер сопоставляет их файлам `pages/*.html`. Ресурсы (CSS, JS, картинки, шрифты) — через `@@root` (`@@root/css/…`, `@@root/img/…`): сборка подставит `.` или `..` по месту страницы. Смотреть вёрстку — через `npm run dev` / `npm run preview`.
+- Ссылки между страницами — абсолютные адреса сайта без слэша в конце (`/`, `/catalog`, `/blog/<slug>`); адрес повторяет папки страницы: `src/pages/brands/apollo.html` → `/brands/apollo` (так же работают dev/preview-сервер и GitHub Pages). Ресурсы (CSS, JS, картинки, шрифты) — через `@@root` (`@@root/css/…`, `@@root/img/…`): сборка подставит `.`, `..`, `../..` по месту страницы. Смотреть вёрстку — через `npm run dev` / `npm run preview`.
 - В `dist/` — только раскрытый HTML: сборка падает, если осталась конструкция `@@…` или PHP-вставка.
 - Общие стили компонентов — один раз в `template_styles.css`; секции их не дублируют.
 - БЭМ с префиксом `ap-`; токены — только из `scss/_variables.scss`.
@@ -46,15 +46,17 @@ dist/                      готовая статика: index.html, pages/, cs
 |---|---|---|
 | `/` | `index.html` | главная |
 | `/about` | `pages/about.html` | О компании |
-| `/apollo`, `/apollo-genio`, `/apollo-premier` | `pages/apollo*.html` | страницы брендов |
+| `/brands/apollo`, `/brands/apollo-genio`, `/brands/apollo-premier` | `pages/brands/apollo*.html` | страницы брендов |
 | `/gde-kupit` | `pages/gde-kupit.html` | Где купить |
 | `/contacts` | `pages/contacts.html` | Контакты |
 | `/blog` | `pages/blog.html` | Блог: рубрики, статьи, страницы |
-| `/blog/<slug>` | `pages/<slug>.html` | статья — шаблон `sections/article` (пример — `kakie-nozhi-nuzhny-na-domashney-kukhne`) |
+| `/blog/<slug>` | `pages/blog/<slug>.html` | статья — шаблон `sections/article` (пример — `kakie-nozhi-nuzhny-na-domashney-kukhne`) |
 | `/catalog` | `pages/catalog.html` | каталог: категории и коллекции |
-| `/catalog/<код>` | `pages/<код>.html` | категория — шаблон `sections/category` (пример — `nozhi`) |
-| `/catalog/<категория>/<код>` | `pages/<код>.html` | карточка товара — шаблон `sections/product*` (пример — `/catalog/nozhi/nozh-dlya-ovoshchey-swift`) |
+| `/catalog/<код>` | `pages/catalog/<код>.html` | категория — шаблон `sections/category` (пример — `nozhi`) |
+| `/catalog/<категория>/<подкатегория>/<код>` | `pages/catalog/<категория>/<подкатегория>/<код>.html` | карточка товара — шаблон `sections/product*` (пример — `/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift`) |
 | любой несуществующий | `pages/404.html` | страница 404 |
+
+Папка страницы в `src/pages/` повторяется в `dist/pages/`. Страница отличается от секции тем, что подключает `layout/head.html`.
 
 ## Интерактив: что переключается в вёрстке, а что — ссылки
 
@@ -79,7 +81,7 @@ dist/                      готовая статика: index.html, pages/, cs
 «Войдите, чтобы оставить отзыв». Чтобы посмотреть форму отзыва, добавьте к адресу страницы `?auth`:
 
 ```
-http://127.0.0.1:3000/catalog/nozhi/nozh-dlya-ovoshchey-swift?auth
+http://127.0.0.1:3000/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift?auth
 ```
 
 `sections/product-reviews/product-reviews.js` видит параметр и ведёт себя так, будто у секции стоит
