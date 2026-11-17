@@ -1,0 +1,67 @@
+<form class="ap-account-data__address-form" action="#" method="post" novalidate hidden data-form data-address-form>
+  <h3 class="ap-account-data__card-title" data-address-form-title data-title-new="Новый адрес" data-title-edit="Изменить адрес">Новый адрес</h3>
+  <div class="row g-3">
+    <div class="col-12 col-md-6">
+      <div class="ap-field d-flex flex-column gap-2">
+        <label class="ap-field__label ap-field__label--muted" for="address-title">Название адреса (необязательно)</label>
+        <input class="ap-input" type="text" id="address-title" name="title">
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="ap-field d-flex flex-column gap-2">
+        <label class="ap-field__label ap-field__label--muted" for="address-city">Город или&nbsp;населённый пункт</label>
+        <input class="ap-input" type="text" id="address-city" name="city" autocomplete="address-level2" required>
+      </div>
+    </div>
+    <div class="col-12">
+      <div class="ap-field d-flex flex-column gap-2">
+        <label class="ap-field__label ap-field__label--muted" for="address-street">Улица</label>
+        <input class="ap-input" type="text" id="address-street" name="street" autocomplete="address-line1" required>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="ap-field d-flex flex-column gap-2">
+        <label class="ap-field__label ap-field__label--muted" for="address-house">Дом</label>
+        <input class="ap-input" type="text" id="address-house" name="house" required>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="ap-field d-flex flex-column gap-2">
+        <label class="ap-field__label ap-field__label--muted" for="address-building">Корпус&nbsp;/ строение</label>
+        <input class="ap-input" type="text" id="address-building" name="building">
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="ap-field d-flex flex-column gap-2">
+        <label class="ap-field__label ap-field__label--muted" for="address-flat">Квартира&nbsp;/ офис</label>
+        <input class="ap-input" type="text" id="address-flat" name="flat">
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="ap-field d-flex flex-column gap-2">
+        <label class="ap-field__label ap-field__label--muted" for="address-entrance">Подъезд</label>
+        <input class="ap-input" type="text" id="address-entrance" name="entrance" inputmode="numeric">
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="ap-field d-flex flex-column gap-2">
+        <label class="ap-field__label ap-field__label--muted" for="address-floor">Этаж</label>
+        <input class="ap-input" type="text" id="address-floor" name="floor" inputmode="numeric">
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="ap-field d-flex flex-column gap-2">
+        <label class="ap-field__label ap-field__label--muted" for="address-intercom">Домофон</label>
+        <input class="ap-input" type="text" id="address-intercom" name="intercom">
+      </div>
+    </div>
+  </div>
+  <label class="ap-check ap-check--consent ap-account-data__main-check">
+    <input type="checkbox" name="main" value="Y">
+    <span class="d-flex flex-column gap-1"><span class="ap-account-data__check-title">Сделать основным адресом</span><span>Будем подставлять его&nbsp;при&nbsp;оформлении заказов</span></span>
+  </label>
+  <div class="ap-account-data__buttons d-flex flex-wrap">
+    <button class="ap-btn ap-btn--outline" type="button" data-address-cancel>Отмена</button>
+    <button class="ap-btn ap-btn--primary" type="submit">Сохранить</button>
+  </div>
+</form>

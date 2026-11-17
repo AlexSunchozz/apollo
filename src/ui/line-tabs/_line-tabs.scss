@@ -163,3 +163,34 @@
     }
   }
 }
+
+// --- Чипы на мобилке (Мои заказы, Figma 1:8733): < 768 — табы в виде ui/tabs (рамка, выбранный — заливка),
+// зазор 8, высота 32, без общей линии; лента прокручивается, как у обычных line-tabs. ≥ 768 — обычные табы
+// с подчёркиванием, «Текст/16 вторичный» (без сжатия букв, Figma 1:7118).
+.ap-line-tabs--chips {
+  @include media-breakpoint-up(md) {
+    .ap-line-tabs__tab {
+      letter-spacing: 0;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    .ap-line-tabs__list {
+      gap: 8px !important; // вместо gap-3 из разметки
+      box-shadow: none;
+    }
+
+    .ap-line-tabs__tab {
+      padding: 8px 16px !important; // вместо px-2 pb-2 из разметки; высота 32 (Figma 1:8734)
+      border: 1px solid $c-border;
+      color: $c-main;
+
+      &:hover,
+      &[aria-selected='true'] {
+        border-color: $c-main;
+        background-color: $c-main;
+        color: $c-white;
+      }
+    }
+  }
+}

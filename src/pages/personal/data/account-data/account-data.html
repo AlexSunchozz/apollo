@@ -1,0 +1,66 @@
+<!--
+  Личный кабинет — «Мои данные»: меню ЛК (ui/account-nav) + h1, подзаголовок и блоки:
+  «Личная информация» (ФИО, юрлицо, ИНН, КПП, телефон, почта), «Адрес доставки», «Безопасность», «Уведомления».
+  Figma:  десктоп 1:8029 (просмотр), 1:8124 (редактирование), подтверждение телефона 1:8293;
+          мобилка 1:9194, 1:9299, 1:9499
+  Строка (data-row.html): просмотр «название — значение — Изменить»; «Изменить» открывает форму в строке
+  (Отмена / Сохранить, проверка — ui/form/form.js). Телефон: «Сохранить» → код из СМС → «Подтвердить номер».
+  Адреса: «+ Добавить адрес» / «Изменить» открывают форму адреса, «Удалить» — убирает карточку.
+  Сохранение на сервере — интегратор (события ap:form-submit, ap:address-delete, ap:notify-change; account-data.js);
+  пока action="#" — изменения показываются сразу (имитация ответа).
+  Раскладка — как у «Мои заказы»: ≥ 1200 меню 260 слева, зазор 64; < 1200 — меню выпадающим списком.
+-->
+<section class="ap-section ap-account-data" aria-labelledby="account-data-title" data-account-data>
+  <div class="container px-3 px-sm-4">
+    <div class="ap-account-data__layout d-flex flex-column flex-xl-row align-items-xl-start gap-4">
+      @@include('ui/account-nav/account-nav.html', { "current": "data", "title": "Личные данные", "icon": "user" })
+
+      <div class="ap-account-data__main d-flex flex-column gap-4">
+        <div class="d-flex flex-column gap-2 gap-md-3">
+          <h1 class="ap-account-data__title" id="account-data-title">Мои данные</h1>
+          <p class="ap-account-data__lead">Управляйте личной информацией и&nbsp;адресами доставки.</p>
+        </div>
+
+        <div class="ap-account-data__card d-flex flex-column">
+          <h2 class="ap-account-data__card-title">Личная информация</h2>
+          <div class="ap-account-data__rows">
+            @@include('pages/personal/data/account-data/data-row.html', { "id": "data-name", "name": "name", "label": "ФИО", "value": "Константин Крачков", "inputValue": "Константин Крачков", "fieldLabel": "Имя и&nbsp;фамилия", "type": "text", "autocomplete": "name", "inputmode": "text" })
+            @@include('pages/personal/data/account-data/data-row.html', { "id": "data-company", "name": "company", "label": "Название юрлица", "value": "ООО «Название»", "inputValue": "ООО «Название»", "fieldLabel": "Название юрлица", "type": "text", "autocomplete": "organization", "inputmode": "text" })
+            @@include('pages/personal/data/account-data/data-row.html', { "id": "data-inn", "name": "inn", "label": "ИНН", "value": "121212121212", "inputValue": "121212121212", "fieldLabel": "12&nbsp;цифр", "type": "text", "autocomplete": "off", "inputmode": "numeric" })
+            @@include('pages/personal/data/account-data/data-row.html', { "id": "data-kpp", "name": "kpp", "label": "КПП", "value": "121212121", "inputValue": "121212121", "fieldLabel": "9&nbsp;цифр", "type": "text", "autocomplete": "off", "inputmode": "numeric" })
+            @@include('pages/personal/data/account-data/data-row.html', { "id": "data-phone", "name": "phone", "label": "Телефон", "value": "+7&nbsp;(900)&nbsp;123-45-67", "inputValue": "", "current": "Текущий номер: +7&nbsp;(900)&nbsp;123-45-67", "fieldLabel": "Новый номер", "type": "tel", "autocomplete": "tel", "inputmode": "tel", "phone": true, "hint": "Отправим СМС на&nbsp;новый телефон для&nbsp;подтверждения", "sent": "Отправили СМС с&nbsp;кодом на&nbsp;этот номер", "confirm": true })
+            @@include('pages/personal/data/account-data/data-row.html', { "id": "data-email", "name": "email", "label": "Почта", "value": "000000@mail.ru", "inputValue": "", "current": "Текущая почта: 000000@mail.ru", "fieldLabel": "Новая почта", "type": "email", "autocomplete": "email", "inputmode": "email", "hint": "Отправим письмо на&nbsp;новый адрес для&nbsp;подтверждения", "sent": "" })
+          </div>
+          <p class="ap-account-data__note">При&nbsp;смене телефона или&nbsp;почты потребуется подтверждение.</p>
+        </div>
+
+        <div class="ap-account-data__card d-flex flex-column" data-addresses>
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <h2 class="ap-account-data__card-title">Адрес доставки</h2>
+            <button class="ap-account-data__add" type="button" data-address-add>+ Добавить адрес</button>
+          </div>
+          <div class="ap-account-data__addresses d-flex flex-column gap-3 gap-md-4" data-address-list>
+            @@loop('pages/personal/data/account-data/data-address.html', 'data/account-addresses.json')
+          </div>
+          @@include('pages/personal/data/account-data/data-address-form.html')
+        </div>
+
+        <div class="ap-account-data__card d-flex flex-column">
+          <h2 class="ap-account-data__card-title">Безопасность</h2>
+          <div class="ap-account-data__rows ap-account-data__rows--plain">
+            @@include('pages/personal/data/account-data/data-row.html', { "id": "data-password", "name": "password", "label": "Пароль", "value": "••••••••", "inputValue": "", "fieldLabel": "Пароль", "type": "password", "autocomplete": "new-password", "inputmode": "text", "stack": true })
+          </div>
+        </div>
+
+        <div class="ap-account-data__card d-flex flex-column">
+          <h2 class="ap-account-data__card-title">Уведомления</h2>
+          <fieldset class="ap-account-data__notify d-flex flex-column gap-3" data-notify>
+            <legend class="visually-hidden">Уведомления</legend>
+            <label class="ap-check ap-check--lg ap-check--fluid"><input type="checkbox" name="notify_sms" value="Y"><span>Получать по&nbsp;SMS</span></label>
+            <label class="ap-check ap-check--lg ap-check--fluid"><input type="checkbox" name="notify_email" value="Y"><span>Получать по&nbsp;электронной почте</span></label>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

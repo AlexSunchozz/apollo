@@ -1,0 +1,11 @@
+<nav class="ap-account-nav" aria-label="Личный кабинет">
+  <button class="ap-account-nav__toggle d-flex d-xl-none align-items-center justify-content-between gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#account-nav-list" aria-expanded="false" aria-controls="account-nav-list">
+    <span class="d-flex align-items-center gap-2"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#@@icon"></use></svg>@@title</span>
+    <svg class="ap-icon ap-account-nav__chevron" aria-hidden="true"><use href="@@root/img/sprite.svg#chevron-down"></use></svg>
+  </button>
+  <ul class="ap-account-nav__list collapse d-xl-flex flex-xl-column" id="account-nav-list">
+    <li><a class="ap-account-nav__link d-flex align-items-center gap-2" href="/personal/orders"@@if (context.current === 'orders') { aria-current="page"}><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#orders"></use></svg>Мои заказы</a></li>
+    <li><a class="ap-account-nav__link d-flex align-items-center gap-2" href="/personal/data"@@if (context.current === 'data') { aria-current="page"}><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#user"></use></svg>Личные данные</a></li>
+    <li><button class="ap-account-nav__link d-flex align-items-center gap-2" type="button" data-bs-toggle="modal" data-bs-target="#logout-modal"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#exit"></use></svg>Выйти</button></li>
+  </ul>
+</nav>

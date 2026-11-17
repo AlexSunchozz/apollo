@@ -1,0 +1,70 @@
+<!--
+  Личный кабинет — «Мои заказы»: меню ЛК (ui/account-nav) + «Добро пожаловать», h1, табы
+  «Активные / Завершенные / Отмененные / Купленные товары» (ui/line-tabs --chips: < 768 — чипы).
+  Figma:  десктоп 1:7105 (активные), 1:7208 (завершенные), 1:7286 (отмененные), 1:7361 (купленные товары),
+          пусто — 1:7174 / 1:7044; мобилка 1:8701, 1:8784, 1:8830, 1:8984, пусто — 1:8948, 1:9153
+  Заказы — ui/order-card (data/account-orders-*.json); купленные — ui/product-card с датой покупки и своей оценкой
+  (data/account-purchased.json), над ними — годы (ui/tabs .ap-tab--lg, aria-pressed) и «Скрыть отмененные» (ui/form ap-switch).
+  Нет заказов — блок «Заказов пока нет» (orders-empty.html) вместо списка: сервер выводит одно из двух; в вёрстке —
+  оба, пустой скрыт ([data-orders-list] / [data-orders-empty], для проверки — ?empty в адресе, account-orders.js).
+  Раскладка: ≥ 1200 — меню 260 слева, содержимое справа (зазор 64); < 1200 — меню выпадающим списком сверху.
+-->
+<section class="ap-section ap-account-orders" aria-labelledby="account-orders-title" data-account-orders>
+  <div class="container px-3 px-sm-4">
+    <div class="ap-account-orders__layout d-flex flex-column flex-xl-row align-items-xl-start gap-4">
+      @@include('ui/account-nav/account-nav.html', { "current": "orders", "title": "Мои заказы", "icon": "orders" })
+
+      <div class="ap-account-orders__main d-flex flex-column gap-4">
+        <div class="d-flex flex-column gap-2 gap-xl-3">
+          <p class="ap-account-orders__hello">Добро пожаловать в&nbsp;APOLLO!</p>
+          <h1 class="ap-account-orders__title" id="account-orders-title">Мои заказы</h1>
+        </div>
+
+        <div class="ap-account-orders__body d-flex flex-column gap-3">
+          @@include('ui/line-tabs/line-tabs.html', { "label": "Заказы", "data": "account-orders-tabs", "class": "ap-line-tabs--chips" })
+
+          <div class="ap-account-orders__panel" id="orders-panel-active" role="tabpanel" aria-labelledby="orders-tab-active">
+            <div class="ap-account-orders__list gap-4" data-orders-list>
+              @@loop('ui/order-card/order-card.html', 'data/account-orders-active.json')
+            </div>
+            @@include('pages/personal/orders/account-orders/orders-empty.html')
+          </div>
+
+          <div class="ap-account-orders__panel" id="orders-panel-done" role="tabpanel" aria-labelledby="orders-tab-done" hidden>
+            <div class="ap-account-orders__list gap-4" data-orders-list>
+              @@loop('ui/order-card/order-card.html', 'data/account-orders-done.json')
+            </div>
+            @@include('pages/personal/orders/account-orders/orders-empty.html')
+          </div>
+
+          <div class="ap-account-orders__panel" id="orders-panel-canceled" role="tabpanel" aria-labelledby="orders-tab-canceled" hidden>
+            <div class="ap-account-orders__list gap-4" data-orders-list>
+              @@loop('ui/order-card/order-card.html', 'data/account-orders-canceled.json')
+            </div>
+            @@include('pages/personal/orders/account-orders/orders-empty.html')
+          </div>
+
+          <div class="ap-account-orders__panel" id="orders-panel-purchased" role="tabpanel" aria-labelledby="orders-tab-purchased" hidden>
+            <div class="ap-account-orders__purchases d-flex flex-column gap-4" data-purchases>
+              <div class="ap-account-orders__filters d-flex flex-column flex-md-row flex-md-wrap align-items-md-center gap-4 column-gap-md-3">
+                <div class="ap-tabs d-flex gap-2" role="group" aria-label="Период покупок">
+                  <button class="ap-tab ap-tab--lg" type="button" aria-pressed="true" data-purchases-year="12m">За&nbsp;12&nbsp;месяцев</button>
+                  <button class="ap-tab ap-tab--lg" type="button" aria-pressed="false" data-purchases-year="2025">2025</button>
+                  <button class="ap-tab ap-tab--lg" type="button" aria-pressed="false" data-purchases-year="2024">2024</button>
+                  <button class="ap-tab ap-tab--lg" type="button" aria-pressed="false" data-purchases-year="2023">2023</button>
+                  <button class="ap-tab ap-tab--lg" type="button" aria-pressed="false" data-purchases-year="2022">2022</button>
+                  <button class="ap-tab ap-tab--lg" type="button" aria-pressed="false" data-purchases-year="2021">2021</button>
+                </div>
+                <label class="ap-switch ap-switch--start"><span>Скрыть отмененные</span><input type="checkbox" role="switch" name="hide_canceled" value="Y" data-purchases-hide-returned></label>
+              </div>
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3" data-purchases-list>
+                @@loop('ui/product-card/product-card.html', 'data/account-purchased.json')
+              </div>
+              <p class="ap-account-orders__none" hidden data-purchases-empty>За&nbsp;выбранный период покупок не&nbsp;найдено</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

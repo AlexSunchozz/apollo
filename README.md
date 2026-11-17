@@ -54,6 +54,8 @@ dist/                      готовая статика: index.html, pages/, cs
 | `/catalog` | `pages/catalog.html` | каталог: категории и коллекции |
 | `/catalog/<код>` | `pages/catalog/<код>.html` | категория — шаблон `sections/category` (пример — `nozhi`) |
 | `/catalog/<категория>/<подкатегория>/<код>` | `pages/catalog/<категория>/<подкатегория>/<код>.html` | карточка товара — шаблон `sections/product*` (пример — `/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift`) |
+| `/personal/data` | `pages/personal/data.html` | личный кабинет — «Мои данные»: личная информация, адреса доставки, пароль, уведомления (редактирование в строке, телефон — с кодом из СМС) |
+| `/personal/orders` | `pages/personal/orders.html` | личный кабинет — «Мои заказы»: активные, завершенные, отмененные, купленные товары (`?empty` — вид без заказов) |
 | `/search?q=<запрос>` | `pages/search.html` | результаты поиска — блок каталога `sections/category` или «Пока ничего не нашлось» (см. «Поиск») |
 | `/maintenance` | `pages/maintenance.html` | технические работы (см. «Технические работы») |
 | любой несуществующий | `pages/404.html` | страница 404 |

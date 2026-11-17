@@ -1,0 +1,13 @@
+@@include('layout/head.html', {
+  "title": "Мои заказы — личный кабинет Apollo",
+  "description": "Личный кабинет Apollo: активные, завершенные и отмененные заказы, купленные товары."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "items": [{ "title": "Личный кабинет", "href": "/personal/orders" }], "current": "Мои заказы" })
+  @@include('pages/personal/orders/account-orders/account-orders.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

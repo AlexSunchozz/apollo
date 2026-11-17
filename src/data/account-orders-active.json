@@ -1,0 +1,4 @@
+[
+  { "number": "58290", "date": "16&nbsp;сентября 2026", "datetime": "2026-09-16", "status": "Ожидает оплаты", "statusIcon": "clock", "statusMod": "", "imgs": ["knife-set.jpg", "knife-set.jpg", "knife-set.jpg"], "more": "1", "count": "4&nbsp;товара", "price": "3&nbsp;600&nbsp;₽", "text": "Заказ сохранен. Оплатите, чтобы мы&nbsp;начали сборку", "href": "#", "repeat": false },
+  { "number": "58291", "date": "16&nbsp;сентября 2026", "datetime": "2026-09-16", "status": "Оплачен", "statusIcon": "check", "statusMod": "", "imgs": ["knife-set.jpg", "knife-set.jpg"], "more": "", "count": "2&nbsp;товара", "price": "3&nbsp;600&nbsp;₽", "text": "Оплата получена. Информацию о&nbsp;доставке отправим отдельно", "href": "#", "repeat": false }
+]

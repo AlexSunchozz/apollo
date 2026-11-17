@@ -1,0 +1,81 @@
+// =============================================================================
+// Личный кабинет — «Мои заказы» (pages/personal/orders/account-orders) — Figma 1:7105, мобилка 1:8701
+// Меню — ui/account-nav, табы — ui/line-tabs --chips, заказы — ui/order-card, купленные — ui/product-card,
+// годы — ui/tabs .ap-tab--lg, «Скрыть отмененные» — ui/form .ap-switch--start, «Заказов пока нет» — sections/empty-state.
+// Здесь — раскладка (меню 260 + содержимое, зазор 64 с 1200), отступы секции и подписи.
+// =============================================================================
+
+.ap-account-orders {
+  padding-top: 24px;
+
+  @include desktop(padding-bottom, 100px);
+
+  &__layout {
+    @include desktop(gap, 64px);
+  }
+
+  &__main {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__hello {
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+
+    @include media-breakpoint-up(xl) {
+      @include text('text-16');
+      letter-spacing: 0;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    color: $c-main;
+    @include text('h2');
+  }
+
+  // Список заказов: display здесь, а не классом d-flex — иначе hidden (нет заказов) не скроет его
+  &__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  // Табы → содержимое: мобилка 16, ≥ 1200 — 32
+  &__body {
+    @include desktop(gap, 32px);
+  }
+
+  // Купленные: < 768 — табы → годы 24 (у панели 16, ещё 8), ≥ 1200 — годы → карточки 32 (Figma 1:8984 / 1:7361)
+  &__purchases {
+    @include media-breakpoint-down(md) {
+      padding-top: 8px;
+    }
+
+    @include desktop(gap, 32px);
+  }
+
+  // Годы → «Скрыть отмененные»: ≥ 1200 — 43 (Figma 1:7370)
+  &__filters {
+    @include desktop(column-gap, 43px);
+  }
+
+  // «Заказов пока нет»: < 768 — от табов 8 (у панели 16), Figma 1:8973
+  &__empty {
+    @include media-breakpoint-down(md) {
+      margin-top: -8px;
+    }
+  }
+
+  // Скрытые фильтром карточки: у карточки d-flex с !important — перебиваем (account-orders.js ставит hidden)
+  [data-purchases-list] > [hidden] {
+    display: none !important;
+  }
+
+  &__none {
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+}

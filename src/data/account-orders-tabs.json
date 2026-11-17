@@ -1,0 +1,6 @@
+[
+  { "tab": "orders-tab-active", "panel": "orders-panel-active", "label": "Активные", "selected": true },
+  { "tab": "orders-tab-done", "panel": "orders-panel-done", "label": "Завершенные" },
+  { "tab": "orders-tab-canceled", "panel": "orders-panel-canceled", "label": "Отмененные" },
+  { "tab": "orders-tab-purchased", "panel": "orders-panel-purchased", "label": "Купленные товары" }
+]

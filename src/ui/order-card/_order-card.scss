@@ -1,0 +1,128 @@
+// =============================================================================
+// UI: карточка заказа — Figma «Мои заказы» 1:7128 (десктоп), мобилка 1:8739
+//   loop 'ui/order-card/order-card.html' по data/account-orders-*.json:
+//     number, date, datetime, status, statusIcon ("clock" | "check" | ""), statusMod ("error" — красный, "" — фирменный),
+//     imgs — до 3 фото (img/products), more — сколько ещё товаров (число, "" — нет), count — «4 товара», price,
+//     text — пояснение к статусу, href — страница заказа, repeat: true — кнопка «Повторить заказ» (событие — у интегратора
+//     по data-order-repeat).
+//
+// Рамка 1px, поля 16 → 24 (≥ 768). Номер — «22/1.1» (мобилка 18), дата — «Текст/14 вторичный»; статус — фирменный 16
+// с иконкой 24 (мобилка 14 и 14). Фото 64 через 4 (≥ 768 — 100 через 8), «+N» — квадрат с фирменной рамкой.
+// < 768: фото, под ними количество и цена; пояснение 12 и кнопки — столбиком; ≥ 768 — в строку, кнопки справа.
+// =============================================================================
+
+.ap-order-card {
+  padding: 16px;
+  border: 1px solid $c-border;
+
+  @include media-breakpoint-up(md) {
+    padding: 24px;
+  }
+
+  p,
+  h2 {
+    margin: 0;
+  }
+
+  &__head {
+    min-width: 0;
+  }
+
+  &__title {
+    color: $c-main;
+    @include text('title-22');
+  }
+
+  &__date,
+  &__count {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  &__status {
+    flex-shrink: 0;
+    color: $c-main;
+    @include text('text-14-secondary');
+    text-align: right;
+
+    @include media-breakpoint-up(md) {
+      @include text('text-16');
+      letter-spacing: 0;
+    }
+
+    .ap-icon {
+      width: 14px;
+      height: 14px;
+
+      @include media-breakpoint-up(md) {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &--error {
+      color: $c-error;
+    }
+  }
+
+  &__goods {
+    border-bottom: 1px solid $c-border;
+  }
+
+  &__thumbs {
+    flex-shrink: 0;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include media-breakpoint-up(md) {
+      gap: 8px;
+    }
+  }
+
+  &__img,
+  &__more {
+    display: block;
+    width: 64px;
+    height: 64px;
+
+    @include media-breakpoint-up(md) {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  &__img {
+    object-fit: cover;
+    background: $c-surface;
+  }
+
+  &__more {
+    border: 1px solid $c-main;
+    color: $c-main;
+    @include text('text-16');
+    letter-spacing: 0;
+  }
+
+  &__price {
+    flex-shrink: 0;
+    color: $c-main;
+    @include text('title-22');
+    white-space: nowrap; // цена — короткая служебная строка
+  }
+
+  &__text {
+    min-width: 0;
+    color: $c-text-secondary;
+    @include text('caption-12');
+
+    @include media-breakpoint-up(md) {
+      @include text('text-14-secondary');
+    }
+  }
+
+  &__actions {
+    flex-shrink: 0;
+  }
+}

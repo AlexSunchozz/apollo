@@ -1,0 +1,28 @@
+<article class="ap-order-card d-flex flex-column gap-3">
+  <div class="d-flex justify-content-between align-items-start gap-3">
+    <div class="ap-order-card__head d-flex flex-column gap-2">
+      <h2 class="ap-order-card__title">Заказ №&nbsp;@@number</h2>
+      <p class="ap-order-card__date"><time datetime="@@datetime">@@date</time></p>
+    </div>
+    <p class="ap-order-card__status@@if (context.statusMod) { ap-order-card__status--@@statusMod} d-flex align-items-center gap-2 gap-md-3">@@if (context.statusIcon) {<svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#@@statusIcon"></use></svg>}@@status</p>
+  </div>
+
+  <div class="ap-order-card__goods d-flex flex-column flex-md-row align-items-md-center gap-2 gap-md-4 pb-3 pb-md-4">
+    <ul class="ap-order-card__thumbs d-flex">
+      @@for (var i = 0; i < imgs.length; i++) {<li><img class="ap-order-card__img" src="@@root/img/products/`+imgs[i]+`" width="200" height="200" alt="" loading="lazy"></li>}
+      @@if (context.more) {<li class="ap-order-card__more d-flex align-items-center justify-content-center">+@@more<span class="visually-hidden">&nbsp;товара</span></li>}
+    </ul>
+    <div class="d-flex justify-content-between align-items-end align-items-md-center gap-3 flex-grow-1">
+      <p class="ap-order-card__count">@@count</p>
+      <p class="ap-order-card__price">@@price</p>
+    </div>
+  </div>
+
+  <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-md-between gap-2 gap-md-3">
+    <p class="ap-order-card__text">@@text</p>
+    <div class="ap-order-card__actions d-flex flex-wrap gap-2 gap-md-3">
+      <a class="ap-btn ap-btn--outline" href="@@href" data-stub>Подробнее</a>
+      @@if (context.repeat) {<button class="ap-btn ap-btn--primary" type="button" data-order-repeat="@@number">Повторить заказ</button>}
+    </div>
+  </div>
+</article>

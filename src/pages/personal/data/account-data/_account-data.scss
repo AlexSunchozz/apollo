@@ -1,0 +1,379 @@
+// =============================================================================
+// Личный кабинет — «Мои данные» (pages/personal/data/account-data) — Figma 1:8029 / 1:8124, мобилка 1:9194 / 1:9299
+// Меню — ui/account-nav, поля — ui/form (.ap-input, .ap-field__label--muted), кнопки — ui/button, флажки — ui/form .ap-check.
+//
+//   __card        блок с рамкой: поля 16 → 32 (≥ 768), заголовок «22/1.1» (мобилка 18)
+//   __row         строка данных (data-row.html): ≥ 768 — «название 160 | значение | Изменить», < 768 — название и иконка
+//                 «Изменить» 40 в строку, значение ниже; .is-editing — вместо значения форма (Отмена / Сохранить)
+//   __row--stack  в форме название строки скрыто — поле во всю ширину (пароль)
+//   __address     карточка адреса: метка (по центру строки названия), название + «Основной», адрес,
+//                 «Изменить / Удалить» — иконка + подпись на всех ширинах
+// =============================================================================
+
+.ap-account-data {
+  padding-top: 24px;
+
+  @include desktop(padding-bottom, 100px);
+
+  p,
+  h1,
+  h2,
+  h3,
+  fieldset {
+    margin: 0;
+  }
+
+  &__layout {
+    @include desktop(gap, 64px);
+  }
+
+  &__main {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__title {
+    color: $c-main;
+    @include text('h2');
+  }
+
+  &__lead {
+    color: $c-text-secondary;
+    @include text('lead');
+  }
+
+  // --- Блок ---------------------------------------------------------------------------------------
+  &__card {
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid $c-border;
+
+    @include media-breakpoint-up(md) {
+      gap: 24px;
+      padding: 32px;
+    }
+  }
+
+  &__card-title {
+    color: $c-main;
+    @include text('title-22');
+  }
+
+  &__note {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  // --- Строки данных ----------------------------------------------------------------------------------
+  // < 768: заголовок блока → первая строка 8 (у блока зазор 16)
+  &__rows {
+    display: flex;
+    flex-direction: column;
+
+    @include media-breakpoint-down(md) {
+      margin-top: -8px;
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'label edit'
+      'value value'
+      'form form';
+    align-items: center;
+    padding-block: 8px 16px; // < 768: линия → строка «название + иконка 40» 8, значение → линия 16
+    border-bottom: 1px solid $c-border;
+
+    @include media-breakpoint-up(md) {
+      grid-template-columns: 160px minmax(0, 1fr) auto;
+      grid-template-areas:
+        'label value edit'
+        'label form form';
+      column-gap: 24px;
+      padding-block: 24px 40px; // строка: снизу 16, до линии ещё 24, после линии 24 (Figma 1:8046)
+    }
+
+    &:first-child {
+      padding-top: 0;
+    }
+  }
+
+  // Без линии (пароль): снизу 16 (≥ 768), на мобилке — 0
+  &__rows--plain &__row {
+    padding-bottom: 0;
+    border-bottom: 0;
+
+    @include media-breakpoint-up(md) {
+      padding-bottom: 16px;
+    }
+  }
+
+  &__label {
+    grid-area: label;
+    color: $c-text-secondary;
+    @include text('text-16');
+  }
+
+  &__value {
+    grid-area: value;
+    min-width: 0;
+    color: $c-main;
+    @include text('text-14-secondary');
+
+    @include media-breakpoint-up(md) {
+      @include text('text-16');
+    }
+  }
+
+  // «Изменить» / «Удалить»: < 768 — иконка в зоне 40, ≥ 768 — иконка 24 + «Текст/14 вторичный»
+  &__edit {
+    grid-area: edit;
+    display: flex; // не классом d-flex — в режиме формы кнопка скрывается
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    @include text('text-14-secondary');
+    cursor: pointer;
+    transition: opacity $transition;
+
+    @include media-breakpoint-up(md) {
+      width: auto;
+      height: auto;
+    }
+
+    .ap-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  &__form {
+    grid-area: form;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 16px; // < 768: название → форма 16
+
+    @include media-breakpoint-up(md) {
+      padding-top: 0;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Редактирование: вместо значения и «Изменить» — форма
+  // < 768: линия → название 16 (иконки 40 нет); первая строка — 16 от заголовка блока
+  &__row.is-editing {
+    align-items: start;
+
+    // < 768: строка → линия 32 (16 + 16), линия → название 16 (Figma 1:9329)
+    @include media-breakpoint-down(md) {
+      padding-block: 16px 32px;
+
+      &:first-child {
+        padding-top: 8px;
+      }
+    }
+
+    // ≥ 768: снизу 24, до линии ещё 24 (Figma 1:8141)
+    @include media-breakpoint-up(md) {
+      grid-template-areas: 'label form form';
+      padding-bottom: 48px;
+    }
+
+    .ap-account-data__value,
+    .ap-account-data__edit {
+      display: none;
+    }
+  }
+
+  // Пароль: в форме своя подпись — название строки скрыто, поле во всю ширину; под кнопками — только поле блока
+  &__rows--plain &__row.is-editing {
+    padding-bottom: 0;
+  }
+
+  &__row--stack.is-editing {
+    grid-template-areas: 'form form';
+
+    @include media-breakpoint-up(md) {
+      grid-template-areas: 'form form form';
+    }
+
+    .ap-account-data__label {
+      display: none;
+    }
+
+    .ap-account-data__form {
+      padding-top: 0;
+
+      // поле → кнопки 24 (Figma 1:8264 / 1:8267)
+      @include media-breakpoint-up(md) {
+        gap: 24px;
+      }
+    }
+
+    .ap-account-data__input {
+      max-width: none;
+    }
+  }
+
+  &__current {
+    color: $c-text-secondary;
+    @include text('text-16');
+  }
+
+  // Поле: < 768 — во всю ширину, ≥ 768 — 416
+  &__input {
+    @include media-breakpoint-up(md) {
+      max-width: 416px;
+    }
+  }
+
+  &__hint {
+    color: $c-text-secondary;
+    @include text('caption-12');
+  }
+
+  // Кнопки: зазор 12, ≥ 768 — 16
+  &__buttons {
+    gap: 12px;
+
+    @include media-breakpoint-up(md) {
+      gap: 16px;
+    }
+  }
+
+  // --- Адреса -----------------------------------------------------------------------------------------
+  &__add {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    @include text('text-14-secondary');
+    cursor: pointer;
+    transition: opacity $transition;
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+  }
+
+  // Карточка адреса — сетка: метка 24 в первой колонке, справа название + «Основной», адрес, действия.
+  // Метка → текст: 12, ≥ 768 — 16 (Figma 1:9271 / 1:8093); метка — по центру строки названия.
+  &__address {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 8px;
+    padding: 24px 16px;
+    border: 1px solid $c-border;
+
+    @include media-breakpoint-up(md) {
+      column-gap: 16px;
+      padding: 24px;
+    }
+  }
+
+  & &__pin {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: center;
+    width: 24px;
+    height: 24px;
+    color: $c-main;
+  }
+
+  &__address-head,
+  &__address-text,
+  &__address-actions {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  &__address-title {
+    color: $c-main;
+    @include text('text-16');
+  }
+
+  &__address-badge {
+    padding: 8px 16px;
+    background: $c-surface;
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__address-text {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  // Действия «Изменить / Удалить» — иконка 24 + подпись на всех ширинах; сверху ещё 8 (Figma 1:8099)
+  &__address-actions {
+    padding-top: 8px;
+
+    .ap-account-data__edit {
+      width: auto;
+      height: auto;
+    }
+  }
+
+  &__address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px 16px;
+    border: 1px solid $c-border;
+
+    @include media-breakpoint-up(md) {
+      padding: 24px;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__main-check {
+    align-items: flex-start;
+  }
+
+  &__check-title {
+    color: $c-main;
+    @include text('text-14-secondary');
+  }
+
+  // --- Уведомления ----------------------------------------------------------------------------------
+  &__notify {
+    padding: 0;
+    border: 0;
+  }
+}

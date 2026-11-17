@@ -1,0 +1,13 @@
+@@include('layout/head.html', {
+  "title": "Мои данные — личный кабинет Apollo",
+  "description": "Личный кабинет Apollo: личная информация, адреса доставки, пароль и уведомления."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "items": [{ "title": "Личный кабинет", "href": "/personal/orders" }], "current": "Мои данные" })
+  @@include('pages/personal/data/account-data/account-data.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

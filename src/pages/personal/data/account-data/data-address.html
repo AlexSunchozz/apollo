@@ -1,0 +1,12 @@
+<article class="ap-account-data__address" data-address='{"title": "@@title", "city": "@@city", "street": "@@street", "house": "@@house", "building": "@@building", "flat": "@@flat", "entrance": "@@entrance", "floor": "@@floor", "intercom": "@@intercom", "main": @@main}'>
+  <svg class="ap-icon ap-account-data__pin" aria-hidden="true"><use href="@@root/img/sprite.svg#geo-pin"></use></svg>
+  <div class="ap-account-data__address-head d-flex flex-wrap align-items-center gap-2 gap-md-3">
+    <h3 class="ap-account-data__address-title" data-address-title>@@title</h3>
+    <span class="ap-account-data__address-badge"@@if (!context.main) { hidden} data-address-main>Основной</span>
+  </div>
+  <p class="ap-account-data__address-text" data-address-text>@@line1<br>@@line2</p>
+  <div class="ap-account-data__address-actions d-flex flex-wrap gap-4">
+    <button class="ap-account-data__edit" type="button" data-address-edit><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#edit"></use></svg>Изменить</button>
+    <button class="ap-account-data__edit" type="button" data-address-delete><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#delete"></use></svg>Удалить</button>
+  </div>
+</article>
