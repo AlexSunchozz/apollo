@@ -1,0 +1,64 @@
+<!--
+  Избранное: h1, «Сохраните избранное в профиле» (ui/guest-banner, только гостю), количество и сортировка
+  (ui/form .ap-select--toolbar --menu), карточки ui/product-card (favorite — сердце закрашено, unavailable — «Нет в наличии»).
+  Figma: десктоп 1:12011, пусто 1:12033, сортировка 1:12057; мобилка 1:12240, пусто 1:12311, сортировка 1:12344
+  Сетка: 1 / 2 (576) / 3 (992) / 4 (1200) в ряд. Сортировка < 768 — над количеством, ≥ 768 — справа от него.
+  favorites-list.js: сердце снимает товар из избранного — карточка приглушается (.is-removed), до перезагрузки её можно
+  вернуть; количество — по оставшимся; сортировка переставляет карточки (событие ap:sort-change).
+  Нет товаров — «В избранном пока пусто» [data-favorites-empty]: сервер выводит его вместо списка; для проверки — ?empty.
+  Шаблоны [data-favorites-template*] — для демо-избранного статичной вёрстки (js/favorites-demo.js); интегратору не нужны.
+-->
+<section class="ap-section ap-favorites-list" aria-labelledby="favorites-title" data-favorites>
+  <div class="container px-3 px-sm-4">
+    <div class="d-flex flex-column gap-4">
+      <h1 class="ap-favorites-list__title" id="favorites-title">Избранное</h1>
+
+      @@include('ui/guest-banner/guest-banner.html', {
+        "title": "Сохраните избранное в&nbsp;профиле",
+        "text": "Сейчас товары сохранены в&nbsp;этом браузере. Войдите или&nbsp;зарегистрируйтесь, чтобы видеть их&nbsp;на&nbsp;любом устройстве.",
+        "btnText": "Войти или&nbsp;зарегистрироваться"
+      })
+
+      <div data-favorites-list>
+        <div class="ap-favorites-list__toolbar d-flex flex-column-reverse flex-md-row align-items-start align-items-md-center justify-content-md-between gap-2 gap-md-3 mb-3 mb-md-4">
+          <p class="ap-favorites-list__count" aria-live="polite" data-favorites-count>3&nbsp;товара</p>
+          <div class="ap-favorites-list__sort ap-select ap-select--toolbar ap-select--menu" data-select data-favorites-sort>
+            <button class="ap-input ap-select__toggle d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#favorites-sort-list" aria-expanded="false" aria-controls="favorites-sort-list" aria-label="Сортировка">
+              <span class="ap-select__value" data-select-value>Сначала недавно добавленные</span>
+              <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#chevron-down"></use></svg>
+            </button>
+            <div class="ap-select__panel collapse" id="favorites-sort-list">
+              <div class="ap-select__list">
+                <label class="ap-check"><input type="radio" name="sort" value="Сначала недавно добавленные" data-sort="new" checked><span>Сначала недавно добавленные</span></label>
+                <label class="ap-check"><input type="radio" name="sort" value="Сначала давно добавленные" data-sort="old"><span>Сначала давно добавленные</span></label>
+                <label class="ap-check"><input type="radio" name="sort" value="Сначала дешевле" data-sort="cheap"><span>Сначала дешевле</span></label>
+                <label class="ap-check"><input type="radio" name="sort" value="Сначала дороже" data-sort="expensive"><span>Сначала дороже</span></label>
+                <label class="ap-check"><input type="radio" name="sort" value="Сначала с высокой оценкой" data-sort="rating"><span>Сначала с&nbsp;высокой оценкой</span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-2 g-xl-3" data-favorites-grid>
+          @@loop('ui/product-card/product-card.html', 'data/favorites-products.json')
+        </div>
+        <template data-favorites-template>
+          @@include('ui/product-card/product-card.html', { "href": "#", "title": "", "collection": "", "series": "", "rating": "0", "reviews": "", "price": "", "badge": "", "photo": false, "favorite": true, "unavailable": false, "similar": "", "imgs": ["knife.png"] })
+        </template>
+        <template data-favorites-template-unavailable>
+          @@include('ui/product-card/product-card.html', { "href": "#", "title": "", "collection": "", "series": "", "rating": "0", "reviews": "", "price": "", "badge": "", "photo": false, "favorite": true, "unavailable": true, "similar": "/catalog", "imgs": ["knife.png"] })
+        </template>
+      </div>
+
+      @@include('sections/empty-state/empty-state-inline.html', {
+        "class": "ap-empty-state--wide ap-favorites-list__empty",
+        "attrs": "hidden data-favorites-empty",
+        "icon": "heart-lg",
+        "title": "В&nbsp;избранном пока пусто",
+        "text": "Нажимайте на&nbsp;сердечко в&nbsp;карточке товара, чтобы сохранить понравившуюся посуду здесь.",
+        "btnText": "Перейти в&nbsp;каталог&nbsp;→",
+        "btnHref": "/catalog"
+      })
+    </div>
+  </div>
+</section>

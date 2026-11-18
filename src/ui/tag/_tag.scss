@@ -1,0 +1,39 @@
+// =============================================================================
+// UI: метка статуса — Figma «Метка статуса» (1:611; мобилка 1:678): серый фон, вторичный текст
+//
+//   <span class="ap-tag">Нет в наличии</span>
+//
+//   .ap-tag        < 768 — «Текст/12 мелкий», поля 8 / 12; ≥ 768 — «Текст/14 вторичный», поля 8 / 16
+//   .ap-tag--lg    ≥ 1200 — высота 40 (рядом с кнопками 40: карточка товара)
+//   .ap-tag--wide  < 768 — во всю ширину, текст по центру (пояснение к товару в корзине)
+// Положение задаёт блок, где стоит метка.
+// =============================================================================
+
+.ap-tag {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 8px 12px;
+  background: $c-surface;
+  color: $c-text-secondary;
+  @include text('text-12');
+
+  @include media-breakpoint-up(md) {
+    padding: 8px 16px;
+    @include text('text-14-secondary');
+  }
+
+  &--lg {
+    @include media-breakpoint-up(xl) {
+      min-height: 40px;
+    }
+  }
+
+  &--wide {
+    @include media-breakpoint-down(md) {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+@@include('layout/head.html', {
+  "title": "Сравнение товаров — Apollo",
+  "description": "Сравнение товаров Apollo по характеристикам и цене."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Сравнение товаров" })
+  @@include('pages/compare/compare-table/compare-table.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

@@ -18,12 +18,12 @@
 //   (по умолчанию — data-promo-success / data-promo-error формы); discount — новая скидка в рублях (необязательно).
 //   «Очистить» у применённого промокода — событие ap:promo-remove (detail: { form }).
 //   Пока action="#" — ответ имитируется: промокод применяется; с ?promo-error в адресе — ошибка.
-// Демо-корзина (js/cart-demo.js, data-cart-demo у <body>): товары берутся из localStorage (добавленные в каталоге
+// Демо-корзина (js/cart-demo.js, data-demo у <body>): товары берутся из localStorage (добавленные в каталоге
 //   и на странице товара) и выводятся по шаблонам [data-cart-template*]; изменения записываются обратно.
 //   Первый визит — пример из вёрстки сохраняется как начальная корзина. На сайте атрибута нет — список выводит сервер.
 
 import initQuantities from '../../../ui/quantity/quantity.js';
-import { isCartDemo, readCart, writeCart } from '../../../js/cart-demo.js';
+import { isDemo, readCart, writeCart } from '../../../js/cart-demo.js';
 
 const formatPrice = (value) => `${String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽`;
 
@@ -138,14 +138,8 @@ export default function initCartContent() {
   const unavailableState = root.querySelector('[data-cart-unavailable-state]');
   const params = new URLSearchParams(window.location.search);
   // Демо-корзина; при просмотре видов (?empty, ?unavailable) сохранённое не трогаем
-  const demo = isCartDemo() && !params.has('empty') && !params.has('unavailable');
+  const demo = isDemo() && !params.has('empty') && !params.has('unavailable');
 
-  // «Уже покупали у нас?» и «Можно оформить без регистрации» — только гостю: вошёл — data-authorized у [data-account] (ставит сервер, ?auth — layout/header.js)
-  if (document.querySelector('[data-account][data-authorized="true"]')) {
-    root.querySelectorAll('[data-cart-guest]').forEach((el) => {
-      el.hidden = true;
-    });
-  }
 
   const items = () => [...list.querySelectorAll('[data-cart-item]')];
   const inStock = () => items().filter((item) => !item.hasAttribute('data-cart-unavailable'));

@@ -1,0 +1,57 @@
+<!--
+  Сравнение товаров: h1 с количеством, «Очистить сравнение», подзаголовок, категории (ui/tabs — у каждой своя таблица),
+  «Показать только различия» (ui/form .ap-switch), таблица: товары (compare-product.html) и характеристики (compare-row.html).
+  Figma: десктоп 1:12059, пусто 1:12217; мобилка 1:12384, пусто 1:12355
+  Данные: data/compare-<категория>-products.json (col — номер колонки, slot — a / b: какие два товара видны на мобилке,
+  pos / total — «1 из 3»), data/compare-<категория>-specs.json (name, values — по колонкам).
+  Таблица: ≥ 768 — колонка названий (200, с 1200 — 240, с 1440 — 296) прилипает слева, товары делят строку поровну
+  (не уже 240, с 1200 — 192: до 4 товаров без прокрутки, на 1440 — до 5), больше — прокрутка вбок; < 768 — два товара рядом, у каждого «< 1 из 3 >» листает товары в своей колонке,
+  название характеристики — строкой над значениями.
+  compare-table.js: убрать товар (крестик), «Очистить сравнение», «Показать только различия», листание на мобилке.
+  Нет товаров — .is-empty у секции: остаётся заголовок, вместо таблиц — «В сравнении пока пусто» [data-compare-empty]
+  (сервер выводит так сразу); для проверки — ?empty.
+-->
+<section class="ap-section ap-compare-table" aria-labelledby="compare-title" data-compare>
+  <div class="container px-3 px-sm-4">
+    <div class="ap-compare-table__head">
+      <div class="ap-compare-table__heading d-flex align-items-start">
+        <h1 class="ap-compare-table__title" id="compare-title">Сравнение товаров</h1>
+        <span class="ap-compare-table__total" data-compare-total>3</span>
+      </div>
+      <p class="ap-compare-table__lead">Сравните характеристики и&nbsp;выберите то, что&nbsp;подходит вашей кухне.</p>
+      <button class="ap-compare-table__clear d-flex align-items-center gap-2" type="button" data-compare-clear>
+        <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close-md"></use></svg>Очистить сравнение
+      </button>
+      <div class="ap-tabs ap-compare-table__tabs d-flex gap-2" role="tablist" aria-label="Категории" data-tabs>
+        @@include('ui/tabs/tab.html', { "tab": "compare-tab-knives", "panel": "compare-panel-knives", "label": "Ножи&nbsp;&nbsp;<span data-compare-count>3</span>", "selected": true, "class": "ap-tab--compact" })
+      </div>
+      <label class="ap-switch ap-switch--start ap-switch--lg ap-compare-table__diff"><span>Показать только различия</span><input type="checkbox" role="switch" data-compare-diff></label>
+    </div>
+
+    <div class="ap-compare-table__panel" id="compare-panel-knives" role="tabpanel" aria-labelledby="compare-tab-knives" data-compare-panel>
+      <div class="ap-compare-table__scroll">
+        <div class="ap-compare-table__table" role="table" aria-label="Сравнение: ножи" style="--ap-compare-cols: 3" data-compare-table>
+          <div class="ap-compare-table__row ap-compare-table__row--products" role="row">
+            <div class="ap-compare-table__label" role="columnheader" aria-label="Товар"></div>
+            @@loop('pages/compare/compare-table/compare-product.html', 'data/compare-knives-products.json')
+          </div>
+          <div class="ap-compare-table__row ap-compare-table__row--group" role="row">
+            <div class="ap-compare-table__label" role="rowheader">Характеристики</div>
+            @@loop('pages/compare/compare-table/compare-empty-cell.html', 'data/compare-knives-products.json')
+          </div>
+          @@loop('pages/compare/compare-table/compare-row.html', 'data/compare-knives-specs.json')
+        </div>
+      </div>
+    </div>
+
+    @@include('sections/empty-state/empty-state-inline.html', {
+      "class": "ap-empty-state--wide ap-compare-table__empty",
+      "attrs": "hidden data-compare-empty",
+      "icon": "compare-lg",
+      "title": "В&nbsp;сравнении пока пусто",
+      "text": "Добавляйте товары к&nbsp;сравнению, чтобы выбрать подходящий по&nbsp;характеристикам и&nbsp;цене.",
+      "btnText": "Перейти в&nbsp;каталог&nbsp;→",
+      "btnHref": "/catalog"
+    })
+  </div>
+</section>

@@ -1,0 +1,5 @@
+[
+  { "col": "0", "slot": "a", "pos": "1", "total": "3", "id": "swf-006", "href": "/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift", "img": "knife.png", "category": "Ножи для&nbsp;овощей", "title": "Нож для&nbsp;овощей Swift", "article": "SWF-006", "price": "2&nbsp;690&nbsp;₽" },
+  { "col": "1", "slot": "b", "pos": "2", "total": "3", "id": "atm-012", "href": "/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift", "img": "knife.png", "category": "Ножи для&nbsp;овощей", "title": "Нож для&nbsp;овощей Atom", "article": "ATM-012", "price": "1&nbsp;290&nbsp;₽" },
+  { "col": "2", "slot": "", "pos": "3", "total": "3", "id": "hmb-020", "href": "/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift", "img": "knife.png", "category": "Универсальные ножи", "title": "Нож универсальный HOMBRE", "article": "HMB-020", "price": "3&nbsp;490&nbsp;₽" }
+]

@@ -1,0 +1,55 @@
+// =============================================================================
+// Избранное (pages/favorites/favorites-list) — Figma: десктоп 1:12011, мобилка 1:12240; пусто 1:12033 / 1:12311
+// Плашка — ui/guest-banner, карточки — ui/product-card (favorite, unavailable), сортировка — ui/form
+// (.ap-select--toolbar --menu), пусто — sections/empty-state (empty-state-inline.html). Здесь — отступы, заголовок,
+// количество, ширина сортировки.
+// =============================================================================
+
+.ap-favorites-list {
+  padding-top: 24px;
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: 60px;
+  }
+
+  &__title {
+    margin: 0;
+    color: $c-main;
+    @include text('h2');
+  }
+
+  // Количество и сортировка: ≥ 768 — отступ 16 сверху (40 от плашки, как в макете)
+  &__toolbar {
+    @include media-breakpoint-up(md) {
+      padding-top: 16px;
+    }
+  }
+
+  &__count {
+    margin: 0;
+    color: $c-main;
+    @include text('text-14');
+
+    @include media-breakpoint-up(md) {
+      @include text('text-16');
+    }
+  }
+
+  // Сортировка: 290 (мобилка) / 326 — не шире строки
+  &__sort {
+    width: 290px;
+    max-width: 100%;
+
+    @include media-breakpoint-up(md) {
+      width: 326px;
+    }
+  }
+
+  &__empty {
+    padding-top: 24px;
+
+    @include media-breakpoint-up(md) {
+      padding-top: 56px;
+    }
+  }
+}

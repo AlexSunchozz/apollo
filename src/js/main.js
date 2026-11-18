@@ -26,6 +26,8 @@ import initHomeProducts from '../pages/index/home-products/home-products.js';
 import initAccountData from '../pages/personal/data/account-data/account-data.js';
 import initAccountOrders from '../pages/personal/orders/account-orders/account-orders.js';
 import initCartContent from '../pages/cart/cart-content/cart-content.js';
+import initFavoritesList from '../pages/favorites/favorites-list/favorites-list.js';
+import initCompareTable from '../pages/compare/compare-table/compare-table.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initCore();
@@ -45,4 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initAccountData();
   initAccountOrders();
   initCartContent();
+  initFavoritesList();
+  initCompareTable();
 });

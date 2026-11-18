@@ -641,6 +641,92 @@
   }
 }
 
+// --- Сортировка-меню (избранное, Figma 1:12058; мобилка 1:12344) — вместе с --toolbar ---------------------
+// Список раскрывается из того же поля: общая рамка, линия под выбранным, пункты — текст без радиокнопок
+// (16, вторичный; ховер — фирменный), выбранный в списке не повторяется.
+.ap-select--menu {
+  .ap-select__toggle {
+    color: $c-main;
+
+    &[aria-expanded='true'] {
+      border-bottom-color: transparent;
+    }
+  }
+
+  .ap-select__panel {
+    margin-top: -1px;
+    border-top: 0;
+
+    &::before {
+      content: '';
+      display: block;
+      height: 1px;
+      margin-inline: 0;
+      background: $c-border;
+    }
+  }
+
+  // Пункты через 12 (нет в шкале) — в разметке у списка без классов gap
+  .ap-select__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: none;
+    padding: 16px;
+  }
+
+  .ap-check {
+    color: $c-text-secondary;
+    @include text('text-14');
+    cursor: pointer;
+    transition: color $transition;
+
+    @include media-breakpoint-up(md) {
+      @include text('text-16');
+    }
+
+    input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &:hover,
+    &:has(input:focus-visible) {
+      color: $c-main;
+    }
+
+    &:has(input:checked) {
+      display: none;
+    }
+  }
+}
+
+// Тумблер с подписью 16 («Показать только различия» в сравнении, Figma 1:12076)
+// < 768 — переключатель 26 × 16, до подписи 12 (Figma 1:12409)
+.ap-switch--lg {
+  @include text('text-16');
+  letter-spacing: 0;
+
+  @include media-breakpoint-down(md) {
+    gap: 12px;
+
+    input {
+      width: 26px;
+      height: 16px;
+
+      &::before {
+        width: 12px;
+        height: 12px;
+      }
+
+      &:checked::before {
+        transform: translateX(10px);
+      }
+    }
+  }
+}
+
 // --- Оценка звёздами (форма отзыва, Figma 1:4452) ----------------------------------------------------
 //   <fieldset class="ap-rate"><legend>…</legend><div class="ap-rate__stars">
 //     <input type="radio" name="rating" value="5" id="…-5"><label for="…-5" aria-label="5 из 5">★svg</label> … до 1

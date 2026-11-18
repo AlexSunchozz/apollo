@@ -10,6 +10,7 @@
 //   .ap-btn--outline         светлая рамка, фирменный текст — на белом («Собрать сет →»)
 //   .ap-btn--lg              высота как у ui/quantity: 40, ≥ 768 — 56 (вместе с видом: «ap-btn--primary ap-btn--lg»);
 //                            длинная подпись переносится — кнопка растёт
+//   .ap-btn--square          40 × 40 с иконкой 24, фирменная рамка (корзина в карточке товара и в сравнении)
 //   .ap-btn--outline-light   белая рамка и текст — на фото и тёмном фоне (первый экран, промо-карточки);
 //                            ховер — белая заливка, фирменный текст (Figma: «Собрать оптовый запрос →»)
 //
@@ -133,5 +134,31 @@
   @include media-breakpoint-up(md) {
     min-height: 56px;
     padding-block: 0;
+  }
+}
+
+// Квадратная 40 × 40 с иконкой 24: фирменная рамка и иконка → ховер — заливка, белая иконка
+// («В корзину» в карточке товара и в сравнении, Figma 1:12098). Подпись — aria-label.
+.ap-btn--square {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-color: $c-main;
+  color: $c-main;
+
+  .ap-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: $c-main;
+    color: $c-white;
+  }
+
+  &:focus-visible {
+    outline-color: $c-main;
   }
 }

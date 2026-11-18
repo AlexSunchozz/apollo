@@ -1,0 +1,47 @@
+[
+  {
+    "href": "/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift",
+    "title": "Нож разделочный Steel Pro, 15&nbsp;см",
+    "collection": "Apollo Premier",
+    "series": "Steel Pro",
+    "rating": "4.9",
+    "reviews": "31&nbsp;отзыв",
+    "price": "2&nbsp;690&nbsp;₽",
+    "badge": "",
+    "photo": false,
+    "favorite": true,
+    "unavailable": false,
+    "similar": "",
+    "imgs": ["knife.png", "knife.png", "knife.png", "knife.png"]
+  },
+  {
+    "href": "/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift",
+    "title": "Нож поварской Genio Loft, 20&nbsp;см",
+    "collection": "Apollo genio",
+    "series": "Loft",
+    "rating": "4.9",
+    "reviews": "31&nbsp;отзыв",
+    "price": "1&nbsp;490&nbsp;₽",
+    "badge": "",
+    "photo": false,
+    "favorite": true,
+    "unavailable": true,
+    "similar": "/catalog/nozhi",
+    "imgs": ["knife.png", "knife.png", "knife.png", "knife.png"]
+  },
+  {
+    "href": "/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift",
+    "title": "Нож для&nbsp;овощей Swift",
+    "collection": "Apollo genio",
+    "series": "Swift",
+    "rating": "4.7",
+    "reviews": "18&nbsp;отзывов",
+    "price": "890&nbsp;₽",
+    "badge": "",
+    "photo": false,
+    "favorite": true,
+    "unavailable": false,
+    "similar": "",
+    "imgs": ["knife.png", "knife.png", "knife.png", "knife.png"]
+  }
+]

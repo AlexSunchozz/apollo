@@ -1,0 +1,16 @@
+<!--
+  Плашка для гостя: «войдите, чтобы…» + кнопка входа (открывает окно #auth-modal).
+  Figma: корзина 1:10194 (мобилка 1:10390), избранное 1:12019 (мобилка 1:12257).
+  Параметры: title, text, btnText. Только гостю: [data-guest-only] скрывает layout/header.js, если вошёл
+  (data-authorized="true" у [data-account]; для проверки — ?auth).
+-->
+<div data-guest-only>
+  <div class="ap-guest-banner d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3 gap-md-4">
+    <svg class="ap-icon ap-guest-banner__icon d-none d-md-block" aria-hidden="true"><use href="@@root/img/sprite.svg#user"></use></svg>
+    <div class="ap-guest-banner__text d-flex flex-column gap-1">
+      <p class="ap-guest-banner__title">@@title</p>
+      <p class="ap-guest-banner__note">@@text</p>
+    </div>
+    <button class="ap-btn ap-btn--primary" type="button" data-bs-toggle="modal" data-bs-target="#auth-modal">@@btnText</button>
+  </div>
+</div>

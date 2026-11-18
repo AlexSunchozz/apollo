@@ -1,0 +1,4 @@
+<div class="ap-compare-table__row ap-compare-table__row--data" role="row" data-compare-row>
+  <div class="ap-compare-table__label" role="rowheader">@@name</div>
+  @@for (var i = 0; i < values.length; i++) {<div class="ap-compare-table__cell`+(i === 0 ? ' is-slot-a' : i === 1 ? ' is-slot-b' : '')+`" role="cell" data-compare-col="`+i+`">`+values[i]+`</div>}
+</div>

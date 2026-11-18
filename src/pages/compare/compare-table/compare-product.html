@@ -1,0 +1,27 @@
+<div class="ap-compare-table__cell ap-compare-table__cell--product@@if (context.slot) { is-slot-@@slot}" role="columnheader" data-compare-col="@@col">
+  <article class="ap-compare-table__product d-flex flex-column" data-compare-product="@@id">
+    <div class="ap-compare-table__top">
+      <a class="ap-compare-table__photo" href="@@href" tabindex="-1" aria-hidden="true"><img src="@@root/img/products/@@img" alt="" width="308" height="64" loading="lazy"></a>
+      <button class="ap-compare-table__icon ap-compare-table__icon--start" type="button" aria-label="В избранное" aria-pressed="false" data-product-action="favorites"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#heart"></use></svg></button>
+      <button class="ap-compare-table__icon ap-compare-table__icon--end" type="button" aria-label="Убрать из сравнения" data-compare-remove><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#close-md"></use></svg></button>
+    </div>
+    <div class="ap-compare-table__body flex-grow-1 d-flex flex-column gap-3 p-3">
+      <div class="d-flex flex-column gap-2">
+        <p class="ap-compare-table__category">@@category</p>
+        <h3 class="ap-compare-table__name"><a href="@@href">@@title</a></h3>
+      </div>
+      <div class="d-flex align-items-end justify-content-between gap-2 mt-auto">
+        <div class="ap-compare-table__buy d-flex flex-column gap-1 gap-md-2">
+          <p class="ap-compare-table__article">Артикул <span>@@article</span></p>
+          <p class="ap-compare-table__price">@@price</p>
+        </div>
+        <button class="ap-btn ap-btn--square" type="button" aria-label="Добавить в корзину" data-product-action="cart"><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#cart"></use></svg></button>
+      </div>
+      <div class="ap-compare-table__pager d-flex d-md-none align-items-center justify-content-center gap-3">
+        <button class="ap-compare-table__pager-btn" type="button" aria-label="Предыдущий товар" data-compare-prev>&lt;</button>
+        <span data-compare-pos>@@pos из&nbsp;@@total</span>
+        <button class="ap-compare-table__pager-btn" type="button" aria-label="Следующий товар" data-compare-next>&gt;</button>
+      </div>
+    </div>
+  </article>
+</div>

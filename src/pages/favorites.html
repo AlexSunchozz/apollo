@@ -1,0 +1,13 @@
+@@include('layout/head.html', {
+  "title": "Избранное — Apollo",
+  "description": "Избранные товары Apollo: сохранённые ножи, посуда и кухонные принадлежности."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Избранное" })
+  @@include('pages/favorites/favorites-list/favorites-list.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

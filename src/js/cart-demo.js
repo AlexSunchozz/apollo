@@ -1,7 +1,7 @@
-// Демо-корзина для статичной вёрстки: работает, пока у <body> есть атрибут data-cart-demo (layout/head.html).
+// Демо-корзина для статичной вёрстки: работает, пока у <body> есть атрибут data-demo (layout/head.html).
 // На сайте корзину ведёт сервер — интегратор убирает атрибут, и этот модуль ничего не делает.
 //
-//   «В корзину» (data-product-action="cart") в карточке товара (ui/product-card) и на странице товара (sections/product,
+//   «В корзину» (data-product-action="cart") в карточке товара (ui/product-card), в сравнении и на странице товара (sections/product,
 //   с выбранным количеством) — товар добавляется в localStorage; повторно — растёт количество.
 //   Счётчик корзины в шапке и нижней панели на любой странице — по сохранённым товарам (событие ap:counter).
 //   Страница корзины (pages/cart/cart-content) выводит сохранённые товары и записывает изменения обратно.
@@ -9,7 +9,7 @@
 
 const KEY = 'ap-cart-demo';
 
-export const isCartDemo = () => Boolean(document.body?.hasAttribute('data-cart-demo'));
+export const isDemo = () => Boolean(document.body?.hasAttribute('data-demo'));
 
 // null — корзину ещё не трогали (страница корзины покажет пример из вёрстки)
 export function readCart() {
@@ -57,6 +57,22 @@ function productFrom(button) {
     };
   }
 
+  const compared = button.closest('[data-compare-product]');
+  if (compared) {
+    const link = compared.querySelector('.ap-compare-table__name a');
+    const title = text(link);
+    return {
+      id: compared.dataset.compareProduct || `${link?.getAttribute('href') || ''}|${title}`,
+      href: link?.getAttribute('href') || '#',
+      img: compared.querySelector('.ap-compare-table__photo img')?.src || '',
+      cover: false,
+      article: text(compared.querySelector('.ap-compare-table__article')).replace(/^Артикулs*/, ''),
+      title,
+      price: digits(compared.querySelector('.ap-compare-table__price')),
+      qty: 1,
+    };
+  }
+
   const product = button.closest('[data-product]');
   if (product) {
     const title = text(product.querySelector('#product-title'));
@@ -76,7 +92,7 @@ function productFrom(button) {
 }
 
 export default function initCartDemo() {
-  if (!isCartDemo()) return;
+  if (!isDemo()) return;
 
   if (new URLSearchParams(window.location.search).has('cart-reset')) {
     try {

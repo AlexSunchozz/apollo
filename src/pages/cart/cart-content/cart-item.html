@@ -3,12 +3,12 @@
   <div class="ap-cart-content__item-info">
     <p class="ap-cart-content__item-article">Артикул: @@article</p>
     <h3 class="ap-cart-content__item-title"><a href="@@href">@@title</a></h3>
-    @@if (context.note) {<p class="ap-cart-content__item-note">@@note</p>}
+    @@if (context.note) {<p class="ap-tag ap-tag--wide ap-cart-content__item-note">@@note</p>}
   </div>
   <div class="ap-cart-content__item-side">
     @@if (!context.unavailable) {<p class="ap-cart-content__item-price" data-cart-item-sum>@@sum</p>
     @@include('ui/quantity/quantity.html', { "name": "quantity", "value": "@@qty", "max": "@@max", "class": "ap-quantity--cells ap-cart-content__item-qty" })}
-    @@if (context.unavailable) {<p class="ap-cart-content__item-status">Нет в&nbsp;наличии</p>
+    @@if (context.unavailable) {<p class="ap-tag ap-cart-content__item-status">Нет в&nbsp;наличии</p>
     <button class="ap-cart-content__item-link ap-cart-content__item-link--notify" type="button" data-cart-notify>Сообщить о&nbsp;поступлении</button>
     <a class="ap-cart-content__item-link ap-cart-content__item-link--similar" href="@@similar">Похожие товары&nbsp;→</a>}
     <div class="ap-cart-content__item-actions d-flex column-gap-md-4">

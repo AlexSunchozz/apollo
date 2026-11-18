@@ -170,6 +170,12 @@ function bindPopup(root, toggle, panel, { closeOn = 'a, button', onOpen } = {}) 
 // в шапке — под иконкой, в нижней панели — над ней во всю ширину.
 export function initAccount() {
   const demo = new URLSearchParams(window.location.search).has('auth');
+  // Блоки только для гостя ([data-guest-only]: ui/guest-banner, подписи) — скрыть, если вошёл
+  if (demo || document.querySelector('[data-account][data-authorized="true"]')) {
+    document.querySelectorAll('[data-guest-only]').forEach((el) => {
+      el.hidden = true;
+    });
+  }
   document.querySelectorAll('[data-account]').forEach((root) => {
     if (demo) root.dataset.authorized = 'true';
     if (root.dataset.authorized !== 'true') return;

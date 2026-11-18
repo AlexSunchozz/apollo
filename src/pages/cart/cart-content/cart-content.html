@@ -10,23 +10,18 @@
   Сервер выводит нужное; при удалении товаров вид меняется сам. Для проверки — ?unavailable и ?empty в адресе.
   Шаблоны товара [data-cart-template] / [data-cart-template-unavailable] — для демо-корзины статичной вёрстки
   (js/cart-demo.js: товары, добавленные в каталоге, выводятся здесь); интегратору не нужны.
-  «Уже покупали у нас?» и «Можно оформить без регистрации» [data-cart-guest] — только гостю: скрывается, если вошёл (data-authorized у [data-account], ?auth).
+  «Уже покупали у нас?» (ui/guest-banner) и «Можно оформить без регистрации» — только гостю ([data-guest-only], layout/header.js).
 -->
 <section class="ap-section ap-cart-content" aria-labelledby="cart-title" data-cart>
   <div class="container px-3 px-sm-4">
     <div class="d-flex flex-column gap-4">
       <h1 class="ap-cart-content__title" id="cart-title">Корзина</h1>
 
-      <div data-cart-guest>
-        <div class="ap-cart-content__guest d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3 gap-md-4">
-          <svg class="ap-icon ap-cart-content__guest-icon d-none d-md-block" aria-hidden="true"><use href="@@root/img/sprite.svg#user"></use></svg>
-          <div class="ap-cart-content__guest-text d-flex flex-column gap-1">
-            <p class="ap-cart-content__guest-title">Уже покупали у&nbsp;нас?</p>
-            <p class="ap-cart-content__guest-note">Войдите, чтобы использовать сохранённые данные и&nbsp;адреса доставки.</p>
-          </div>
-          <button class="ap-btn ap-btn--primary" type="button" data-bs-toggle="modal" data-bs-target="#auth-modal">Войти</button>
-        </div>
-      </div>
+      @@include('ui/guest-banner/guest-banner.html', {
+        "title": "Уже покупали у&nbsp;нас?",
+        "text": "Войдите, чтобы использовать сохранённые данные и&nbsp;адреса доставки.",
+        "btnText": "Войти"
+      })
 
       <div data-cart-body>
         <div class="ap-cart-content__body d-flex flex-column flex-xl-row align-items-xl-start gap-3">
@@ -84,7 +79,7 @@
               </p>
               <p class="ap-cart-content__caption">Стоимость доставки рассчитаем при&nbsp;оформлении.</p>
               <a class="ap-btn ap-btn--primary ap-cart-content__submit" href="#" data-stub>Оформить заказ&nbsp;→</a>
-              <p class="ap-cart-content__caption text-center" data-cart-guest>Можно оформить без&nbsp;регистрации</p>
+              <p class="ap-cart-content__caption text-center" data-guest-only>Можно оформить без&nbsp;регистрации</p>
             </div>
           </div>
         </div>

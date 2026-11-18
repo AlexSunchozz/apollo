@@ -9,6 +9,9 @@
 // Купленный товар (личный кабинет, Figma 1:7390): purchased — дата покупки над серией («12.09.2026» или
 // «Возврат 12.09.2026» + returned: true — красная), myRating — своя оценка звёздами 12 вместо плашки ("0" — серые);
 // без избранного и без строки рейтинга; year — data-purchase-year (фильтр по годам), returned — data-purchase-returned.
+// Избранное (страница «Избранное», Figma 1:12029): favorite — сердце закрашено и видно на всех ширинах (≥ 1200 — первым,
+// перед сравнением, зазор 16); unavailable + similar — «Похожие товары →» и метка «Нет в наличии» (ui/tag) вместо цены
+// и корзины; .is-removed — убран из избранного (приглушён). Корзина — ui/button --square.
 // Данные (include / loop): href, title, collection, series, rating, reviews, price, badge (необяз.), photo (да/нет),
 // imgs — массив файлов из img/products (слайды; один файл — слайдер без точек).
 // Ширину задаёт сетка снаружи (row-cols-* / col-*); высота карточек в ряду выравнивается, цена — внизу.
@@ -113,6 +116,15 @@
     &--favorite .ap-icon {
       width: 40px;
       height: 40px;
+    }
+
+    // ≥ 1200 кнопка 24 (избранное — страница «Избранное»): сердце 40 с полями 8 выходит за кнопку на 8 с каждой
+    // стороны — видимое сердце 20, как иконка 24 в макете (Figma 1:12029)
+    @include media-breakpoint-up(xl) {
+      &--favorite .ap-icon {
+        flex-shrink: 0;
+        margin: -8px;
+      }
     }
 
     // В избранном: сердце заливается цветом обводки (заливка иконки — переменная --ap-icon-fill, см. icons/card-heart.svg)
@@ -252,36 +264,33 @@
     white-space: nowrap; // цена — короткая служебная строка
   }
 
-  // Корзина: прозрачная с рамкой и фирменной иконкой → наведение: заливка, белая иконка (Figma)
-  &__cart {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border: 1px solid $c-main;
-    background: transparent;
+  // Нет в наличии (избранное, Figma 1:12030 / мобилка 1:12306): «Похожие товары →» и метка ui/tag вместо цены и корзины
+  &__similar {
     color: $c-main;
-    cursor: pointer;
-    transition: background-color $transition, color $transition;
+    @include text('text-14');
+    text-decoration: none;
+    transition: opacity $transition;
 
-    .ap-icon {
-      width: 24px;
-      height: 24px;
+    @include media-breakpoint-up(xl) {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
     }
 
-    &:hover,
-    &:focus-visible {
-      background-color: $c-main;
-      color: $c-white;
+    &:hover {
+      opacity: .7;
     }
 
     &:focus-visible {
       outline: 2px solid $c-main;
       outline-offset: 2px;
     }
+  }
+
+  // Убран из избранного на странице «Избранное» (до перезагрузки): фото и низ приглушены (Figma 1:12031)
+  &.is-removed &__img,
+  &.is-removed &__body {
+    opacity: .5;
   }
 
   &__title a:focus-visible,
