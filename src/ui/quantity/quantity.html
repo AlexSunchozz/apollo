@@ -1,5 +1,5 @@
-<div class="ap-quantity d-flex align-items-center" data-quantity>
+<div class="ap-quantity@@if (context.class) { @@class} d-flex align-items-center" data-quantity>
   <button class="ap-quantity__btn" type="button" aria-label="Уменьшить количество" data-quantity-minus>−</button>
-  <input class="ap-quantity__input" type="number" name="@@name" value="1" min="1" max="@@max" inputmode="numeric" aria-label="Количество" data-quantity-input>
+  <input class="ap-quantity__input" type="number" name="@@name" value="@@value" min="1" max="@@max" inputmode="numeric" aria-label="Количество" data-quantity-input>
   <button class="ap-quantity__btn" type="button" aria-label="Увеличить количество" data-quantity-plus>+</button>
 </div>

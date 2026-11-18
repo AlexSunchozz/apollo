@@ -1,0 +1,19 @@
+<!--
+  Пустое состояние внутри раздела страницы (div без section и контейнера) — тот же вид, что sections/empty-state:
+  иконка 100, заголовок h2 (вид H2), текст, кнопка. Параметры: icon, title, text, btnText, btnHref,
+  class (класс раскладки секции и модификаторы, например ap-empty-state--wide), attrs (атрибуты корня: hidden, data-*),
+  compact (true — между иконкой и текстом 16 / 24 с 768, иначе 24).
+  Используется: личный кабинет («Заказов пока нет»), корзина («пусто», «товары недоступны»).
+-->
+<div class="ap-empty-state ap-empty-state--inline@@if (context.class) { @@class}"@@if (context.attrs) { @@attrs}>
+  <div class="ap-empty-state__inner d-flex flex-column align-items-center gap-4 gap-md-5 text-center">
+    <div class="d-flex flex-column align-items-center@@if (context.compact) { gap-3 gap-md-4}@@if (!context.compact) { gap-4}">
+      <svg class="ap-icon ap-empty-state__icon" aria-hidden="true"><use href="@@root/img/sprite.svg#@@icon"></use></svg>
+      <div class="ap-heading align-items-center gap-4">
+        <h2 class="ap-heading__title ap-empty-state__title">@@title</h2>
+        <p class="ap-heading__text ap-empty-state__text">@@text</p>
+      </div>
+    </div>
+    <a class="ap-btn ap-btn--primary" href="@@btnHref">@@btnText</a>
+  </div>
+</div>

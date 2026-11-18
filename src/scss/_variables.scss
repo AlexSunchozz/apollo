@@ -25,6 +25,7 @@ $colors: (
   'text':           #000000, // TODO Figma: основной текст
   'text-secondary': #757575, // Figma «text/secondary»: пункты навигации, плейсхолдер поиска
   'border':         #e4e4e2, // Figma «border/default»: поле поиска, линия под навигацией
+  'border-active':  #462a40, // Figma «border/active»: рамка заполненного поля (промокод применён)
   'border-subtle':  #f7f7f6, // Figma «border/subtle»: верхняя граница нижней панели
   'bg':             #ffffff, // Figma «bg/page»: фон страницы и шапки
   'surface':        #f7f7f6, // Figma «bg/surface»: фон фото в карточке товара
@@ -40,6 +41,7 @@ $c-main:           map-get($colors, 'main');
 $c-text:           map-get($colors, 'text');
 $c-text-secondary: map-get($colors, 'text-secondary');
 $c-border:         map-get($colors, 'border');
+$c-border-active:  map-get($colors, 'border-active');
 $c-border-subtle:  map-get($colors, 'border-subtle');
 $c-bg:             map-get($colors, 'bg');
 $c-surface:        map-get($colors, 'surface');

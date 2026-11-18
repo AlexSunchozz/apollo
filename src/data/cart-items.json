@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "href": "/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift",
+    "img": "knife.png",
+    "cover": false,
+    "article": "15320",
+    "title": "Нож разделочный Steel Pro, 15&nbsp;см",
+    "price": "2690",
+    "sum": "2&nbsp;690&nbsp;₽",
+    "qty": "1",
+    "max": "10",
+    "note": "",
+    "unavailable": false,
+    "similar": ""
+  },
+  {
+    "id": "2",
+    "href": "/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift",
+    "img": "knife.png",
+    "cover": false,
+    "article": "20145",
+    "title": "Нож поварской Genio Loft, 20&nbsp;см",
+    "price": "1490",
+    "sum": "2&nbsp;980&nbsp;₽",
+    "qty": "2",
+    "max": "2",
+    "note": "Доступно 2&nbsp;шт. вместо&nbsp;3. Количество обновлено",
+    "unavailable": false,
+    "similar": ""
+  },
+  {
+    "id": "3",
+    "href": "/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swift",
+    "img": "knife-set.jpg",
+    "cover": true,
+    "article": "30871",
+    "title": "Набор ножей Bonito, 3&nbsp;предмета",
+    "price": "2990",
+    "sum": "",
+    "qty": "0",
+    "max": "0",
+    "note": "",
+    "unavailable": true,
+    "similar": "/catalog/nozhi"
+  }
+]

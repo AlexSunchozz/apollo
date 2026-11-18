@@ -1,0 +1,472 @@
+// =============================================================================
+// Корзина (pages/cart/cart-content) — Figma: десктоп 1:10186, мобилка 1:10373; недоступны 1:10303 / 1:10481,
+// пусто 1:10343 / 1:10532; промокод — ошибка 1:10283, применён 1:10292.
+// Количество — ui/quantity (ap-quantity--cells), кнопки — ui/button, поле промокода — ui/form (ap-field--status),
+// пустые состояния — sections/empty-state (empty-state-inline.html, ap-empty-state--wide).
+//
+//   __guest      «Уже покупали у нас?»: серый фон, поля 16 (≥ 768 — 24 / 32), иконка 24 с 768
+//   __card       рамка, поля 16 (≥ 768 — 24): промокод и сводка заказа
+//   __summary    ≥ 1200 — колонка 416 справа
+//   __item       товар: ≥ 768 — строка «фото 160 | инфо | сумма, количество, действия 280»;
+//                < 768 — сетка: фото 100 × 115 + количество под ним, справа артикул, название, сумма и кнопки 40,
+//                пояснение во всю ширину. Обёртки __item-info / __item-side на мобилке — display: contents.
+//   __item--unavailable   нет в наличии: фото и название приглушены, справа — метка, «Сообщить», «Похожие», «Удалить»
+//   .is-unavailable (у секции) — остались только недоступные: список шириной как в основном виде (≥ 1200)
+// =============================================================================
+
+.ap-cart-content {
+  padding-top: 24px;
+
+  @include media-breakpoint-up(md) {
+    padding-bottom: 60px;
+  }
+
+  &__title {
+    margin: 0;
+    color: $c-main;
+    @include text('h2');
+  }
+
+  // --- «Уже покупали у нас?» ---------------------------------------------------------------
+  &__guest {
+    padding: 16px;
+    background: $c-surface;
+
+    @include media-breakpoint-up(md) {
+      padding: 24px 32px;
+    }
+
+    .ap-btn {
+      flex-shrink: 0;
+    }
+  }
+
+  &__guest-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    color: $c-main;
+  }
+
+  &__guest-text {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__guest-title {
+    margin: 0;
+    color: $c-main;
+    @include text('text-16');
+  }
+
+  &__guest-note {
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
+  }
+
+  // --- Раскладка ---------------------------------------------------------------------------
+  &__main {
+    min-width: 0;
+
+    @include media-breakpoint-up(xl) {
+      flex: 1 1 0;
+    }
+  }
+
+  &__summary {
+    @include media-breakpoint-up(xl) {
+      flex: 0 0 416px;
+    }
+  }
+
+  // Остались только недоступные товары: сводки нет, список — прежней ширины (1280 − 416 − 16)
+  &.is-unavailable &__body {
+    @include media-breakpoint-up(md) {
+      padding-top: 16px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-right: 432px;
+    }
+  }
+
+  &__empty {
+    padding-top: 24px;
+
+    @include media-breakpoint-up(md) {
+      padding-top: 56px;
+    }
+  }
+
+  // --- Карточки: промокод, сводка ------------------------------------------------------------
+  &__card {
+    padding: 16px;
+    border: 1px solid $c-border;
+
+    @include media-breakpoint-up(md) {
+      padding: 24px;
+    }
+  }
+
+  &__promo-title {
+    margin: 0;
+    color: $c-main;
+    @include text('price-22');
+  }
+
+  // Поле и кнопка: мобилка — друг под другом через 12 (нет в шкале), ≥ 768 — в строку через 16
+  &__promo-row {
+    gap: 12px;
+
+    @include media-breakpoint-up(md) {
+      gap: 16px;
+    }
+  }
+
+  &__promo-input {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__summary-title {
+    margin: 0;
+    color: $c-main;
+    @include text('title-22');
+  }
+
+  // Строка сводки: раскладка здесь, а не классами d-flex — строку «Скидка» скрывает атрибут hidden
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 16px;
+    color: $c-main;
+    @include text('text-16');
+
+    dt,
+    dd {
+      min-width: 0;
+      margin: 0;
+      font-weight: inherit;
+    }
+
+    dd {
+      white-space: nowrap; // сумма — короткая служебная строка
+    }
+  }
+
+  &__muted {
+    color: $c-text-secondary;
+  }
+
+  &__total {
+    margin: 0;
+    border-top: 1px solid $c-border;
+    color: $c-main;
+    @include text('text-16');
+  }
+
+  &__total-value {
+    @include text('price-22');
+    white-space: nowrap;
+  }
+
+  &__caption {
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('caption-12');
+  }
+
+  &__submit {
+    width: 100%;
+  }
+
+  // --- Товар -------------------------------------------------------------------------------
+  // < 768: сетка, обёртки инфо и действий растворены (display: contents)
+  &__item {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto auto 1fr auto auto;
+    grid-template-areas:
+      'photo article article'
+      'photo title   title'
+      'photo price   actions'
+      'photo .       .'
+      'qty   .       .'
+      'note  note    note';
+    column-gap: 8px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid $c-border;
+
+    @include media-breakpoint-up(md) {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding-bottom: 24px;
+    }
+
+    &--unavailable {
+      grid-template-rows: auto auto auto auto auto 1fr;
+      grid-template-areas:
+        'photo article article'
+        'photo title   title'
+        'photo status  actions'
+        'photo notify  notify'
+        'photo similar similar'
+        'photo .       .';
+    }
+  }
+
+  &__item-photo {
+    display: block;
+    grid-area: photo;
+    width: 100px;
+    height: 115px;
+    background: $c-surface;
+
+    @include media-breakpoint-up(md) {
+      flex: 0 0 160px;
+      width: 160px;
+      height: 160px;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    // Фото во весь кадр (набор на доске), а не предмет на сером фоне
+    &--cover img {
+      object-fit: cover;
+    }
+  }
+
+  &__item--unavailable &__item-photo img {
+    opacity: .5;
+  }
+
+  &__item-info,
+  &__item-side {
+    display: contents;
+  }
+
+  &__item-info {
+    @include media-breakpoint-up(md) {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      min-width: 0;
+    }
+  }
+
+  &__item-side {
+    @include media-breakpoint-up(md) {
+      display: flex;
+      flex: 0 0 280px;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 160px;
+      text-align: right;
+    }
+  }
+
+  &__item-article {
+    grid-area: article;
+    margin: 0;
+    color: $c-text-secondary;
+    @include text('text-12');
+
+    @include media-breakpoint-up(md) {
+      @include text('text-14-secondary');
+    }
+  }
+
+  &__item-title {
+    grid-area: title;
+    margin: 8px 0 0;
+    color: $c-main;
+    @include text('text-16');
+
+    @include media-breakpoint-up(md) {
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity $transition;
+
+      &:hover {
+        opacity: .7;
+      }
+    }
+  }
+
+  &__item--unavailable &__item-title {
+    color: $c-text-secondary;
+  }
+
+  // Пояснение («Доступно 2 шт. вместо 3…»): < 768 — во всю ширину под товаром, по центру
+  &__item-note {
+    grid-area: note;
+    margin: 16px 0 0;
+    padding: 8px 12px;
+    background: $c-surface;
+    color: $c-text-secondary;
+    @include text('text-12');
+    text-align: center;
+
+    @include media-breakpoint-up(md) {
+      margin: 0;
+      padding: 8px 16px;
+      @include text('text-14-secondary');
+      text-align: left;
+    }
+  }
+
+  &__item-price {
+    grid-area: price;
+    align-self: end;
+    margin: 8px 0 0;
+    color: $c-main;
+    @include text('price-22');
+    white-space: nowrap;
+
+    @include media-breakpoint-up(md) {
+      align-self: auto;
+      margin: 0;
+    }
+  }
+
+  &__item-qty {
+    grid-area: qty;
+    margin-top: 8px;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 0;
+    }
+  }
+
+  &__item-status {
+    grid-area: status;
+    align-self: end;
+    justify-self: start;
+    margin: 8px 0 0;
+    padding: 8px 12px;
+    background: $c-surface;
+    color: $c-text-secondary;
+    @include text('text-12');
+
+    @include media-breakpoint-up(md) {
+      margin: 0;
+      padding: 8px 16px;
+      @include text('text-14-secondary');
+    }
+  }
+
+  &__item-link {
+    justify-self: start;
+    margin-top: 16px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    @include text('text-14');
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity $transition;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 0;
+      @include text('text-14-secondary');
+      text-align: right;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+
+    &--notify {
+      grid-area: notify;
+    }
+
+    &--similar {
+      grid-area: similar;
+    }
+  }
+
+  // Действия: < 768 — иконки в зонах 40 × 40 справа от суммы; ≥ 768 — иконка 24 + подпись
+  &__item-actions {
+    grid-area: actions;
+    align-self: end;
+    justify-content: flex-end;
+    margin-top: 8px;
+
+    @include media-breakpoint-up(md) {
+      flex-wrap: wrap;
+      align-self: auto;
+      row-gap: 8px;
+      margin-top: 0;
+    }
+  }
+
+  &__item-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: $c-main;
+    @include text('text-14-secondary');
+    cursor: pointer;
+    transition: opacity $transition;
+
+    @include media-breakpoint-up(md) {
+      width: auto;
+      height: 24px;
+    }
+
+    .ap-icon {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+    }
+
+    span {
+      color: $c-text-secondary;
+    }
+
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $c-main;
+      outline-offset: 2px;
+    }
+
+    &[aria-pressed='true'] .ap-icon {
+      --ap-icon-fill: currentColor;
+    }
+  }
+}

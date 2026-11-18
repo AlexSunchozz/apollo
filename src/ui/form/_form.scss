@@ -19,6 +19,7 @@
 //                         .ap-select--toolbar — в панели над товарами (сортировка: радиокнопки), 40 / 48
 //   .ap-switch            тумблер с подписью (фильтры); .ap-switch--start — тумблер слева, подпись справа
 //   .ap-range             бюджет: два поля + ползунок с двумя точками
+//   .ap-field--status     поле с ответом под ним (__message): is-error — красное, is-success — «применено» (промокод)
 //   .is-invalid           ошибка: обводка #E6000E (ставит ui/form/form.js при отправке)
 // =============================================================================
 
@@ -237,6 +238,47 @@
     }
 
     -moz-appearance: textfield;
+  }
+}
+
+// --- Поле с ответом под ним (промокод в корзине, Figma 1:10257, ошибка 1:10283, применён 1:10292) -----------
+//   <div class="ap-field ap-field--status [is-error | is-success]"> подпись, .ap-field__control (поле + кнопка
+//   .ap-field__action «очистить»), <p class="ap-field__message"></p></div>
+//   is-error   — рамка, текст поля и сообщение красные;
+//   is-success — рамка «border/active», поле только для чтения, справа кнопка «очистить», сообщение фирменное.
+.ap-field__control {
+  position: relative;
+}
+
+.ap-field__message {
+  margin: 0;
+  color: $c-main;
+  @include text('text-14-secondary');
+}
+
+.ap-field--status {
+  &.is-error {
+    .ap-input {
+      border-color: $c-error;
+      color: $c-error;
+    }
+
+    .ap-field__message {
+      color: $c-error;
+    }
+  }
+
+  &.is-success .ap-input {
+    padding-right: 40px; // 16 + кнопка 16 + 8
+
+    @include media-breakpoint-up(sm) {
+      padding-right: 43px; // 16 + кнопка 19 + 8
+    }
+
+    &,
+    &:focus {
+      border-color: $c-border-active;
+    }
   }
 }
 

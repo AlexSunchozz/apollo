@@ -1,0 +1,13 @@
+@@include('layout/head.html', {
+  "title": "Корзина — Apollo",
+  "description": "Корзина интернет-магазина Apollo: выбранные товары, промокод и оформление заказа."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Корзина" })
+  @@include('pages/cart/cart-content/cart-content.html')
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

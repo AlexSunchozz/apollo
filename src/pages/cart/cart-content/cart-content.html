@@ -1,0 +1,114 @@
+<!--
+  Корзина: h1, «Уже покупали у нас?» (только гостю), товары (cart-item.html, data/cart-items.json), промокод, сводка заказа.
+  Figma: десктоп 1:10186, промокод — ошибка 1:10283, применён 1:10292; товары недоступны 1:10303, пусто 1:10343;
+         мобилка 1:10373, 1:10481, 1:10532
+  Раскладка: ≥ 1200 — товары и промокод слева, сводка 416 справа; < 1200 — сводка под промокодом во всю ширину.
+  Товар: ≥ 768 — строка «фото 160 — название — сумма, количество, действия (280)»; < 768 — фото 100 × 115 с количеством
+  под ним, сумма и кнопки-иконки под названием, пояснение (note) — во всю ширину внизу.
+  Состояния (cart-content.js): есть товары в наличии — список, промокод, сводка; только недоступные — список
+  и «Товары в корзине пока недоступны» [data-cart-unavailable-state]; ничего — «В корзине пока пусто» [data-cart-empty].
+  Сервер выводит нужное; при удалении товаров вид меняется сам. Для проверки — ?unavailable и ?empty в адресе.
+  Шаблоны товара [data-cart-template] / [data-cart-template-unavailable] — для демо-корзины статичной вёрстки
+  (js/cart-demo.js: товары, добавленные в каталоге, выводятся здесь); интегратору не нужны.
+  «Уже покупали у нас?» и «Можно оформить без регистрации» [data-cart-guest] — только гостю: скрывается, если вошёл (data-authorized у [data-account], ?auth).
+-->
+<section class="ap-section ap-cart-content" aria-labelledby="cart-title" data-cart>
+  <div class="container px-3 px-sm-4">
+    <div class="d-flex flex-column gap-4">
+      <h1 class="ap-cart-content__title" id="cart-title">Корзина</h1>
+
+      <div data-cart-guest>
+        <div class="ap-cart-content__guest d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3 gap-md-4">
+          <svg class="ap-icon ap-cart-content__guest-icon d-none d-md-block" aria-hidden="true"><use href="@@root/img/sprite.svg#user"></use></svg>
+          <div class="ap-cart-content__guest-text d-flex flex-column gap-1">
+            <p class="ap-cart-content__guest-title">Уже покупали у&nbsp;нас?</p>
+            <p class="ap-cart-content__guest-note">Войдите, чтобы использовать сохранённые данные и&nbsp;адреса доставки.</p>
+          </div>
+          <button class="ap-btn ap-btn--primary" type="button" data-bs-toggle="modal" data-bs-target="#auth-modal">Войти</button>
+        </div>
+      </div>
+
+      <div data-cart-body>
+        <div class="ap-cart-content__body d-flex flex-column flex-xl-row align-items-xl-start gap-3">
+          <div class="ap-cart-content__main d-flex flex-column gap-3 gap-md-4">
+            <div class="ap-cart-content__list d-flex flex-column gap-4" data-cart-list>
+              @@loop('pages/cart/cart-content/cart-item.html', 'data/cart-items.json')
+            </div>
+            <template data-cart-template>
+              @@include('pages/cart/cart-content/cart-item.html', { "id": "", "href": "#", "img": "knife.png", "cover": false, "article": "", "title": "", "price": "0", "sum": "", "qty": "1", "max": "99", "note": "Пояснение", "unavailable": false, "similar": "" })
+            </template>
+            <template data-cart-template-unavailable>
+              @@include('pages/cart/cart-content/cart-item.html', { "id": "", "href": "#", "img": "knife.png", "cover": false, "article": "", "title": "", "price": "0", "sum": "", "qty": "0", "max": "0", "note": "Пояснение", "unavailable": true, "similar": "/catalog" })
+            </template>
+
+            <form class="ap-cart-content__card" action="#" novalidate data-form data-cart-promo data-cart-in-stock data-promo-success="Промокод на&nbsp;скидку 20&nbsp;% применен" data-promo-error="Промокод не&nbsp;действителен">
+              <div class="d-flex flex-column gap-3">
+                <h2 class="ap-cart-content__promo-title">Промокод</h2>
+                <div class="ap-field ap-field--status d-flex flex-column gap-3" data-promo-field>
+                  <div class="ap-cart-content__promo-row d-flex flex-column flex-md-row align-items-md-end">
+                    <div class="ap-cart-content__promo-input d-flex flex-column gap-2">
+                      <label class="ap-field__label ap-field__label--muted" for="cart-promo">Введите промокод</label>
+                      <div class="ap-field__control">
+                        <input class="ap-input" id="cart-promo" type="text" name="promo" required autocomplete="off" data-promo-input>
+                        <button class="ap-field__action" type="button" aria-label="Удалить промокод" hidden data-field-clear data-promo-clear><svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#clear"></use></svg></button>
+                      </div>
+                    </div>
+                    <button class="ap-btn ap-btn--primary" type="submit" data-promo-submit>Применить</button>
+                  </div>
+                  <p class="ap-field__message" role="status" hidden data-promo-message></p>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="ap-cart-content__summary" data-cart-in-stock data-cart-summary data-cart-discount="1000">
+            <div class="ap-cart-content__card d-flex flex-column gap-3">
+              <h2 class="ap-cart-content__summary-title">Заказ</h2>
+              <dl class="ap-cart-content__rows d-flex flex-column gap-3 m-0">
+                <div class="ap-cart-content__row">
+                  <dt>Товары, <span data-cart-count>3</span>&nbsp;шт.</dt>
+                  <dd data-cart-sum>5&nbsp;670&nbsp;₽</dd>
+                </div>
+                <div class="ap-cart-content__row" data-cart-discount-row>
+                  <dt>Скидка</dt>
+                  <dd data-cart-discount-value>-&nbsp;1&nbsp;000&nbsp;₽</dd>
+                </div>
+                <div class="ap-cart-content__row">
+                  <dt>Доставка</dt>
+                  <dd class="ap-cart-content__muted">При&nbsp;оформлении</dd>
+                </div>
+              </dl>
+              <p class="ap-cart-content__total d-flex flex-wrap align-items-center justify-content-between column-gap-3 pt-3">
+                <span>Итого</span>
+                <span class="ap-cart-content__total-value" data-cart-total>4&nbsp;670&nbsp;₽</span>
+              </p>
+              <p class="ap-cart-content__caption">Стоимость доставки рассчитаем при&nbsp;оформлении.</p>
+              <a class="ap-btn ap-btn--primary ap-cart-content__submit" href="#" data-stub>Оформить заказ&nbsp;→</a>
+              <p class="ap-cart-content__caption text-center" data-cart-guest>Можно оформить без&nbsp;регистрации</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      @@include('sections/empty-state/empty-state-inline.html', {
+        "class": "ap-empty-state--wide ap-cart-content__empty",
+        "attrs": "hidden data-cart-unavailable-state",
+        "icon": "alert",
+        "title": "Товары в&nbsp;корзине пока недоступны",
+        "text": "Выберите похожие товары в&nbsp;каталоге и&nbsp;добавьте их&nbsp;в&nbsp;корзину",
+        "btnText": "Перейти в&nbsp;каталог&nbsp;→",
+        "btnHref": "/catalog"
+      })
+
+      @@include('sections/empty-state/empty-state-inline.html', {
+        "class": "ap-empty-state--wide ap-cart-content__empty",
+        "attrs": "hidden data-cart-empty",
+        "icon": "cart-lg",
+        "title": "В&nbsp;корзине пока пусто",
+        "text": "Загляните в&nbsp;каталог и&nbsp;выберите посуду для&nbsp;дома",
+        "btnText": "Перейти в&nbsp;каталог&nbsp;→",
+        "btnHref": "/catalog"
+      })
+    </div>
+  </div>
+</section>

@@ -6,12 +6,14 @@ import initSearch from '../ui/search/search.js';
 import initProductCards from '../ui/product-card/product-card.js';
 import initForms from '../ui/form/form.js';
 import initAuth from '../layout/auth.js';
+import initCartDemo from './cart-demo.js';
 
 export default function initCore() {
   initStubs();
   initStickyHeader();
   initCatalogMenu();
   initCounters();
+  initCartDemo();
   initSearch();
   initAccount();
   initTabbarSheets();

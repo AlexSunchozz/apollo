@@ -25,6 +25,7 @@ import initHomeHero from '../pages/index/home-hero/home-hero.js';
 import initHomeProducts from '../pages/index/home-products/home-products.js';
 import initAccountData from '../pages/personal/data/account-data/account-data.js';
 import initAccountOrders from '../pages/personal/orders/account-orders/account-orders.js';
+import initCartContent from '../pages/cart/cart-content/cart-content.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initCore();
@@ -43,4 +44,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initHomeProducts();
   initAccountData();
   initAccountOrders();
+  initCartContent();
 });
