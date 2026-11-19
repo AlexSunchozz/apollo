@@ -75,6 +75,7 @@ const sassOptions = {
 const postcssPlugins = () => [
   pxtorem({ rootValue: 16, propList: ['*'], minPixelValue: 2, mediaQuery: false }),
   autoprefixer(),
+  noCssComments(),
 ];
 
 // Страницы и уникальные секции лежат вместе в src/pages/, с любой вложенностью папок:
@@ -139,37 +140,39 @@ export const checkSections = async () => {
   sectionDirs();
 };
 
-// ID нод Figma в комментариях («Figma: 46:293 …») нужны только для сверки с макетом — в dist их нет.
-// Убирается строка «Figma:» вместе со строками-продолжениями (отступ глубже, чем у «Figma:»,
-// до следующей метки вроде «Bitrix:»), и вставка «Figma: 33:2712» внутри строки.
-const stripFigma = (text) => {
-  const lines = text.split('\n');
+// Комментарии в разметке (назначение секции, Figma, адаптив) нужны только в исходниках — в dist их нет,
+// чтобы не засорять вёрстку. Вместо них крупные блоки (шапка, крошки, секции, подвал, окна) отделяются пустой строкой.
+const BLOCK_START = /^\s*<(section\b|header\b|footer\b|main\b|nav class="ap-breadcrumbs|div class="modal\b|div class="offcanvas\b)/;
+const stripComments = (text) => {
+  const lines = text.replace(/<!--[\s\S]*?-->/g, '').split('\n');
   const out = [];
-  for (let i = 0; i < lines.length; i++) {
-    const label = /^(\s*)Figma:/.exec(lines[i]);
-    if (!label) {
-      out.push(lines[i].replace(/\s*Figma:\s*[\d:,\s]+\d/g, ''));
-      continue;
+  lines.forEach((line) => {
+    if (!line.trim()) {
+      if (out.length && out[out.length - 1] !== '') out.push(''); // не больше одной пустой строки подряд
+      return;
     }
-    const indent = label[1].length;
-    while (i + 1 < lines.length) {
-      const next = lines[i + 1];
-      const nextIndent = next.length - next.trimStart().length;
-      const isLabel = /^[A-Za-zА-Яа-яЁё ]+:\s/.test(next.trim());
-      if (!next.trim() || nextIndent <= indent || isLabel || next.includes('-->')) break;
-      i++;
-    }
-  }
+    if (BLOCK_START.test(line) && out.length && out[out.length - 1] !== '') out.push('');
+    out.push(line.replace(/\s+$/, ''));
+  });
   return out.join('\n');
 };
-const noFigma = () =>
+const noComments = () =>
   new Transform({
     objectMode: true,
     transform(file, _enc, cb) {
-      file.contents = Buffer.from(stripFigma(file.contents.toString()));
+      file.contents = Buffer.from(stripComments(file.contents.toString()));
       cb(null, file);
     },
   });
+
+// CSS без комментариев; лицензионные /*! … */ (Bootstrap) сохраняются
+const noCssComments = () => ({
+  postcssPlugin: 'no-comments',
+  Comment(comment) {
+    if (!comment.text.startsWith('!')) comment.remove();
+  },
+});
+noCssComments.postcss = true;
 
 // Готовая страница — чистый статический HTML: все конструкции gulp-file-include раскрыты
 // (оставшийся @@… — это параметр, не переданный в @@include, или опечатка), PHP-вставок нет.
@@ -239,7 +242,7 @@ export const html = () =>
   src(pageFiles(), { base: path.resolve(paths.src) })
     .pipe(fileInclude({ prefix: '@@', basepath: paths.src, indent: true }))
     .pipe(resolveRoot())
-    .pipe(noFigma())
+    .pipe(noComments())
     .pipe(checkHtml())
     .pipe(dest(paths.dist))
     .pipe(bs.stream());
