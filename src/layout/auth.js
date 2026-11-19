@@ -2,7 +2,6 @@
 //
 //   [data-field-clear]     — кнопка в поле (.ap-field--legend): очищает поле и ставит в него фокус
 //   [data-password-toggle] — показать / скрыть пароль (aria-pressed)
-//   [data-phone-mask]      — телефон в виде +7 (XXX) XXX-XX-XX по мере ввода
 //   [data-auth-logout]     — «Выйти» (#logout-modal): событие ap:auth-logout (cancelable); не отменено — перезагрузка без ?auth
 //   [data-auth-login]      — «Войти по почте / по телефону»: вид окна входа с паролем #auth-login-modal
 //                            (="email" | "phone" — заголовок, поле, текст ошибки, ссылка внизу — [data-login-mode])
@@ -36,20 +35,6 @@ export function switchModal(from, to) {
   Modal.getOrCreateInstance(from).hide();
 }
 
-const formatPhone = (value) => {
-  let digits = value.replace(/\D/g, '');
-  if (!digits) return '';
-  if (digits[0] === '8') digits = `7${digits.slice(1)}`;
-  if (digits[0] !== '7') digits = `7${digits}`;
-  const d = digits.slice(1, 11);
-  let result = '+7';
-  if (d.length) result += ` (${d.slice(0, 3)}`;
-  if (d.length >= 3) result += ')';
-  if (d.length > 3) result += ` ${d.slice(3, 6)}`;
-  if (d.length > 6) result += `-${d.slice(6, 8)}`;
-  if (d.length > 8) result += `-${d.slice(8, 10)}`;
-  return result;
-};
 
 // Куда отправили код — в текст окна кода; пробелы неразрывные (телефон не разрывается по строкам)
 const setTarget = (modal, value) => {
@@ -114,13 +99,6 @@ export default function initAuth() {
     }
   });
 
-  document.addEventListener('input', (event) => {
-    const input = event.target;
-    if (input.matches?.('[data-phone-mask]')) {
-      // Стирание скобки / дефиса не должно возвращать их обратно
-      if (event.inputType !== 'deleteContentBackward') input.value = formatPhone(input.value);
-    }
-  });
 
   const authModal = document.getElementById('auth-modal');
   if (!authModal) return;

@@ -5,6 +5,8 @@
 //                    закрывается кликом мимо и по Esc
 //   [data-file]    — в поле показывается имя файла (или «Файлов: N»)
 //   [data-range]   — поля «от / до» и два ползунка синхронизированы (data-min / data-max / data-step)
+//   [data-phone]   — поле телефона: вводятся только цифры (и «+»), номер оформляется как +7 (XXX) XXX-XX-XX
+//                    по мере ввода и при вставке (на всех формах сайта)
 //   [data-form]    — при отправке: [required] не пустые, [data-phone] — 10–15 цифр, type=email — адрес вида name@domain.ru, обязательные чекбоксы
 //                    отмечены; ошибка — .is-invalid (красная обводка), снимается при вводе.
 //                    Если всё верно — событие ap:form-submit (detail: { form, data }) для интегратора;
@@ -91,6 +93,39 @@ function initRange(range) {
   });
 }
 
+// --- Телефон: только цифры, вид +7 (XXX) XXX-XX-XX -----------------------------------------------
+export const formatPhone = (value) => {
+  let digits = value.replace(/\D/g, '');
+  if (!digits) return '';
+  if (digits[0] === '8') digits = `7${digits.slice(1)}`;
+  if (digits[0] !== '7') digits = `7${digits}`;
+  const d = digits.slice(1, 11);
+  let result = '+7';
+  if (d.length) result += ` (${d.slice(0, 3)}`;
+  if (d.length >= 3) result += ')';
+  if (d.length > 3) result += ` ${d.slice(3, 6)}`;
+  if (d.length > 6) result += `-${d.slice(6, 8)}`;
+  if (d.length > 8) result += `-${d.slice(8, 10)}`;
+  return result;
+};
+
+let phonesReady = false;
+function initPhones() {
+  if (phonesReady) return;
+  phonesReady = true;
+  // Буквы и прочие символы не вводятся (вставка — через input ниже: остаются только цифры)
+  document.addEventListener('beforeinput', (event) => {
+    if (!event.target.matches?.('input[data-phone]')) return;
+    if (event.inputType === 'insertText' && event.data && /[^\d+]/.test(event.data)) event.preventDefault();
+  });
+  document.addEventListener('input', (event) => {
+    const input = event.target;
+    if (!input.matches?.('input[data-phone]')) return;
+    // Стирание скобки / дефиса не должно возвращать их обратно
+    if (event.inputType !== 'deleteContentBackward') input.value = formatPhone(input.value);
+  });
+}
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const isFieldValid = (field) => {
@@ -155,4 +190,5 @@ export default function initForms(root = document) {
   root.querySelectorAll('[data-file]').forEach((el) => once(el, initFile));
   root.querySelectorAll('[data-range]').forEach((el) => once(el, initRange));
   root.querySelectorAll('[data-form]').forEach((el) => once(el, initForm));
+  initPhones();
 }

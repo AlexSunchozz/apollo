@@ -1,0 +1,23 @@
+@@include('layout/head.html', {
+  "title": "Оптовый заказ — Apollo",
+  "description": "Оптовый запрос в Apollo: менеджер рассчитает стоимость и согласует условия заказа."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Оформление заказа", "items": [{ "title": "Корзина", "href": "/wholesale/cart" }] })
+  @@include('sections/checkout/checkout.html', {
+    "title": "Оформление заказа",
+    "cartHref": "/wholesale/cart",
+    "contactsTitle": "1. Как&nbsp;с&nbsp;вами связаться",
+    "guest": false,
+    "payment": false,
+    "wholesale": true,
+    "items": "data/checkout-items.json",
+    "sendText": "Отправить запрос&nbsp;→",
+    "success": "/wholesale/success"
+  })
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

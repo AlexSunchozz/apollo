@@ -57,6 +57,12 @@ dist/                      готовая статика: index.html, pages/, cs
 | `/personal/data` | `pages/personal/data.html` | личный кабинет — «Мои данные»: личная информация, адреса доставки, пароль, уведомления (редактирование в строке, телефон — с кодом из СМС) |
 | `/personal/orders` | `pages/personal/orders.html` | личный кабинет — «Мои заказы»: активные, завершенные, отмененные, купленные товары (`?empty` — вид без заказов) |
 | `/cart` | `pages/cart.html` | корзина: товары, промокод, сводка заказа (см. «Корзина») |
+| `/checkout` | `pages/checkout.html` | оформление заказа: контакты, доставка, оплата, сводка (см. «Оформление заказа») |
+| `/order/success`, `/order/received`, `/order/cancelled` | `pages/order/*.html` | заказ оформлен и оплачен / получен / отменён — шаблон `sections/order-status` |
+| `/order/payment-error` | `pages/order/payment-error.html` | оплата не прошла |
+| `/wholesale/cart` | `pages/wholesale/cart.html` | корзина оптовика — та же секция `sections/cart-content` (`wholesale`): без промокода и «Итого», «Отправить оптовый запрос →» |
+| `/wholesale` | `pages/wholesale.html` | оптовый заказ — та же форма `sections/checkout` без оплаты |
+| `/wholesale/success` | `pages/wholesale/success.html` | «Спасибо! Оптовый запрос получен» |
 | `/favorites` | `pages/favorites.html` | избранное: карточки товаров, сортировка (`?empty` — вид «пусто») |
 | `/compare` | `pages/compare.html` | сравнение товаров: таблица характеристик по категориям (`?empty` — вид «пусто») |
 | `/search?q=<запрос>` | `pages/search.html` | результаты поиска — блок каталога `sections/category` или «Пока ничего не нашлось» (см. «Поиск») |
@@ -120,7 +126,8 @@ http://127.0.0.1:3000/catalog/nozhi/nozh-dlya-ovoshchey/nozh-dlya-ovoshchey-swif
 | `ap:compare-remove` | сравнение — товар убран (крестик) | `{ id, table }` |
 | `ap:compare-clear` | сравнение — «Очистить сравнение» | — |
 | `ap:view-change` | вид списка (`ui/view-switch`) | `{ view, targets }` |
-| `ap:form-submit` | формы (подписка, «Подобрать для проекта», «Написать нам», окна входа) после проверки | `{ form, data: FormData }` |
+| `ap:form-submit` | формы (подписка, «Подобрать для проекта», «Написать нам», окна входа, оформление и оптовый заказ, повторная оплата) после проверки | `{ form, data: FormData }` |
+| `ap:address-save` | оформление заказа — сохранён изменённый или новый адрес доставки | `{ address, card, isNew }` |
 | `ap:search-query` | поиск — введено 2+ символа (пауза 200 мс) | `{ query, form, panel }` |
 | `ap:search-update` | поиск — интегратор вывел подсказки (отправляет **на панель**) | — |
 | `ap:auth-email` | вход по почте — ответ сервера: почта зарегистрирована или нет (отправляет интегратор) | `{ form, registered }` |
@@ -192,7 +199,7 @@ document.addEventListener('ap:search-query', async ({ detail: { query, panel } }
 
 ## Корзина
 
-Страница `pages/cart.html`, секция `pages/cart/cart-content` (товары — `cart-item.html`, данные — `data/cart-items.json`).
+Страница `pages/cart.html` (корзина оптовика — `pages/wholesale/cart.html`, та же секция с параметром `wholesale`), секция `sections/cart-content` (товары — `cart-item.html`, данные — `data/cart-items.json`).
 
 - Товар: цена за штуку — `data-price`, количество — `ui/quantity` (`max` — остаток). Сумма строки, «Товары, N шт.», сумма
   и «Итого» (сумма − скидка из `data-cart-discount` у сводки) пересчитываются в вёрстке; счётчик корзины в шапке —
@@ -250,6 +257,31 @@ document.addEventListener('ap:search-query', async ({ detail: { query, panel } }
 `?favorites-reset` в адресе — очистить. На сайте атрибут убирается — товары и сердца выводит сервер, шаблоны не нужны.
 
 **Как посмотреть:** `/favorites`, `/favorites?empty`, `/favorites?auth` (без плашки входа), `/compare`, `/compare?empty`.
+
+## Оформление заказа
+
+Секция `sections/checkout` — одна на обычный (`/checkout`) и оптовый (`/wholesale`) заказ, различия — параметрами
+(`payment`, `wholesale`). Сводка справа — `ui/order-summary` (с 1200 — липкая, едет рядом с формой).
+
+- **Гость** видит поля адреса и плашку «Уже покупали у нас?»; **вошедший** (`?auth`) — данные профиля в полях и
+  сохранённые адреса (`data/checkout-addresses.json`). «Изменить» открывает форму прямо в карточке адреса,
+  «+ Добавить адрес» — блок «Новый адрес»; «Сохранить» проверяет город, улицу и дом и шлёт `ap:address-save`.
+  Поля скрытых блоков отключены — не проверяются и не отправляются.
+- Способ доставки «Курьером» / «В пункт выдачи» — адрес (поля или сохранённые адреса) показывается при любом выборе.
+- Ссылки «Вернуться в корзину» и «Изменить» ведут в корзину своего вида: `/cart` или `/wholesale/cart` (параметр `cartHref`).
+- **Телефон** (на всех формах сайта, `[data-phone]`): вводятся только цифры, номер оформляется как `+7 (XXX) XXX-XX-XX`.
+- Отправка — `ap:form-submit`; в демо-режиме (`data-demo`) после проверки — переход на `/order/success`
+  (оптовый — `/wholesale/success`).
+
+Страница заказа (`sections/order-status`): «Следите за заказом» показывается только гостю; «Нужна помощь?» и
+«Написать в поддержку» открывают окно «Написать нам» (`#feedback-modal`). «Оплата не прошла» —
+`pages/order/order-payment`: сводка с повторной оплатой, «Выбрать другой способ» ведёт на `/checkout`.
+
+Оптовый путь: `/wholesale/cart` → «Отправить оптовый запрос →» → `/wholesale` → `/wholesale/success`. Вид оптового
+заказа из макета (сохранённые адреса «Дом» и «Работа») — для вошедшего: `/wholesale?auth`; без `?auth` — вид гостя с полями адреса.
+
+**Как посмотреть:** `/checkout`, `/checkout?auth`, `/wholesale/cart`, `/wholesale`, `/wholesale?auth`, `/wholesale/success`, `/order/success`,
+`/order/received`, `/order/cancelled`, `/order/payment-error`.
 
 ## Технические работы
 

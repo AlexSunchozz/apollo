@@ -20,6 +20,9 @@
 //   .ap-switch            тумблер с подписью (фильтры); .ap-switch--start — тумблер слева, подпись справа
 //   .ap-range             бюджет: два поля + ползунок с двумя точками
 //   .ap-field--status     поле с ответом под ним (__message): is-error — красное, is-success — «применено» (промокод)
+//   .ap-input--filled     заполненное поле — фирменная рамка (нужен placeholder, хотя бы " ")
+//   .ap-radio             радиокнопка 16 (span.ap-radio.is-checked — декоративная выбранная)
+//   .ap-choice            карточка выбора: радиокнопка, иконка, название и пояснение (choice.html — доставка, оплата)
 //   .is-invalid           ошибка: обводка #E6000E (ставит ui/form/form.js при отправке)
 // =============================================================================
 
@@ -831,5 +834,87 @@
   .ap-select__panel {
     right: 0;
     left: auto;
+  }
+}
+
+// --- Заполненное поле — фирменная рамка (оформление заказа: данные из профиля, Figma 1:10696) --------------
+// <input class="ap-input ap-input--filled" placeholder=" "> — placeholder обязателен (хотя бы пробел):
+// по :placeholder-shown CSS отличает пустое поле от заполненного.
+.ap-input--filled:not(:placeholder-shown) {
+  border-color: $c-main;
+}
+
+// --- Радиокнопка — Figma «Радиокнопка» (1:730): круг 16, рамка border/default; выбрана — фирменные рамка и точка 8 -----
+// <input class="ap-radio" type="radio" …>; вне формы (декоративная, уже выбрана) — <span class="ap-radio is-checked"></span>
+.ap-radio {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border: 1px solid $c-border;
+  border-radius: 50%;
+  background: $c-white;
+  cursor: pointer;
+  transition: border-color $transition, background-color $transition;
+  appearance: none;
+
+  &:checked,
+  &.is-checked {
+    border-color: $c-main;
+    background: radial-gradient(circle, $c-main 0 4px, $c-white 4.5px);
+  }
+
+  &:hover:not(:checked):not(.is-checked) {
+    border-color: $c-main;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $c-main;
+    outline-offset: 2px;
+  }
+}
+
+// --- Карточка выбора — Figma «Карточка выбора» (1:735): способ доставки или оплаты -------------------------
+// Радиокнопка, иконка 24, название (Текст/16) и пояснение (Текст/14 вторичный); рамка 1, поля 16, между 12;
+// выбрана — фирменная рамка. Разметка — ui/form/choice.html (name, value, icon, title, text, checked).
+.ap-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid $c-border;
+  background: $c-white;
+  cursor: pointer;
+  transition: border-color $transition;
+
+  &:has(.ap-radio:checked) {
+    border-color: $c-main;
+  }
+
+  &:hover .ap-radio:not(:checked) {
+    border-color: $c-main;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    color: $c-main;
+  }
+
+  &__text {
+    min-width: 0;
+  }
+
+  &__title {
+    color: $c-main;
+    @include text('text-16');
+  }
+
+  &__note {
+    color: $c-text-secondary;
+    @include text('text-14-secondary');
   }
 }

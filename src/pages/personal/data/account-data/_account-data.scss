@@ -321,6 +321,7 @@
   }
 
   &__address-badge {
+    min-width: 0; // длинная подпись переносится
     padding: 8px 16px;
     background: $c-surface;
     color: $c-text-secondary;
@@ -341,8 +342,15 @@
     padding-top: 8px;
 
     .ap-account-data__edit {
+      flex-shrink: 1;
+      min-width: 0; // длинная подпись переносится рядом с иконкой
       width: auto;
       height: auto;
+      text-align: left;
+
+      .ap-icon {
+        flex-shrink: 0;
+      }
     }
   }
 

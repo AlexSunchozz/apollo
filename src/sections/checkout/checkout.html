@@ -1,0 +1,151 @@
+<!--
+  Оформление заказа: h1 + «← Вернуться в корзину», плашка гостя, форма по разделам (контакты, доставка, оплата)
+  и сводка заказа справа (ui/order-summary). Одна секция — для обычного и оптового заказа.
+  Figma: гость 1:10567 (мобилка 1:11281); из личного кабинета 1:10677 (1:11381); добавить адрес 1:10766 (1:11823);
+         изменить адрес 1:10891 (1:11465); оптовый заказ 1:12536 (1:12865).
+  Параметры: title, cartHref (адрес корзины: «Вернуться в корзину», «Изменить»), contactsTitle, guest (true — плашка «Уже покупали у нас?»), payment (true — раздел «3. Оплата»),
+  items (JSON товаров сводки), count, sum, delivery, total, btnText — сводка с итогом, согласием и кнопкой;
+  wholesale (true — оптовый запрос: в сводке пояснения вместо итога, согласие и кнопка — под формой; sendText — кнопка);
+  success — адрес страницы после отправки (только демо-режим статичной вёрстки).
+  Адрес доставки: гостю — поля адреса ([data-guest-only]); вошедшему — сохранённые адреса ([data-auth-only],
+  data/checkout-addresses.json): «Изменить» — форма в карточке, «+ Добавить адрес» — «Новый адрес» (checkout.js,
+  одна форма [data-address-editor] переносится в нужное место; сохранение — событие ap:address-save). Поля контактов
+  вошедшему заполняет сервер (value); в вёрстке — data-auth-value (для проверки — ?auth в адресе).
+  Адаптив: ≥ 1200 — разделы слева, сводка 416 справа; < 1200 — сводка под формой (товары в ней — с 1200);
+  < 768 — поля и карточки выбора друг под другом, «Вернуться в корзину» — над заголовком.
+-->
+<section class="ap-section ap-checkout" aria-labelledby="checkout-title" data-checkout@@if (context.success) { data-checkout-success="@@success"}>
+  <div class="container px-3 px-sm-4">
+    <div class="d-flex flex-column gap-4">
+      <div class="d-flex flex-column-reverse flex-md-row align-items-start align-items-md-center justify-content-md-between gap-4">
+        <h1 class="ap-checkout__title" id="checkout-title">@@title</h1>
+        <a class="ap-link ap-checkout__back" href="@@cartHref">←&nbsp;Вернуться в&nbsp;корзину</a>
+      </div>
+
+      @@if (context.guest) {@@include('ui/guest-banner/guest-banner.html', {
+        "title": "Уже покупали у&nbsp;нас?",
+        "text": "Войдите, чтобы заполнить данные из&nbsp;профиля.",
+        "btnText": "Войти"
+      })}
+
+      <form class="ap-checkout__form d-flex flex-column gap-4 pt-md-3" action="#" method="post" novalidate data-form>
+        <div class="d-flex flex-column flex-xl-row align-items-xl-start gap-4 gap-xl-3">
+          <div class="ap-checkout__main d-flex flex-column gap-3">
+            <div class="ap-checkout__card d-flex flex-column gap-3 gap-md-4" role="group" aria-labelledby="checkout-contacts">
+              <h2 class="ap-checkout__card-title" id="checkout-contacts">@@contactsTitle</h2>
+              <div class="ap-field d-flex flex-column gap-2">
+                <label class="ap-field__label ap-field__label--muted" for="checkout-name">ФИО</label>
+                <input class="ap-input ap-input--filled" type="text" id="checkout-name" name="name" placeholder=" " autocomplete="name" required data-auth-value="Константин Крачков">
+              </div>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="ap-field d-flex flex-column gap-2">
+                    <label class="ap-field__label ap-field__label--muted" for="checkout-phone">Телефон</label>
+                    <input class="ap-input ap-input--filled" type="tel" id="checkout-phone" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel" required data-phone data-auth-value="+7 (000) 000-00-00">
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="ap-field d-flex flex-column gap-2">
+                    <label class="ap-field__label ap-field__label--muted" for="checkout-email">Почта</label>
+                    <input class="ap-input ap-input--filled" type="email" id="checkout-email" name="email" placeholder=" " autocomplete="email" required aria-describedby="checkout-email-note" data-auth-value="000000@mail.ru">
+                    <p class="ap-checkout__hint" id="checkout-email-note">Отправим чек и&nbsp;информацию о&nbsp;заказе</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="ap-checkout__card d-flex flex-column gap-3 gap-md-4" role="group" aria-labelledby="checkout-delivery">
+              <h2 class="ap-checkout__card-title" id="checkout-delivery">2. Доставка</h2>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  @@include('ui/form/choice.html', { "name": "delivery", "value": "courier", "icon": "delivery", "title": "Курьером", "text": "390&nbsp;₽ · 2–4&nbsp;рабочих дня", "checked": true })
+                </div>
+                <div class="col-12 col-md-6">
+                  @@include('ui/form/choice.html', { "name": "delivery", "value": "pickup", "icon": "geo-pin", "title": "В&nbsp;пункт выдачи", "text": "Выбрать пункт", "checked": false })
+                </div>
+              </div>
+
+              <div data-guest-only>
+                @@include('sections/checkout/checkout-address-fields.html', { "prefix": "checkout-address", "name": "address" })
+              </div>
+
+              <div class="ap-checkout__saved" hidden data-auth-only>
+                <div class="d-flex flex-column gap-2 gap-md-4" data-address-list>
+                  @@loop('sections/checkout/checkout-address.html', 'data/checkout-addresses.json')
+                </div>
+                <template data-address-template>
+                  @@include('sections/checkout/checkout-address.html', { "id": "", "checked": true, "title": "", "city": "", "street": "", "house": "", "building": "", "flat": "", "entrance": "", "floor": "", "intercom": "", "line1": "", "line2": "" })
+                </template>
+                <div class="ap-checkout__new" hidden data-address-new>
+                  <h3 class="ap-checkout__card-title">Новый адрес</h3>
+                  <div class="ap-checkout__new-card" data-address-new-slot></div>
+                </div>
+                <button class="ap-checkout__add" type="button" data-address-add>+&nbsp;Добавить адрес</button>
+
+                <div class="ap-checkout__editor" hidden data-address-editor>
+                  <div class="d-flex align-items-end gap-3">
+                    <span class="ap-radio is-checked ap-checkout__editor-radio" aria-hidden="true" data-address-editor-radio></span>
+                    <div class="ap-field ap-checkout__editor-name d-flex flex-column gap-2">
+                      <label class="ap-field__label ap-field__label--muted" for="checkout-edit-title">Название адреса (необязательно)</label>
+                      <input class="ap-input ap-input--filled" type="text" id="checkout-edit-title" name="edit[title]" placeholder=" " data-address-field="title">
+                    </div>
+                  </div>
+                  @@include('sections/checkout/checkout-address-fields.html', { "prefix": "checkout-edit", "name": "edit" })
+                  <div class="d-flex gap-1 gap-md-3">
+                    <button class="ap-btn ap-btn--outline ap-checkout__editor-btn" type="button" data-address-cancel>Отмена</button>
+                    <button class="ap-btn ap-btn--primary ap-checkout__editor-btn" type="button" data-address-save>Сохранить&nbsp;→</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ap-field d-flex flex-column gap-2">
+                <label class="ap-field__label ap-field__label--muted" for="checkout-comment">Комментарий курьеру</label>
+                <textarea class="ap-input ap-textarea" id="checkout-comment" name="comment" placeholder="Например, вход со&nbsp;двора"></textarea>
+              </div>
+            </div>
+
+            @@if (context.payment) {<div class="ap-checkout__card d-flex flex-column gap-3 gap-md-4" role="group" aria-labelledby="checkout-payment">
+              <h2 class="ap-checkout__card-title" id="checkout-payment">3. Оплата</h2>
+              <div class="d-flex flex-column gap-3">
+                @@include('ui/form/choice.html', { "name": "payment", "value": "card", "icon": "card", "title": "Банковской картой онлайн", "text": "Перейдёте к&nbsp;оплате после подтверждения заказа", "checked": false })
+                @@include('ui/form/choice.html', { "name": "payment", "value": "sbp", "icon": "device", "title": "Через СБП", "text": "Оплата в&nbsp;приложении вашего банка", "checked": true })
+              </div>
+            </div>}
+          </div>
+
+          <div class="ap-checkout__aside">
+            @@if (!context.wholesale) {@@include('ui/order-summary/order-summary.html', {
+              "title": "Заказ",
+              "edit": "@@cartHref",
+              "items": "@@items",
+              "compact": true,
+              "count": "@@count",
+              "sum": "@@sum",
+              "delivery": "@@delivery",
+              "totalLabel": "Итого",
+              "total": "@@total",
+              "consent": true,
+              "btnText": "@@btnText",
+              "guestNote": true
+            })}
+            @@if (context.wholesale) {@@include('ui/order-summary/order-summary.html', {
+              "title": "Заказ",
+              "edit": "@@cartHref",
+              "items": "@@items",
+              "notes": ["Оптовую стоимость рассчитает менеджер.", "В&nbsp;запрос войдут выбранные товары и&nbsp;их&nbsp;количество."]
+            })}
+          </div>
+        </div>
+
+        @@if (context.wholesale) {<div class="d-flex flex-column align-items-start gap-3 pt-2">
+          <label class="ap-check ap-check--consent">
+            <input type="checkbox" name="consent" value="Y" required>
+            <span>Даю согласие на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="/privacy">политикой конфиденциальности</a></span>
+          </label>
+          <button class="ap-btn ap-btn--primary" type="submit">@@sendText</button>
+          <p class="ap-checkout__hint">Стоимость и&nbsp;условия заказа согласуем с&nbsp;вами отдельно</p>
+        </div>}
+      </form>
+    </div>
+  </div>
+</section>

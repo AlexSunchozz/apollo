@@ -34,13 +34,21 @@
   }
 
   &__date,
+  // Количество и сумма рядом с фото (≥ 768): сжимается, длинная подпись переносится
+  &__sum {
+    min-width: 0;
+  }
+
   &__count {
+    min-width: 0;
     color: $c-text-secondary;
     @include text('text-14-secondary');
   }
 
+  // Статус переносится, если длиннее места (текст из админки), иконка не сжимается
   &__status {
-    flex-shrink: 0;
+    flex: 0 1 auto;
+    min-width: 0;
     color: $c-main;
     @include text('text-14-secondary');
     text-align: right;
@@ -50,7 +58,12 @@
       letter-spacing: 0;
     }
 
+    span {
+      min-width: 0;
+    }
+
     .ap-icon {
+      flex-shrink: 0;
       width: 14px;
       height: 14px;
 

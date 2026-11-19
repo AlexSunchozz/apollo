@@ -7,7 +7,7 @@
     @@if (context.current) {<p class="ap-account-data__current">@@current</p>}
     <div class="ap-field d-flex flex-column gap-2">
       <label class="ap-field__label ap-field__label--muted" for="@@id">@@fieldLabel</label>
-      <input class="ap-input ap-account-data__input" type="@@type" id="@@id" name="@@name" value="@@inputValue" autocomplete="@@autocomplete" inputmode="@@inputmode" required@@if (context.phone) { data-phone data-phone-mask}>
+      <input class="ap-input ap-account-data__input" type="@@type" id="@@id" name="@@name" value="@@inputValue" autocomplete="@@autocomplete" inputmode="@@inputmode" required@@if (context.phone) { data-phone}>
       @@if (context.hint) {<p class="ap-account-data__hint" data-row-hint data-sent="@@sent">@@hint</p>}
     </div>
     @@if (context.confirm) {<div hidden data-row-confirm><div class="ap-field d-flex flex-column gap-2">

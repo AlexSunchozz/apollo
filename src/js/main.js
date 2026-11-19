@@ -7,7 +7,9 @@ import initCore from './core.js';
 
 // Общие секции (по алфавиту):
 import initArticle from '../sections/article/article.js';
+import initCartContent from '../sections/cart-content/cart-content.js';
 import initCategory from '../sections/category/category.js';
+import initCheckout from '../sections/checkout/checkout.js';
 import initEmptyState from '../sections/empty-state/empty-state.js';
 import initProduct from '../sections/product/product.js';
 import initProductReviews from '../sections/product-reviews/product-reviews.js';
@@ -25,7 +27,6 @@ import initHomeHero from '../pages/index/home-hero/home-hero.js';
 import initHomeProducts from '../pages/index/home-products/home-products.js';
 import initAccountData from '../pages/personal/data/account-data/account-data.js';
 import initAccountOrders from '../pages/personal/orders/account-orders/account-orders.js';
-import initCartContent from '../pages/cart/cart-content/cart-content.js';
 import initFavoritesList from '../pages/favorites/favorites-list/favorites-list.js';
 import initCompareTable from '../pages/compare/compare-table/compare-table.js';
 
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initViewSwitch();
   initFilters();
   initCategory();
+  initCheckout();
   initEmptyState();
   initBlogList();
   initCatalogList();

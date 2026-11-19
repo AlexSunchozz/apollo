@@ -1,4 +1,4 @@
-// Корзина (pages/cart/cart-content).
+// Корзина (sections/cart-content).
 //   Количество (ui/quantity, событие ap:quantity-change) — сумма строки = цена за штуку (data-price) × количество,
 //   сводка пересчитывается: «Товары, N шт.», сумма, итог = сумма − скидка (data-cart-discount у сводки, в рублях).
 //   «Удалить» [data-cart-remove] — товар убирается из списка. «В избранное» — общий обработчик
@@ -22,8 +22,8 @@
 //   и на странице товара) и выводятся по шаблонам [data-cart-template*]; изменения записываются обратно.
 //   Первый визит — пример из вёрстки сохраняется как начальная корзина. На сайте атрибута нет — список выводит сервер.
 
-import initQuantities from '../../../ui/quantity/quantity.js';
-import { isDemo, readCart, writeCart } from '../../../js/cart-demo.js';
+import initQuantities from '../../ui/quantity/quantity.js';
+import { isDemo, readCart, writeCart } from '../../js/cart-demo.js';
 
 const formatPrice = (value) => `${String(Math.round(value)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} ₽`;
 

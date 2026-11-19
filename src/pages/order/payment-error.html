@@ -1,0 +1,17 @@
+@@include('layout/head.html', {
+  "title": "Оплата не прошла — Apollo",
+  "description": "Оплата заказа не прошла: попробуйте ещё раз или выберите другой способ оплаты."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Оплата", "items": [{ "title": "Заказ №&nbsp;58314", "href": "/order/success" }] })
+  @@include('pages/order/order-payment/order-payment.html')
+</main>
+
+@@include('layout/footer.html')
+
+<!-- Модальные окна страницы -->
+@@include('layout/modal-feedback.html')
+
+@@include('layout/scripts.html')

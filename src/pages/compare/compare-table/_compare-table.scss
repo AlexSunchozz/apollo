@@ -67,6 +67,7 @@
   &__heading {
     grid-area: heading;
     gap: 8px;
+    max-width: 100%; // < 768 во флекс-колонке: длинный заголовок переносится
     min-width: 0;
 
     @include media-breakpoint-up(md) {
@@ -75,6 +76,7 @@
   }
 
   &__title {
+    min-width: 0;
     margin: 0;
     color: $c-main;
     @include text('h2');

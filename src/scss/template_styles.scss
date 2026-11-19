@@ -11,10 +11,13 @@
 // Общие секции (src/sections/<name>/_<name>.scss) — используются на нескольких страницах, по алфавиту:
 @import '../sections/article/article';
 @import '../sections/articles/articles';
+@import '../sections/cart-content/cart-content';
 @import '../sections/category/category';
+@import '../sections/checkout/checkout';
 @import '../sections/empty-state/empty-state';
 @import '../sections/features/features';
 @import '../sections/markets/markets';
+@import '../sections/order-status/order-status';
 @import '../sections/page-hero/page-hero';
 @import '../sections/product/product';
 @import '../sections/product-details/product-details';
@@ -47,7 +50,9 @@
 @import '../pages/personal/data/account-data/account-data';
 @import '../pages/personal/orders/account-orders/account-orders';
 
-// Корзина, избранное, сравнение
-@import '../pages/cart/cart-content/cart-content';
+// Избранное, сравнение
 @import '../pages/favorites/favorites-list/favorites-list';
 @import '../pages/compare/compare-table/compare-table';
+
+// Заказ
+@import '../pages/order/order-payment/order-payment';

@@ -1,0 +1,36 @@
+@@include('layout/head.html', {
+  "title": "Заказ получен — Apollo",
+  "description": "Заказ в интернет-магазине Apollo получен."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Заказ №&nbsp;58314" })
+  @@include('sections/order-status/order-status.html', {
+    "title": "Заказ получен",
+    "number": "58314",
+    "date": "17&nbsp;сентября 2026",
+    "datetime": "2026-09-17",
+    "status": "Получен",
+    "text": "Заказ получен. Спасибо за&nbsp;покупку!",
+    "btnText": "Перейти в&nbsp;каталог&nbsp;→",
+    "btnHref": "/catalog",
+    "totalLabel": "Оплачено",
+    "deliveryIcon": "check",
+    "deliveryTitle": "Заказ доставлен",
+    "items": "data/order-items.json",
+    "count": "4",
+    "sum": "7&nbsp;160&nbsp;₽",
+    "delivery": "390&nbsp;₽",
+    "total": "7&nbsp;550&nbsp;₽",
+    "recipient": "Крачков Константин",
+    "recipientPhone": "+7&nbsp;(000)&nbsp;000-00-00"
+  })
+</main>
+
+@@include('layout/footer.html')
+
+<!-- Модальные окна страницы -->
+@@include('layout/modal-feedback.html')
+
+@@include('layout/scripts.html')

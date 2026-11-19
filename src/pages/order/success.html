@@ -1,0 +1,37 @@
+@@include('layout/head.html', {
+  "title": "Заказ оформлен — Apollo",
+  "description": "Заказ в интернет-магазине Apollo оформлен и оплачен."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Заказ №&nbsp;58314" })
+  @@include('sections/order-status/order-status.html', {
+    "title": "Заказ оформлен",
+    "number": "58314",
+    "date": "17&nbsp;сентября 2026",
+    "datetime": "2026-09-17",
+    "status": "Оплачен",
+    "text": "Подтверждение заказа и&nbsp;чек отправили на&nbsp;000000@mail.ru",
+    "track": true,
+    "phone": "+7&nbsp;(000)&nbsp;000-00-00",
+    "totalLabel": "Оплачено",
+    "deliveryIcon": "delivery",
+    "deliveryTitle": "Курьером",
+    "deliveryText": "Ориентировочно 21–23&nbsp;сентября",
+    "address": "Санкт-Петербург, Садовая, 12, квартира&nbsp;45",
+    "addressText": "Подъезд&nbsp;2 · этаж&nbsp;4 · домофон&nbsp;45",
+    "steps": ["Соберём и&nbsp;упакуем заказ.", "Сообщим об&nbsp;отправке по&nbsp;электронной почте."],
+    "items": "data/order-items.json",
+    "count": "4",
+    "sum": "7&nbsp;160&nbsp;₽",
+    "delivery": "390&nbsp;₽",
+    "total": "7&nbsp;550&nbsp;₽",
+    "recipient": "Крачков Константин",
+    "recipientPhone": "+7&nbsp;(000)&nbsp;000-00-00"
+  })
+</main>
+
+@@include('layout/footer.html')
+
+@@include('layout/scripts.html')

@@ -1,0 +1,8 @@
+<div class="ap-checkout__address" data-address='{"id": "@@id", "title": "@@title", "city": "@@city", "street": "@@street", "house": "@@house", "building": "@@building", "flat": "@@flat", "entrance": "@@entrance", "floor": "@@floor", "intercom": "@@intercom"}'>
+  <input class="ap-radio ap-checkout__address-radio" type="radio" name="address" id="checkout-address-@@id" value="@@id"@@if (context.checked) { checked}>
+  <label class="ap-checkout__address-view" for="checkout-address-@@id">
+    <span class="ap-checkout__address-title" data-address-title>@@title</span>
+    <span class="ap-checkout__address-text" data-address-text>@@line1<br>@@line2</span>
+  </label>
+  <button class="ap-checkout__address-edit" type="button" data-address-edit>Изменить</button>
+</div>

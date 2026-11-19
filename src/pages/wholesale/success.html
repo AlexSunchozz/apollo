@@ -1,0 +1,23 @@
+@@include('layout/head.html', {
+  "title": "Оптовый запрос получен — Apollo",
+  "description": "Оптовый запрос получен: менеджер Apollo рассчитает стоимость и свяжется с вами."
+})
+@@include('layout/header.html', { "overlay": false })
+
+<main class="ap-main">
+  @@include('ui/breadcrumbs/breadcrumbs.html', { "current": "Оптовый запрос" })
+  @@include('sections/empty-state/empty-state.html', {
+    "id": "wholesale-success-title",
+    "icon": "",
+    "title": "Спасибо! Оптовый запрос получен",
+    "text": "Менеджер рассчитает оптовую стоимость и&nbsp;свяжется с&nbsp;вами, чтобы согласовать условия заказа.",
+    "btnText": "Вернуться в&nbsp;каталог&nbsp;→",
+    "btnHref": "/catalog",
+    "reload": false,
+    "note": "",
+    "mod": "thanks"
+  })
+</main>
+
+@@include('layout/footer.html')
+@@include('layout/scripts.html')

@@ -1,0 +1,97 @@
+<!--
+  Страница заказа после оформления: заголовок, номер и дата + метка статуса, пояснение, необязательно кнопка;
+  слева — «Следите за заказом» (только гостю) и «Состав заказа» (ui/order-summary --lg), справа — доставка
+  и получатель, ниже — «Что дальше» (шаги) или «Нужна помощь?» (окно #feedback-modal).
+  Figma: оформлен и оплачен 1:11010 (мобилка 1:11578), получен 1:11086 (1:11667), отменён 1:11151 (1:11745).
+  Параметры: title, number, date, datetime, status, text; btnText + btnHref — кнопка (необязательно);
+  track (true — «Следите за заказом», только гостю: [data-guest-only]) + phone; items (JSON товаров), count, sum,
+  delivery, totalLabel, total; deliveryIcon, deliveryTitle, deliveryText (необязательно), address + addressText
+  (необязательно); recipient, recipientPhone; steps — шаги «Что дальше» (без них — «Нужна помощь?»).
+  Адаптив: ≥ 1200 — колонки 848 и 416; < 1200 — блоки друг под другом.
+-->
+<section class="ap-section ap-order-status" aria-labelledby="order-status-title">
+  <div class="container px-3 px-sm-4">
+    <div class="d-flex flex-column gap-4">
+      <div class="d-flex flex-column align-items-start gap-3">
+        <div class="ap-order-status__head d-flex flex-column align-items-start gap-2 gap-md-3">
+          <h1 class="ap-order-status__title" id="order-status-title">@@title</h1>
+          <div class="d-flex flex-wrap align-items-center column-gap-3 row-gap-2">
+            <p class="ap-order-status__number">Заказ №&nbsp;@@number от&nbsp;<time datetime="@@datetime">@@date</time></p>
+            <p class="ap-tag">@@status</p>
+          </div>
+        </div>
+        <p class="ap-order-status__text">@@text</p>
+        @@if (context.btnText) {<a class="ap-btn ap-btn--primary" href="@@btnHref">@@btnText</a>}
+      </div>
+
+      <div class="d-flex flex-column flex-xl-row align-items-xl-start gap-4 gap-xl-3">
+        <div class="ap-order-status__main d-flex flex-column gap-4 gap-xl-3">
+          @@if (context.track) {<div data-guest-only><div class="ap-order-status__track d-flex flex-column align-items-start gap-3">
+            <div class="d-flex flex-column gap-1 gap-md-3">
+              <h2 class="ap-order-status__track-title">Следите за&nbsp;заказом в&nbsp;личном кабинете</h2>
+              <p class="ap-order-status__note">Подтвердите номер, чтобы следить за&nbsp;заказом в&nbsp;личном кабинете.</p>
+            </div>
+            <p class="ap-order-status__phone">@@phone</p>
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3 gap-md-4">
+              <button class="ap-btn ap-btn--primary" type="button" data-bs-toggle="modal" data-bs-target="#auth-code-phone-modal">Подтвердить номер</button>
+              <button class="ap-order-status__link" type="button" data-bs-toggle="modal" data-bs-target="#auth-modal">Регистрация по&nbsp;номеру (ввести код)</button>
+            </div>
+          </div></div>}
+
+          @@include('ui/order-summary/order-summary.html', {
+            "mod": "lg",
+            "title": "Состав заказа",
+            "items": "@@items",
+            "count": "@@count",
+            "sum": "@@sum",
+            "delivery": "@@delivery",
+            "totalLabel": "@@totalLabel",
+            "total": "@@total"
+          })
+        </div>
+
+        <div class="ap-order-status__aside d-flex flex-column gap-3">
+          <div class="ap-order-status__card d-flex flex-column gap-3 gap-md-4">
+            <h2 class="ap-order-status__card-title">Доставка</h2>
+            <p class="ap-order-status__info d-flex align-items-start">
+              <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#@@deliveryIcon"></use></svg>
+              <span class="d-flex flex-column gap-1">
+                <span class="ap-order-status__info-title">@@deliveryTitle</span>
+                @@if (context.deliveryText) {<span class="ap-order-status__info-text">@@deliveryText</span>}
+              </span>
+            </p>
+            @@if (context.address) {<p class="ap-order-status__info d-flex align-items-start">
+              <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#geo-pin"></use></svg>
+              <span class="d-flex flex-column gap-1">
+                <span class="ap-order-status__info-title">@@address</span>
+                <span class="ap-order-status__info-text">@@addressText</span>
+              </span>
+            </p>}
+            <h2 class="ap-order-status__card-title ap-order-status__card-title--line">Получатель</h2>
+            <p class="ap-order-status__info d-flex align-items-start">
+              <svg class="ap-icon" aria-hidden="true"><use href="@@root/img/sprite.svg#user"></use></svg>
+              <span class="d-flex flex-column gap-1">
+                <span class="ap-order-status__info-title">@@recipient</span>
+                <span class="ap-order-status__info-text">@@recipientPhone</span>
+              </span>
+            </p>
+          </div>
+
+          @@if (context.steps) {<div class="ap-order-status__card d-flex flex-column gap-3 gap-md-4">
+            <h2 class="ap-order-status__card-title">Что&nbsp;дальше</h2>
+            <ol class="ap-order-status__steps d-flex flex-column gap-2">
+              @@for (var i = 0; i < steps.length; i++) {<li>`+(i + 1)+`. `+steps[i]+`</li>}
+            </ol>
+          </div>}
+          @@if (!context.steps) {<div class="ap-order-status__card d-flex flex-column align-items-start gap-3 gap-md-4">
+            <div class="d-flex flex-column gap-3">
+              <h2 class="ap-order-status__card-title">Нужна помощь?</h2>
+              <p class="ap-order-status__note">Напишите нам, если остались вопросы по&nbsp;заказу.</p>
+            </div>
+            <button class="ap-order-status__link" type="button" data-bs-toggle="modal" data-bs-target="#feedback-modal">Написать нам</button>
+          </div>}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

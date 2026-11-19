@@ -1,9 +1,11 @@
 <!--
   Пустое состояние страницы: иконка 100, заголовок (h1, вид H2), текст, кнопка, необязательно подпись под кнопкой
   Figma:  поиск без результатов — десктоп 1:6557, мобилка 1:6720; технические работы — десктоп 1:6891, мобилка 1:6909
-  Параметры: id, icon (иконка спрайта), title, text, btnText, btnHref, note ("" — без подписи), reload (true —
+  Параметры: id, icon (иконка спрайта, "" — без иконки), title, text, btnText, btnHref, note ("" — без подписи), reload (true —
   кнопка перезагружает страницу: empty-state.js), mod ("" или "page").
   Без mod — после хлебных крошек: сверху 48, заголовок до 390, текст до 302 (поиск).
+  mod "thanks" — сообщение после отправки (оптовый запрос, Figma 1:12644 / мобилка 1:12842): без иконки, сверху 96
+  (мобилка 24), снизу 120, заголовок в одну строку на десктопе, текст до 405.
   mod "page" — страница без крошек: сверху 24 (мобилка 48), снизу 60 и линия, заголовок до 544, текст до 434 (тех. работы).
   Между текстом и кнопкой: мобилка 24, ≥ 768 — 48.
 -->
@@ -11,7 +13,7 @@
   <div class="container px-3 px-sm-4">
     <div class="ap-empty-state__inner d-flex flex-column align-items-center gap-4 gap-md-5 text-center">
       <div class="d-flex flex-column align-items-center gap-4">
-        <svg class="ap-icon ap-empty-state__icon" aria-hidden="true"><use href="@@root/img/sprite.svg#@@icon"></use></svg>
+        @@if (context.icon) {<svg class="ap-icon ap-empty-state__icon" aria-hidden="true"><use href="@@root/img/sprite.svg#@@icon"></use></svg>}
         <div class="ap-heading align-items-center gap-4">
           <h1 class="ap-heading__title ap-empty-state__title" id="@@id">@@title</h1>
           <p class="ap-heading__text ap-empty-state__text">@@text</p>

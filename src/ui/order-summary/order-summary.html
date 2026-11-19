@@ -1,0 +1,32 @@
+<div class="ap-order-summary@@if (context.mod) { ap-order-summary--@@mod}@@if (context.compact) { ap-order-summary--compact} d-flex flex-column">
+  <div class="ap-order-summary__head d-flex flex-wrap align-items-center justify-content-between column-gap-3 row-gap-2">
+    <h2 class="ap-order-summary__title">@@title</h2>
+    @@if (context.edit) {<a class="ap-order-summary__edit@@if (context.compact) { d-none d-xl-inline}" href="@@edit">Изменить</a>}
+  </div>
+  <ul class="ap-order-summary__items@@if (context.compact) { d-none d-xl-flex}@@if (!context.compact) { d-flex} flex-column">
+    @@loop('ui/order-summary/order-summary-item.html', '@@items')
+  </ul>
+  @@if (context.sum) {<dl class="ap-order-summary__rows d-flex flex-column">
+    <div class="ap-order-summary__row">
+      <dt>Товары, @@count&nbsp;шт.</dt>
+      <dd>@@sum</dd>
+    </div>
+    <div class="ap-order-summary__row">
+      <dt>Доставка</dt>
+      <dd>@@delivery</dd>
+    </div>
+  </dl>}
+  @@if (context.total) {<p class="ap-order-summary__total d-flex flex-wrap align-items-center justify-content-between column-gap-3">
+    <span>@@totalLabel</span>
+    <span class="ap-order-summary__total-value">@@total</span>
+  </p>}
+  @@if (context.consent) {<label class="ap-check ap-check--consent">
+    <input type="checkbox" name="consent" value="Y" required>
+    <span>Даю согласие на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="/privacy">политикой конфиденциальности</a></span>
+  </label>
+  <button class="ap-btn ap-btn--primary ap-order-summary__submit" type="submit">@@btnText</button>}
+  @@if (context.guestNote) {<p class="ap-order-summary__note text-center" data-guest-only>Можно оформить без&nbsp;регистрации</p>}
+  @@if (context.notes) {<div class="ap-order-summary__notes d-flex flex-column gap-3">
+    @@for (var i = 0; i < notes.length; i++) {<p>`+notes[i]+`</p>}
+  </div>}
+</div>

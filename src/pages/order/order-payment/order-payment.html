@@ -1,0 +1,58 @@
+<!--
+  Оплата не прошла: иконка + h1, пояснение, метка статуса; слева — «Попробуйте ещё раз» (другой способ оплаты),
+  «Если деньги списались» (окно #feedback-modal) и примечание; справа — сводка заказа с повторной оплатой
+  (ui/order-summary в форме: согласие обязательно, отправка — событие ap:form-submit).
+  Figma: десктоп 1:11216, мобилка 1:11937.
+  Адаптив: ≥ 1200 — колонки 848 и 416; < 1200 — блоки друг под другом, сводка внизу.
+  «Выбрать другой способ» — к оформлению заказа (/checkout), данные заказа сохранены на сервере.
+-->
+<section class="ap-section ap-order-payment" aria-labelledby="order-payment-title">
+  <div class="container px-3 px-sm-4">
+    <div class="d-flex flex-column gap-4">
+      <div class="d-flex flex-column align-items-start gap-3">
+        <div class="ap-order-payment__head d-flex align-items-center gap-3">
+          <svg class="ap-icon ap-order-payment__icon" aria-hidden="true"><use href="@@root/img/sprite.svg#warning"></use></svg>
+          <h1 class="ap-order-payment__title" id="order-payment-title">Оплата не&nbsp;прошла</h1>
+        </div>
+        <p class="ap-order-payment__lead">На&nbsp;оплату заказа есть 20&nbsp;минут. Если за&nbsp;это&nbsp;время оплата не&nbsp;поступит, заказ отменится автоматически. Товары вернутся в&nbsp;корзину&nbsp;— их&nbsp;можно будет оформить заново.</p>
+        <p class="ap-tag">Ожидает оплаты</p>
+      </div>
+
+      <div class="d-flex flex-column flex-xl-row align-items-xl-start gap-4 gap-xl-3">
+        <div class="ap-order-payment__main d-flex flex-column gap-2 gap-md-3">
+          <div class="ap-order-payment__card d-flex flex-column align-items-start gap-3">
+            <h2 class="ap-order-payment__card-title">Попробуйте ещё раз</h2>
+            <p class="ap-order-payment__text">Проверьте данные карты, доступный баланс и&nbsp;подтверждение платежа в&nbsp;приложении банка.</p>
+            <a class="ap-btn ap-btn--outline" href="/checkout">Выбрать другой способ</a>
+          </div>
+
+          <div class="ap-order-payment__alert d-flex flex-column flex-md-row align-items-start gap-3">
+            <svg class="ap-icon ap-order-payment__icon" aria-hidden="true"><use href="@@root/img/sprite.svg#warning"></use></svg>
+            <div class="ap-order-payment__alert-text d-flex flex-column align-items-start gap-2">
+              <h2 class="ap-order-payment__card-title">Если деньги списались</h2>
+              <p class="ap-order-payment__note">Проверьте статус платежа в&nbsp;приложении банка. Если списание подтверждено, свяжитесь с&nbsp;нами перед повторной оплатой.</p>
+              <button class="ap-order-payment__link" type="button" data-bs-toggle="modal" data-bs-target="#feedback-modal">Написать в&nbsp;поддержку</button>
+            </div>
+          </div>
+
+          <p class="ap-order-payment__note">Данные заказа сохранены&nbsp;— заполнять их&nbsp;заново не&nbsp;нужно.</p>
+        </div>
+
+        <form class="ap-order-payment__aside" action="#" method="post" novalidate data-form>
+          @@include('ui/order-summary/order-summary.html', {
+            "title": "Заказ",
+            "edit": "/cart",
+            "items": "data/checkout-items.json",
+            "count": "3",
+            "sum": "5&nbsp;670&nbsp;₽",
+            "delivery": "390&nbsp;₽",
+            "totalLabel": "Итого",
+            "total": "6&nbsp;060&nbsp;₽",
+            "consent": true,
+            "btnText": "Перейти к&nbsp;оплате&nbsp;→"
+          })
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -10,6 +10,8 @@
   Сервер выводит нужное; при удалении товаров вид меняется сам. Для проверки — ?unavailable и ?empty в адресе.
   Шаблоны товара [data-cart-template] / [data-cart-template-unavailable] — для демо-корзины статичной вёрстки
   (js/cart-demo.js: товары, добавленные в каталоге, выводятся здесь); интегратору не нужны.
+  Параметр wholesale (true) — корзина оптовика (Figma 1:12657, мобилка 1:12743): без промокода, скидки и «Итого»,
+  сумма товаров — Цена/22, «Отправить оптовый запрос →» ведёт к оптовому заказу (/wholesale).
   «Уже покупали у нас?» (ui/guest-banner) и «Можно оформить без регистрации» — только гостю ([data-guest-only], layout/header.js).
 -->
 <section class="ap-section ap-cart-content" aria-labelledby="cart-title" data-cart>
@@ -27,16 +29,16 @@
         <div class="ap-cart-content__body d-flex flex-column flex-xl-row align-items-xl-start gap-3">
           <div class="ap-cart-content__main d-flex flex-column gap-3 gap-md-4">
             <div class="ap-cart-content__list d-flex flex-column gap-4" data-cart-list>
-              @@loop('pages/cart/cart-content/cart-item.html', 'data/cart-items.json')
+              @@loop('sections/cart-content/cart-item.html', 'data/cart-items.json')
             </div>
             <template data-cart-template>
-              @@include('pages/cart/cart-content/cart-item.html', { "id": "", "href": "#", "img": "knife.png", "cover": false, "article": "", "title": "", "price": "0", "sum": "", "qty": "1", "max": "99", "note": "Пояснение", "unavailable": false, "similar": "" })
+              @@include('sections/cart-content/cart-item.html', { "id": "", "href": "#", "img": "knife.png", "cover": false, "article": "", "title": "", "price": "0", "sum": "", "qty": "1", "max": "99", "note": "Пояснение", "unavailable": false, "similar": "" })
             </template>
             <template data-cart-template-unavailable>
-              @@include('pages/cart/cart-content/cart-item.html', { "id": "", "href": "#", "img": "knife.png", "cover": false, "article": "", "title": "", "price": "0", "sum": "", "qty": "0", "max": "0", "note": "Пояснение", "unavailable": true, "similar": "/catalog" })
+              @@include('sections/cart-content/cart-item.html', { "id": "", "href": "#", "img": "knife.png", "cover": false, "article": "", "title": "", "price": "0", "sum": "", "qty": "0", "max": "0", "note": "Пояснение", "unavailable": true, "similar": "/catalog" })
             </template>
 
-            <form class="ap-cart-content__card" action="#" novalidate data-form data-cart-promo data-cart-in-stock data-promo-success="Промокод на&nbsp;скидку 20&nbsp;% применен" data-promo-error="Промокод не&nbsp;действителен">
+            @@if (!context.wholesale) {<form class="ap-cart-content__card" action="#" novalidate data-form data-cart-promo data-cart-in-stock data-promo-success="Промокод на&nbsp;скидку 20&nbsp;% применен" data-promo-error="Промокод не&nbsp;действителен">
               <div class="d-flex flex-column gap-3">
                 <h2 class="ap-cart-content__promo-title">Промокод</h2>
                 <div class="ap-field ap-field--status d-flex flex-column gap-3" data-promo-field>
@@ -53,32 +55,32 @@
                   <p class="ap-field__message" role="status" hidden data-promo-message></p>
                 </div>
               </div>
-            </form>
+            </form>}
           </div>
 
-          <div class="ap-cart-content__summary" data-cart-in-stock data-cart-summary data-cart-discount="1000">
+          <div class="ap-cart-content__summary" data-cart-in-stock data-cart-summary@@if (!context.wholesale) { data-cart-discount="1000"}>
             <div class="ap-cart-content__card d-flex flex-column gap-3">
               <h2 class="ap-cart-content__summary-title">Заказ</h2>
               <dl class="ap-cart-content__rows d-flex flex-column gap-3 m-0">
                 <div class="ap-cart-content__row">
                   <dt>Товары, <span data-cart-count>3</span>&nbsp;шт.</dt>
-                  <dd data-cart-sum>5&nbsp;670&nbsp;₽</dd>
+                  <dd@@if (context.wholesale) { class="ap-cart-content__total-value"} data-cart-sum>5&nbsp;670&nbsp;₽</dd>
                 </div>
-                <div class="ap-cart-content__row" data-cart-discount-row>
+                @@if (!context.wholesale) {<div class="ap-cart-content__row" data-cart-discount-row>
                   <dt>Скидка</dt>
                   <dd data-cart-discount-value>-&nbsp;1&nbsp;000&nbsp;₽</dd>
-                </div>
+                </div>}
                 <div class="ap-cart-content__row">
                   <dt>Доставка</dt>
                   <dd class="ap-cart-content__muted">При&nbsp;оформлении</dd>
                 </div>
               </dl>
-              <p class="ap-cart-content__total d-flex flex-wrap align-items-center justify-content-between column-gap-3 pt-3">
+              @@if (!context.wholesale) {<p class="ap-cart-content__total d-flex flex-wrap align-items-center justify-content-between column-gap-3 pt-3">
                 <span>Итого</span>
                 <span class="ap-cart-content__total-value" data-cart-total>4&nbsp;670&nbsp;₽</span>
-              </p>
-              <p class="ap-cart-content__caption">Стоимость доставки рассчитаем при&nbsp;оформлении.</p>
-              <a class="ap-btn ap-btn--primary ap-cart-content__submit" href="#" data-stub>Оформить заказ&nbsp;→</a>
+              </p>}
+              <p class="ap-cart-content__caption@@if (context.wholesale) { ap-cart-content__caption--line}">Стоимость доставки рассчитаем при&nbsp;оформлении.</p>
+              @@if (!context.wholesale) {<a class="ap-btn ap-btn--primary ap-cart-content__submit" href="/checkout">Оформить заказ&nbsp;→</a>}@@if (context.wholesale) {<a class="ap-btn ap-btn--primary ap-cart-content__submit" href="/wholesale">Отправить оптовый запрос&nbsp;→</a>}
               <p class="ap-cart-content__caption text-center" data-guest-only>Можно оформить без&nbsp;регистрации</p>
             </div>
           </div>
